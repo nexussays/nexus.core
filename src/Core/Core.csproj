@@ -49,6 +49,7 @@
     <Compile Include="Enum.cs" />
     <Compile Include="EnumDescriptionAttribute.cs" />
     <Compile Include="Expected.cs" />
+    <Compile Include="IException.cs" />
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
     <Compile Include="MutableDictionary.cs" />
@@ -58,6 +59,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionUtils.cs" />
     <Compile Include="Resharper.cs" />
+    <Compile Include="serialization\IDeserializer.cs" />
+    <Compile Include="serialization\ISerializer.cs" />
+    <Compile Include="serialization\IStreamDeserializer.cs" />
+    <Compile Include="serialization\IStreamSerializer.cs" />
+    <Compile Include="serialization\ITextWriterSerializer.cs" />
     <Compile Include="StringUtils.cs" />
     <Compile Include="time\DateTimeTimeSource.cs" />
     <Compile Include="time\DateTimeUtils.cs" />
@@ -67,7 +73,8 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-   <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
-      <Exec Command="..\..\build\release.bat"></Exec>
-   </Target>
+  <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
+    <Exec Command="..\..\build\release.bat">
+    </Exec>
+  </Target>
 </Project>
