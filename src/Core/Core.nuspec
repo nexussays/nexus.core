@@ -3,7 +3,7 @@
 <package>
    <metadata>
       <id>nexus.core</id>
-      <version>0.9.0</version>
+      <version>0.9.3</version>
       <title>Core</title>
       <authors>nexussays</authors>
       <owners></owners>
@@ -20,7 +20,4 @@
       <references></references>
       <tags></tags>
    </metadata>
-   <files>
-      <file src="**\*.cs" target="src" />
-   </files>
 </package>
