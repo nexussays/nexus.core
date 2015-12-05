@@ -27,3 +27,4 @@ Resource.Designer.cs
 *.user
 *.nupkg
 *.bak
+project.lock.json

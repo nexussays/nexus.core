@@ -5,7 +5,7 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C93888DC-8808-4CBB-91C6-66D568C46835}</ProjectGuid>
+    <ProjectGuid>{0BFB8710-A65C-453D-BD97-72F72D922156}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>nexus.core</RootNamespace>
@@ -34,15 +34,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="NuGet.config" />
+    <None Include="NuGetPackage.ps1" />
+    <None Include="NuGetSetup.ps1" />
+    <None Include="package.nuspec" />
+    <None Include="project.json" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="ActionAsync.cs" />
-    <Compile Include="AsyncLock.cs" />
     <Compile Include="Bytes.cs" />
     <Compile Include="ByteUtils.cs" />
     <Compile Include="ClaimAttribute.cs" />
     <Compile Include="CollectionUtils.cs" />
     <Compile Include="ComparableExtensions.cs" />
     <Compile Include="CoreUtils.cs" />
-    <Compile Include="time\DateTimeUtils.cs" />
     <Compile Include="Deferred.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="EnumDescriptionAttribute.cs" />
@@ -57,11 +63,47 @@
     <Compile Include="ReflectionUtils.cs" />
     <Compile Include="Resharper.cs" />
     <Compile Include="StringUtils.cs" />
-    <Compile Include="time\DateTimeTimeSource.cs" />
-    <Compile Include="time\EpochTime.cs" />
-    <Compile Include="time\ITimeSource.cs" />
-    <Compile Include="time\SynchronizedTimeSource.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="time\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NuGet.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+   <Target Name="AfterBuild">
+      <Delete Files=".\NuGet.log" />
+      <Exec WorkingDirectory="$(MSBuildProjectDirectory)"
+            Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "
+            ContinueOnError="True"
+            Command="PowerShell.exe -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Unrestricted -Command &quot;&amp; {.\NuGetPackage.ps1} &quot;"
+            IgnoreExitCode="true">
+         <Output TaskParameter="ExitCode"
+                 PropertyName="ExitCode" />
+      </Exec>
+      <Exec WorkingDirectory="$(MSBuildProjectDirectory)"
+            Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' "
+            ContinueOnError="True"
+            Command="PowerShell.exe -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command &quot;&amp; {.\NuGetPackage.ps1 -Publish} &quot;"
+            IgnoreExitCode="true">
+         <Output TaskParameter="ExitCode"
+                 PropertyName="ExitCode" />
+      </Exec>
+      <Message Text=" "
+               Importance="High" />
+      <Message Text="Build Exit Code: $(ExitCode)"
+               Importance="High" />
+      <Error Text="Encountered error(s) when creating package.%0aCheck the NuGet.log file for details."
+             Condition=" '$(ExitCode)' == '1' "
+             File="NuGet.log" />
+      <Error Text="Created package but encountered error(s) when trying to publish it.%0aCheck the NuGet.log file for details."
+             Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Release|AnyCPU|2' "
+             File="NuGet.log" />
+      <Message Text="SUCCESS: Created package."
+               Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Debug|AnyCPU|0' "
+               Importance="High" />
+      <Message Text="SUCCESS: Published package."
+               Condition=" '$(Configuration)|$(Platform)|$(ExitCode)' == 'Release|AnyCPU|0' "
+               Importance="High" />
+   </Target>
 </Project>

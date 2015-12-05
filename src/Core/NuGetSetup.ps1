@@ -28,7 +28,7 @@ function Write-Log {
 			[Int16] $Indent = 0,
 
 			[Parameter()]
-			[IO.FileInfo] $Path = ".\NuGet.log",
+			[IO.FileInfo] $Path = "..\..\bin\NuGet.log",
 			
 			[Parameter()]
 			[Switch] $Clobber,
