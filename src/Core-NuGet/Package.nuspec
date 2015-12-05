@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<package>
+   <metadata>
+      <id>nexus.core</id>
+      <version>0.9.0</version>
+      <title>Core</title>
+      <authors>nexussays</authors>
+      <owners></owners>
+      <description>
+         Core library
+      </description>
+      <releaseNotes>
+      </releaseNotes>
+      <summary>
+         
+      </summary>
+      <language>en-US</language>
+      <projectUrl>https://github.com/nexussays/core</projectUrl>
+      <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+      <requireLicenseAcceptance>false</requireLicenseAcceptance>
+      <licenseUrl>https://www.mozilla.org/en-US/MPL/2.0/</licenseUrl>
+      <copyright>Copyright Malachi Griffie</copyright>
+      <dependencies>
+         <group targetFramework="net40">
+            <dependency id="log4net"
+                        version="1.2.10" />
+         </group>
+      </dependencies>
+      <references></references>
+      <tags></tags>
+   </metadata>
+   <files>
+   </files>
+</package>
