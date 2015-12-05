@@ -1,5 +1,7 @@
 # core
 
+Core utilities and structures for every project.
+
 ```ps
 Install-Package nexus.core 
 ```
