@@ -26,3 +26,4 @@ Resource.Designer.cs
 *.suo
 *.user
 *.nupkg
+*.bak
