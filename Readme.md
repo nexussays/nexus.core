@@ -2,7 +2,7 @@
 
 Core utilities and structures for every project.
 
-[https://www.nuget.org/packages/nexus.core
+https://www.nuget.org/packages/nexus.core
 ```powershell
 Install-Package nexus.core
 ```
