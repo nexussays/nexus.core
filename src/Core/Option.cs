@@ -8,6 +8,10 @@ using System.Diagnostics.Contracts;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// A non-nullable type representing an optional value. If C# didn't fuck up and confuse nullability and value types this wouldn't be necessary, sigh.
+   /// </summary>
+   /// <typeparam name="T"></typeparam>
    public struct Option<T>
       : IEquatable<Option<T>>,
         IEquatable<T>

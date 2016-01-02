@@ -19,7 +19,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Swap the two provided object pointers
+      /// Swap the two provided object references
       /// </summary>
       public static void Swap<T>( ref T x, ref T y )
       {
@@ -41,10 +41,7 @@ namespace nexus.core
       /// </summary>
       public static void TryDispose( this IDisposable disposable )
       {
-         if(disposable != null)
-         {
-            disposable.Dispose();
-         }
+         disposable?.Dispose();
       }
 
       /// <summary>

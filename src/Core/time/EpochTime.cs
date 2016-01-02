@@ -3,12 +3,16 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 
 namespace nexus.core.time
 {
    public enum EpochTime
    {
+      /// <summary>
+      /// Error. Should not be used.
+      /// </summary>
       None = 0,
       NTP = 1,
       Unix = 2
@@ -29,7 +33,7 @@ namespace nexus.core.time
             case EpochTime.Unix:
                return UnixEpoch;
             default:
-               throw new ArgumentException( $"No epoch start time available for \"{epoch}\"", "epoch" );
+               throw new ArgumentException( $"No epoch start time available for \"{epoch}\"", nameof( epoch ) );
          }
       }
    }

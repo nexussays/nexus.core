@@ -28,8 +28,7 @@ namespace nexus.core
 
       /// <summary>
       /// A detailed breakdown of the stack, if available. Typically only one of <see cref="StackFrames" /> or
-      /// <see cref="StackTrace" /> will
-      /// be set.
+      /// <see cref="StackTrace" /> will be set.
       /// </summary>
       IEnumerable<IExceptionStackFrame> StackFrames { get; }
 

@@ -9,8 +9,7 @@ namespace nexus.core
 {
    /// <summary>
    /// Defer the act of obtaining a given value until it is requested by a getter. Basically a small wrapper which gives state
-   /// to
-   /// a <see cref="Func{TResult}" /> by containing its return value upon first execution.
+   /// to <see cref="Func{TResult}" /> by containing its return value upon first execution.
    /// </summary>
    /// <typeparam name="TResult"></typeparam>
    public class Deferred<TResult>
@@ -29,6 +28,9 @@ namespace nexus.core
          m_retrieve = retrieve;
       }
 
+      /// <summary>
+      /// True of the deferred value has already been evaluated
+      /// </summary>
       public Boolean IsResolved { get; private set; }
 
       public TResult Value

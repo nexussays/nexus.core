@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Diagnostics.Contracts;
 using System.Globalization;
@@ -75,9 +76,9 @@ namespace nexus.core
                case "y":
                case "1":
                   return true;
+               default:
+                  return false;
             }
-
-            return false;
          }
          catch(ArgumentException ex)
          {
@@ -91,7 +92,6 @@ namespace nexus.core
          {
             throw new OverflowException( "{0} While converting {1} to {2}".F( ex.Message, value, to ), ex );
          }
-         return null;
       }
 
       public static T ParseOrDefault<T>( this String source, T defaultValue = default(T) )
