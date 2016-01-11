@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Resources;
 
 [assembly: AssemblyTitle( "Core" )]
 [assembly: AssemblyDescription( "" )]
@@ -9,4 +8,3 @@ using System.Resources;
 [assembly: AssemblyCopyright( "Copyright Malachi Griffie" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
-[assembly: NeutralResourcesLanguage( "en" )]
