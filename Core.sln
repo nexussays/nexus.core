@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core", "src\Core\nexus.core.csproj", "{0BFB8710-A65C-453D-BD97-72F72D922156}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core", "src\nexus.core\nexus.core.csproj", "{0BFB8710-A65C-453D-BD97-72F72D922156}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{2C7CEC15-629E-40C7-9A20-1FB2FB183109}"
 	ProjectSection(SolutionItems) = preProject

@@ -1,0 +1,18 @@
+{
+    "version": "1.0.0-*",
+    "description": "nexus.core.logging-android Class Library",
+    "authors": [ "nexus" ],
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": "",
+    "frameworks": {
+        "dotnet5.4": {
+            "dependencies": {
+                "Microsoft.CSharp": "4.0.0"
+            }
+        }
+    },
+    "dependencies": {
+        "nexus.core.logging": "0.9.7"
+    }
+}
