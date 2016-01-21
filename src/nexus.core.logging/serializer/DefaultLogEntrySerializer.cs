@@ -3,13 +3,14 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using nexus.core.time;
 
 namespace nexus.core.logging.serializer
 {
    /// <summary>
-   /// Serializes log entries to "[timestamp] 
+   /// Serializes log entries to "[timestamp]
    /// </summary>
    public class DefaultLogEntrySerializer : ILogEntrySerializer
    {
@@ -43,6 +44,9 @@ namespace nexus.core.logging.serializer
          return String.Format( FormatProvider, format, args );
       }
 
+      /// <summary>
+      /// Return result of format function if <see cref="entry" /> is not null, or <see cref="String.Empty" /> if it is null.
+      /// </summary>
       protected String IfAttached<T>( ILogEntry entry, Func<T, String> formatFunc ) where T : class
       {
          var value = entry.GetData<T>();

@@ -1,33 +1,32 @@
+// Copyright Malachi Griffie
+// 
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
 using System;
-using nexus.core;
-using nexus.core.logging;
-using nexus.core.logging.sink;
-using Log = Android.Util.Log;
 
-namespace clover.core.android.logging.sink
+namespace nexus.core.logging.sink
 {
    public class AndroidLogSink : ILogSink
    {
       public void Handle( ILogEntry entry, Deferred<String> serializedEntry )
       {
          var ex = entry.GetData<IException>();
-         //var ctx = entry.GetData<IApplicationContext>();
-         //var name = ctx != null ? ctx.ApplicationName : "Android";
          var name = entry.LogId;
          var message = entry.FormatMessageAndArguments() + (ex != null ? ex.ToString() : "");
          switch(entry.Severity)
          {
             case LogLevel.Error:
-               Log.Error( name, message );
+               Android.Util.Log.Error( name, message );
                break;
             case LogLevel.Warn:
-               Log.Warn( name, message );
+               Android.Util.Log.Warn( name, message );
                break;
             case LogLevel.Info:
-               Log.Info( name, message );
+               Android.Util.Log.Info( name, message );
                break;
             case LogLevel.Trace:
-               Log.Debug( name, message );
+               Android.Util.Log.Debug( name, message );
                break;
          }
       }

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6023E42E-F259-4EA0-BF0F-593DFCB2983B}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>nexus.core.logging</RootNamespace>
+    <AssemblyName>nexus.core.logging-ios</AssemblyName>
+    <OutputPath>..\..\artifacts\bin\$(MSBuildThisFileName)\$(Configuration)\$(Platform)</OutputPath>
+    <NuGetPackageImportStamp>f3b7dbbd</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\nexus.core.logging-net\decorator\ILogEntryOriginPoint.cs">
+      <Link>decorator\ILogEntryOriginPoint.cs</Link>
+    </Compile>
+    <Compile Include="..\nexus.core.logging-net\decorator\LogEntryOriginPointDecorator.cs">
+      <Link>decorator\LogEntryOriginPointDecorator.cs</Link>
+    </Compile>
+    <Compile Include="..\nexus.core.logging-net\sink\ConsoleLogSink.cs">
+      <Link>sink\ConsoleLogSink.cs</Link>
+    </Compile>
+    <Compile Include="..\nexus.core.logging-net\sink\TraceLogSink.cs">
+      <Link>sink\TraceLogSink.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\nexus.core.logging\nexus.core.logging.csproj">
+      <Project>{a0d3d022-daf7-4a9f-aeb3-4c472e6f191b}</Project>
+      <Name>nexus.core.logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nexus.core\nexus.core.csproj">
+      <Project>{0bfb8710-a65c-453d-bd97-72f72d922156}</Project>
+      <Name>nexus.core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nexus.core.logging-ios.nuspec" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+</Project>
