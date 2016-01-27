@@ -3,10 +3,10 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Numerics;
 
 namespace nexus.core
 {
@@ -71,7 +71,7 @@ namespace nexus.core
       {
          Contract.Requires( source != null );
          Contract.Requires( source.Length > 0 );
-         Int32 delimiterPos = -1;
+         var delimiterPos = -1;
          while(delimiterPos < source.Length - 1)
          {
             // look for the position of the first space character
@@ -123,20 +123,6 @@ namespace nexus.core
          Contract.Ensures( Contract.Result<Byte[]>().Length == endByteIndex - startByteIndex );
          var result = new Byte[endByteIndex - startByteIndex];
          Buffer.BlockCopy( source, startByteIndex, result, 0, result.Length );
-         return result;
-      }
-
-      public static BigInteger ToBigInteger( this Byte[] bytes )
-      {
-         if(bytes == null)
-         {
-            return 0;
-         }
-         BigInteger result = 0;
-         for(Int32 i = 0; i < bytes.Length; ++i)
-         {
-            result = result * 256 + bytes[i];
-         }
          return result;
       }
 
