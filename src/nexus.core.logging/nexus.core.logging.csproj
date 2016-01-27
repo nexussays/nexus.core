@@ -58,6 +58,7 @@
     <Compile Include="LogSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="serializer\DefaultLogEntrySerializer.cs" />
+    <Compile Include="decorator\LogEntryExceptionDecorator.cs" />
     <Compile Include="sink\DebugLogSink.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

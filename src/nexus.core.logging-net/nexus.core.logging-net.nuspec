@@ -3,21 +3,21 @@
 <package>
    <metadata>
       <id>nexus.core.logging-net</id>
-      <version>0.11.0</version>
+      <version>0.11.2</version>
       <authors>nexussays</authors>
       <owners></owners>
       <description>.Net Framework implementations of Core.Logging (sinks, decorators, and serializers)</description>
       <releaseNotes></releaseNotes>
       <summary></summary>
       <language>en-US</language>
-      <projectUrl>https://github.com/nexussays/core.logging</projectUrl>
+      <projectUrl>https://github.com/nexussays/core</projectUrl>
       <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
       <requireLicenseAcceptance>false</requireLicenseAcceptance>
       <licenseUrl>https://www.mozilla.org/en-US/MPL/2.0/</licenseUrl>
       <copyright>Copyright Malachi Griffie</copyright>
       <dependencies>
          <dependency id="nexus.core.logging"
-                     version="0.11.0" />
+                     version="0.11.2" />
       </dependencies>
       <references></references>
       <tags></tags>

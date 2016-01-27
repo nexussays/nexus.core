@@ -3,7 +3,7 @@
 <package>
    <metadata>
       <id>nexus.core</id>
-      <version>0.11.0-alpha</version>
+      <version>0.11.2</version>
       <authors>nexussays</authors>
       <owners></owners>
       <description>Core utilities and data structures</description>

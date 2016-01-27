@@ -18,10 +18,9 @@ namespace nexus.core
 
       /// <summary>
       /// Indicates whether or not the exception was handled by the application code in order to determine severity of the
-      /// exception. Handled exceptions are less severe because they don't impact the user experience like an unhandled exception
-      /// would.
+      /// exception.
       /// </summary>
-      Boolean Handled { get; }
+      Boolean? Handled { get; }
 
       IException InnerError { get; }
 

@@ -3,21 +3,21 @@
 <package>
    <metadata>
       <id>nexus.core.logging</id>
-      <version>0.11.0</version>
+      <version>0.11.2</version>
       <authors>nexussays</authors>
       <owners></owners>
       <description>An extremely light-weight, modular, cross-platform logging library. Logs can be text or structured data. Simple high-level API. Swap out how log entries are serialized, where they are output to, what additional structured data should be attached, etc. Or implement the interfaces from scratch.</description>
       <releaseNotes></releaseNotes>
       <summary></summary>
       <language>en-US</language>
-      <projectUrl>https://github.com/nexussays/core.logging</projectUrl>
+      <projectUrl>https://github.com/nexussays/core</projectUrl>
       <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
       <requireLicenseAcceptance>false</requireLicenseAcceptance>
       <licenseUrl>https://www.mozilla.org/en-US/MPL/2.0/</licenseUrl>
       <copyright>Copyright Malachi Griffie</copyright>
       <dependencies>
          <dependency id="nexus.core"
-                     version="0.11.0" />
+                     version="0.11.2" />
       </dependencies>
       <references></references>
       <tags></tags>
