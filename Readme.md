@@ -97,8 +97,3 @@ public class MySerializer : ILogEntrySerializer
    }
 }
 ```
-
-### See Also
-
-* [`core`](https://github.com/nexussays/core)
-
