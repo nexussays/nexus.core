@@ -1,4 +1,4 @@
-# core [![Build status](https://ci.appveyor.com/api/projects/status/5fkhp1ku9xfgaa2o?svg=true)](https://ci.appveyor.com/project/nexussays/core)
+# core [![Build status](https://img.shields.io/appveyor/ci/nexussays/core.svg?style=flat-square)](https://ci.appveyor.com/project/nexussays/core)
 
 Core utilities and data structures.
 
