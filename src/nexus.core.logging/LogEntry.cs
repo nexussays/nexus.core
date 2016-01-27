@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,7 @@ namespace nexus.core.logging
       private readonly IList<Object> m_data;
 
       internal LogEntry( String id, DateTime time, LogLevel severity, String message, Object[] messageArguments,
-                         IEnumerable<Object> attachedObjects )
+                         Object[] attachedObjects )
       {
          LogId = id;
          MessageArguments = messageArguments;
@@ -30,20 +31,17 @@ namespace nexus.core.logging
          Timestamp = time;
       }
 
-      public IEnumerable<Object> Data
-      {
-         get { return m_data; }
-      }
+      public IEnumerable<Object> Data => m_data;
 
-      public String LogId { get; private set; }
+      public String LogId { get; }
 
-      public String Message { get; private set; }
+      public String Message { get; }
 
-      public Object[] MessageArguments { get; private set; }
+      public Object[] MessageArguments { get; }
 
-      public LogLevel Severity { get; private set; }
+      public LogLevel Severity { get; }
 
-      public DateTime Timestamp { get; private set; }
+      public DateTime Timestamp { get; }
 
       /// <summary>
       /// Get the first object from <see cref="ILogEntry.Data" /> that is of type {T}

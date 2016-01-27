@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 
 namespace nexus.core.logging
@@ -14,12 +15,10 @@ namespace nexus.core.logging
    public interface ILogEntryDecorator
    {
       /// <summary>
-      /// When provided a log entry and possible exception data, return an object to be added to the log entry.
+      /// When provided a log entry, return an object to be attached to the log entry or null if nothing to attach
       /// </summary>
       /// <param name="entry">The new log entry</param>
-      /// <param name="ex">Any exception passed to the exception methods of <see cref="ILog" /></param>
-      /// <param name="exceptionHandled"></param>
       /// <returns></returns>
-      Object Augment( ILogEntry entry, Exception ex, Boolean exceptionHandled );
+      Object Augment( ILogEntry entry );
    }
 }

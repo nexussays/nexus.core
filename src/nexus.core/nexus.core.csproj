@@ -48,6 +48,7 @@
     <Compile Include="EnumDescriptionAttribute.cs" />
     <Compile Include="Expected.cs" />
     <Compile Include="IException.cs" />
+    <Compile Include="IExceptionSerializer.cs" />
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
     <Compile Include="MutableDictionary.cs" />

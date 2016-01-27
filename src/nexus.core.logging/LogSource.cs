@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,10 +24,6 @@ namespace nexus.core.logging
    /// </summary>
    public sealed class LogSource : ILogSource
    {
-      private static readonly ILogSource s_instance = new LogSource(
-         new DateTimeTimeSource(),
-         new DefaultLogEntrySerializer() );
-
       private readonly ISet<ILogEntryDecorator> m_decorators;
       private readonly Object m_lock = new Object();
       private readonly ISet<ILogSink> m_sinks;
@@ -50,6 +47,14 @@ namespace nexus.core.logging
       public String Id { get; set; }
 
       /// <summary>
+      /// The singleton instance of <see cref="ILogSource" /> backing the static methods on <see cref="Log" />. You should only
+      /// access this in the main entry-point of your application code and **never** from libraries.
+      /// </summary>
+      public static ILogSource Instance { get; } = new LogSource(
+         new DateTimeTimeSource(),
+         new DefaultLogEntrySerializer() );
+
+      /// <summary>
       /// The level of log entires to write. Only entries of this level and above will be written to the log, others will be
       /// silently dropped.
       /// </summary>
@@ -65,12 +70,6 @@ namespace nexus.core.logging
       /// A <see cref="ITimeSource" /> used to determine log entry timestamps
       /// </summary>
       public ITimeSource TimeSource { get; set; }
-
-      /// <summary>
-      /// The global <see cref="ILogSource" /> instance which is backing <see cref="Log" />. This should never need to be
-      /// accessed outside application and environment initialization!
-      /// </summary>
-      public static ILogSource Instance => s_instance;
 
       /// <summary>
       /// Add a dcorator which can add additional data to <see cref="ILogEntry" /> before it is sent to <see cref="ILogSink" />
@@ -98,22 +97,21 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
-      public void Error( params Object[] objects )
+      public void Error( Object[] objects )
       {
-         CreateLogEntry( LogLevel.Error, null, null, null, true, objects );
-      }
-
-      /// <inheritDoc />
-      public void Error( Exception exception, Boolean isExceptionHandled, String message = null,
-                         params Object[] messageArgs )
-      {
-         CreateLogEntry( LogLevel.Error, message, messageArgs, exception, isExceptionHandled, null );
+         CreateLogEntry( LogLevel.Error, objects, null, null );
       }
 
       /// <inheritDoc />
       public void Error( String message, params Object[] messageArgs )
       {
-         CreateLogEntry( LogLevel.Error, message, messageArgs, null, true, null );
+         CreateLogEntry( LogLevel.Error, null, message, messageArgs );
+      }
+
+      /// <inheritDoc />
+      public void Error( Object[] objects, String message, params Object[] messageArgs )
+      {
+         CreateLogEntry( LogLevel.Error, objects, message, messageArgs );
       }
 
       /// <inheritDoc />
@@ -129,11 +127,11 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
-      public void Info( params Object[] objects )
+      public void Info( Object[] objects )
       {
          if(LogLevel.Info >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Info, null, null, null, true, objects );
+            CreateLogEntry( LogLevel.Info, objects, null, null );
          }
       }
 
@@ -142,17 +140,16 @@ namespace nexus.core.logging
       {
          if(LogLevel.Info >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Info, message, messageArgs, null, true, null );
+            CreateLogEntry( LogLevel.Info, null, message, messageArgs );
          }
       }
 
       /// <inheritDoc />
-      public void Info( Exception exception, Boolean isExceptionHandled, String message = null,
-                        params Object[] messageArgs )
+      public void Info( Object[] objects, String message, params Object[] messageArgs )
       {
          if(LogLevel.Info >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Info, message, messageArgs, exception, isExceptionHandled, null );
+            CreateLogEntry( LogLevel.Info, objects, message, messageArgs );
          }
       }
 
@@ -168,7 +165,7 @@ namespace nexus.core.logging
       /// <inheritDoc />
       public Boolean RemoveDecorator<T>() where T : class, ILogEntryDecorator, new()
       {
-         Type type = typeof(T);
+         var type = typeof(T);
          lock(m_lock)
          {
             var decorator = m_decorators.FirstOrDefault( x => x.GetType() == type );
@@ -193,7 +190,7 @@ namespace nexus.core.logging
       /// <inheritDoc />
       public Boolean RemoveSink<T>() where T : class, ILogSink, new()
       {
-         Type type = typeof(T);
+         var type = typeof(T);
          lock(m_lock)
          {
             var sink = m_sinks.FirstOrDefault( x => x.GetType() == type );
@@ -207,11 +204,11 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
-      public void Trace( params Object[] objects )
+      public void Trace( Object[] objects )
       {
          if(LogLevel.Trace >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Trace, null, null, null, true, objects );
+            CreateLogEntry( LogLevel.Trace, objects, null, null );
          }
       }
 
@@ -220,26 +217,25 @@ namespace nexus.core.logging
       {
          if(LogLevel.Trace >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Trace, message, messageArgs, null, true, null );
+            CreateLogEntry( LogLevel.Trace, null, message, messageArgs );
          }
       }
 
       /// <inheritDoc />
-      public void Trace( Exception exception, Boolean isExceptionHandled, String message = null,
-                         params Object[] messageArgs )
+      public void Trace( Object[] objects, String message, params Object[] messageArgs )
       {
          if(LogLevel.Trace >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Trace, message, messageArgs, exception, isExceptionHandled, null );
+            CreateLogEntry( LogLevel.Trace, objects, message, messageArgs );
          }
       }
 
       /// <inheritDoc />
-      public void Warn( params Object[] objects )
+      public void Warn( Object[] objects )
       {
          if(LogLevel.Warn >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Warn, null, null, null, true, objects );
+            CreateLogEntry( LogLevel.Warn, objects, null, null );
          }
       }
 
@@ -248,29 +244,27 @@ namespace nexus.core.logging
       {
          if(LogLevel.Warn >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Warn, message, messageArgs, null, true, null );
+            CreateLogEntry( LogLevel.Warn, null, message, messageArgs );
          }
       }
 
       /// <inheritDoc />
-      public void Warn( Exception exception, Boolean isExceptionHandled, String message = null,
-                        params Object[] messageArgs )
+      public void Warn( Object[] objects, String message, params Object[] messageArgs )
       {
          if(LogLevel.Warn >= LogLevel)
          {
-            CreateLogEntry( LogLevel.Warn, message, messageArgs, exception, isExceptionHandled, null );
+            CreateLogEntry( LogLevel.Warn, objects, message, messageArgs );
          }
       }
 
-      private void CreateLogEntry( LogLevel level, String message, Object[] messageArgs, Exception exception,
-                                   Boolean exceptionHandled, IEnumerable<Object> additionalData )
+      private void CreateLogEntry( LogLevel level, Object[] structuredData, String message, Object[] messageArgs )
       {
-         var entry = new LogEntry( Id, TimeSource.UtcNow, level, message, messageArgs, additionalData );
+         var entry = new LogEntry( Id, TimeSource.UtcNow, level, message, messageArgs, structuredData );
          foreach(var decorator in m_decorators)
          {
             try
             {
-               var decoration = decorator.Augment( entry, exception, exceptionHandled );
+               var decoration = decorator.Augment( entry );
                if(decoration != null)
                {
                   entry.AttachObject( decoration );

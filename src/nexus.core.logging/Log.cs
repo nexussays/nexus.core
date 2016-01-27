@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Diagnostics;
 
@@ -31,12 +32,6 @@ namespace nexus.core.logging
          set { s_instance.LogLevel = value; }
       }
 
-      //public static String LogName
-      //{
-      //   get { return s_instance.LogName; }
-      //   set { s_instance.LogName = value; }
-      //}
-
       [Conditional( "DEBUG" )]
       public static void Debug( params Object[] objects )
       {
@@ -52,9 +47,9 @@ namespace nexus.core.logging
 
       [StringFormatMethod( "format" )]
       [Conditional( "DEBUG" )]
-      public static void Debug( Exception ex, Boolean exceptionHandled, String format = null, params Object[] args )
+      public static void Debug( Object[] objects, String format, params Object[] messageArgs )
       {
-         s_instance.Trace( ex, exceptionHandled, message: format, messageArgs: args );
+         s_instance.Trace( objects, format, messageArgs );
       }
 
       public static void Error( params Object[] objects )
@@ -63,15 +58,15 @@ namespace nexus.core.logging
       }
 
       [StringFormatMethod( "format" )]
-      public static void Error( Exception ex, Boolean exceptionHandled, String format = null, params Object[] args )
-      {
-         s_instance.Error( ex, exceptionHandled, message: format, messageArgs: args );
-      }
-
-      [StringFormatMethod( "format" )]
       public static void Error( String format, params Object[] args )
       {
          s_instance.Error( format, args );
+      }
+
+      [StringFormatMethod( "format" )]
+      public static void Error( Object[] objects, String format, params Object[] messageArgs )
+      {
+         s_instance.Error( objects, format, messageArgs );
       }
 
       public static void Info( params Object[] objects )
@@ -86,9 +81,9 @@ namespace nexus.core.logging
       }
 
       [StringFormatMethod( "format" )]
-      public static void Info( Exception ex, Boolean exceptionHandled, String format = null, params Object[] args )
+      public static void Info( Object[] objects, String format, params Object[] messageArgs )
       {
-         s_instance.Info( ex, exceptionHandled, message: format, messageArgs: args );
+         s_instance.Info( objects, format, messageArgs );
       }
 
       public static void Trace( params Object[] objects )
@@ -103,9 +98,9 @@ namespace nexus.core.logging
       }
 
       [StringFormatMethod( "format" )]
-      public static void Trace( Exception ex, Boolean exceptionHandled, String format = null, params Object[] args )
+      public static void Trace( Object[] objects, String format, params Object[] messageArgs )
       {
-         s_instance.Trace( ex, exceptionHandled, message: format, messageArgs: args );
+         s_instance.Trace( objects, format, messageArgs );
       }
 
       public static void Warn( params Object[] objects )
@@ -120,9 +115,9 @@ namespace nexus.core.logging
       }
 
       [StringFormatMethod( "format" )]
-      public static void Warn( Exception ex, Boolean exceptionHandled, String format = null, params Object[] args )
+      public static void Warn( Object[] objects, String format, params Object[] messageArgs )
       {
-         s_instance.Warn( ex, exceptionHandled, message: format, messageArgs: args );
+         s_instance.Warn( objects, format, messageArgs );
       }
    }
 }

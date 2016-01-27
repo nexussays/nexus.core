@@ -30,11 +30,10 @@ namespace nexus.core.logging
 
       [StringFormatMethod( "message" )]
       [Conditional( "DEBUG" )]
-      public static void Debug( this ILog log, Exception ex, Boolean isExceptionHandled, String message = null,
-                                params Object[] messageArgs )
+      public static void Debug( this ILog log, Object[] objects, String message, params Object[] messageArgs )
       {
          Contract.Requires( log != null );
-         log.Trace( ex, isExceptionHandled, message: message, messageArgs: messageArgs );
+         log.Trace( message, messageArgs );
       }
 
       /// <summary>

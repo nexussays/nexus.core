@@ -5,6 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.Linq;
 using nexus.core.time;
 
 namespace nexus.core.logging.serializer
@@ -14,8 +15,6 @@ namespace nexus.core.logging.serializer
    /// </summary>
    public class DefaultLogEntrySerializer : ILogEntrySerializer
    {
-      private const String NEW_LINE = "\n"; //System.Environment.NewLine;
-
       public DefaultLogEntrySerializer( IFormatProvider formatter = null )
       {
          FormatProvider = formatter;
@@ -23,16 +22,16 @@ namespace nexus.core.logging.serializer
 
       public IFormatProvider FormatProvider { get; set; }
 
-      public virtual String Serialize( ILogEntry data )
+      public virtual String Serialize( ILogEntry entry )
       {
-         var message = data.FormatMessageAndArguments( FormatProvider );
+         var message = entry.FormatMessageAndArguments( FormatProvider );
          return Format(
             "{0} {1}{2,-7} {3}{4}",
-            data.Timestamp.ToUnixTimestampInMilliseconds(),
-            data.LogId == null ? "" : "{0}: " + data.LogId,
-            Format( "[{0}]", data.Severity ).ToUpperInvariant(),
+            entry.Timestamp.ToUnixTimestampInMilliseconds(),
+            entry.LogId == null ? "" : "{0}: " + entry.LogId,
+            Format( "[{0}]", entry.Severity ).ToUpperInvariant(),
             message,
-            IfAttached<IException>( data, exception => (message != null ? NEW_LINE : String.Empty) + exception ) );
+            String.Join( ", ", entry.Data.Select( x => x.ToString() ) ) );
       }
 
       /// <summary>

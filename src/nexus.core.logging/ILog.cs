@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 
 namespace nexus.core.logging
@@ -22,36 +23,36 @@ namespace nexus.core.logging
       /// </summary>
       LogLevel LogLevel { get; }
 
-      void Error( params Object[] objects );
-
-      [StringFormatMethod( "message" )]
-      void Error( Exception exception, Boolean isExceptionHandled, String message = null, params Object[] messageArgs );
+      void Error( Object[] objects );
 
       [StringFormatMethod( "message" )]
       void Error( String message, params Object[] messageArgs );
 
-      void Info( params Object[] objects );
+      [StringFormatMethod( "message" )]
+      void Error( Object[] objects, String message, params Object[] messageArgs );
+
+      void Info( Object[] objects );
 
       [StringFormatMethod( "message" )]
       void Info( String message, params Object[] messageArgs );
 
       [StringFormatMethod( "message" )]
-      void Info( Exception exception, Boolean isExceptionHandled, String message = null, params Object[] messageArgs );
+      void Info( Object[] objects, String message, params Object[] messageArgs );
 
-      void Trace( params Object[] objects );
+      void Trace( Object[] objects );
 
       [StringFormatMethod( "message" )]
       void Trace( String message, params Object[] messageArgs );
 
       [StringFormatMethod( "message" )]
-      void Trace( Exception exception, Boolean isExceptionHandled, String message = null, params Object[] messageArgs );
+      void Trace( Object[] objects, String message, params Object[] messageArgs );
 
-      void Warn( params Object[] objects );
+      void Warn( Object[] objects );
 
       [StringFormatMethod( "message" )]
       void Warn( String message, params Object[] messageArgs );
 
       [StringFormatMethod( "message" )]
-      void Warn( Exception exception, Boolean isExceptionHandled, String message = null, params Object[] messageArgs );
+      void Warn( Object[] objects, String message, params Object[] messageArgs );
    }
 }

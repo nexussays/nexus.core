@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Diagnostics;
 
@@ -14,10 +15,10 @@ namespace nexus.core.logging.decorator
    /// </summary>
    public class LogEntryOriginPointDecorator : ILogEntryDecorator
    {
-      public Object Augment( ILogEntry entry, Exception ex, Boolean exceptionHandled )
+      public Object Augment( ILogEntry entry )
       {
          //var frame = GetCallingStackFrame( skipFrames + 1 );
-         var frame = GetCallingStackFrame( true, ex );
+         var frame = GetCallingStackFrame( true );
          var sourceMethod = frame.GetMethod();
          if(sourceMethod != null && sourceMethod.ReflectedType != null)
          {
@@ -41,14 +42,18 @@ namespace nexus.core.logging.decorator
          return new StackFrame( skipFrames + 1 );
       }
 
-      private StackFrame GetCallingStackFrame( Boolean detailedInfo, Exception ex )
+      private StackFrame GetCallingStackFrame( Boolean detailedInfo /*, Exception ex*/ )
       {
+         /* // when taking an Exception as a method argument
          var stackTrace = ex != null ? new StackTrace( ex, detailedInfo ) : null;
          if(stackTrace == null || stackTrace.FrameCount == 0)
          {
             //reflect on the IL execution to find the source of this Log
             stackTrace = new StackTrace( 2, detailedInfo );
          }
+         //*/
+         // since we don't have an exception
+         var stackTrace = new StackTrace( 2, detailedInfo );
 
          var frameNumber = 0;
          var frame = stackTrace.GetFrame( frameNumber );
