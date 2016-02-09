@@ -73,7 +73,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
-    <Exec Command="..\..\build\release.bat">
+    <Exec Command="..\..\build\package-nuget.bat">
     </Exec>
   </Target>
 </Project>

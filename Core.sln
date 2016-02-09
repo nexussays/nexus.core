@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core", "src\nexus.cor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{2C7CEC15-629E-40C7-9A20-1FB2FB183109}"
 	ProjectSection(SolutionItems) = preProject
-		build\release.bat = build\release.bat
+		build\package-nuget.bat = build\package-nuget.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core.logging", "src\nexus.core.logging\nexus.core.logging.csproj", "{A0D3D022-DAF7-4A9F-AEB3-4C472E6F191B}"
