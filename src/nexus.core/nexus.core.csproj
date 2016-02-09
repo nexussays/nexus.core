@@ -46,11 +46,13 @@
     <Compile Include="Deferred.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="EnumDescriptionAttribute.cs" />
+    <Compile Include="ExceptionSerializer.cs" />
     <Compile Include="Expected.cs" />
     <Compile Include="IException.cs" />
     <Compile Include="IExceptionSerializer.cs" />
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
+    <Compile Include="IStackFrame.cs" />
     <Compile Include="MutableDictionary.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="Pair.cs" />
@@ -70,7 +72,6 @@
     <Compile Include="time\ITimeSource.cs" />
     <Compile Include="time\SynchronizedTimeSource.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
     <Exec Command="..\..\build\package-nuget.bat">

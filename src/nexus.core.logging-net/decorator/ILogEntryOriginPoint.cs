@@ -9,7 +9,7 @@ namespace nexus.core.logging.decorator
    /// Decorators can use reflection on the current call stack to trace the file and line of every <see cref="ILog" />
    /// (<see cref="Log" />) call
    /// </summary>
-   public interface ILogEntryOriginPoint : IExceptionStackFrame
+   public interface ILogEntryOriginPoint : IStackFrame
    {
    }
 }
