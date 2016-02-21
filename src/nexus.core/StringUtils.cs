@@ -3,9 +3,11 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 
 namespace nexus.core
 {
@@ -14,7 +16,7 @@ namespace nexus.core
       /// <summary>
       /// Wraps String.Format() for more convenient use. eg - "Value {0}".@F(argument)
       /// </summary>
-      [Pure]
+      [System.Diagnostics.Contracts.Pure]
       [StringFormatMethod( "format" )]
       public static String F( this String format, params Object[] args )
       {
@@ -27,7 +29,7 @@ namespace nexus.core
       /// <summary>
       /// String.IsNullOrEmpty(value) as an extension method
       /// </summary>
-      [Pure]
+      [System.Diagnostics.Contracts.Pure]
       public static Boolean IsNullOrEmpty( this String value )
       {
          return String.IsNullOrEmpty( value );
@@ -36,7 +38,7 @@ namespace nexus.core
       /// <summary>
       /// String.IsNullOrWhiteSpace(value) as an extension method
       /// </summary>
-      [Pure]
+      [System.Diagnostics.Contracts.Pure]
       public static Boolean IsNullOrWhiteSpace( this String value )
       {
          //return (value == null || (value.Trim().Length == 0));
@@ -49,7 +51,7 @@ namespace nexus.core
       /// <param name="source"></param>
       /// <param name="stripValues"></param>
       /// <returns>The new string</returns>
-      [Pure]
+      [System.Diagnostics.Contracts.Pure]
       public static String StripCharacters( this String source, String stripValues )
       {
          return source.IsNullOrEmpty() ? source : Regex.Replace( source, "[" + Regex.Escape( stripValues ) + "]", "" );
@@ -62,7 +64,7 @@ namespace nexus.core
       /// <param name="input"></param>
       /// <param name="startAt">The character position at which to start the search. </param>
       /// <returns></returns>
-      [Pure]
+      [System.Diagnostics.Contracts.Pure]
       public static Boolean Test( this Regex regex, String input, Int32? startAt = null )
       {
          if(startAt.HasValue)

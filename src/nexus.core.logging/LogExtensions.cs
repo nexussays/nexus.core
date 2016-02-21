@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using JetBrains.Annotations;
 
 namespace nexus.core.logging
 {

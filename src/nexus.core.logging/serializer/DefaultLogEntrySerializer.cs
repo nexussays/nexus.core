@@ -5,7 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
-using System.Linq;
+using JetBrains.Annotations;
 using nexus.core.time;
 
 namespace nexus.core.logging.serializer
