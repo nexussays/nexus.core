@@ -18,6 +18,8 @@
       <dependencies>
          <dependency id="nexus.core"
                      version="0.12.1" />
+         <dependency id="JetBrains.Annotations"
+                     version="10.0.0" />
       </dependencies>
       <references></references>
       <tags></tags>
