@@ -9,4 +9,6 @@ namespace nexus.core.serialization
    {
       TTo Serialize( TFrom source );
    }
+
+   public delegate TTo Serializer<in TFrom, out TTo>( TFrom source );
 }

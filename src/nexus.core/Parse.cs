@@ -5,6 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Reflection;
@@ -20,9 +21,9 @@ namespace nexus.core
          {
             ret = OrThrow( value, typeof(T) );
          }
-         catch(Exception)
+         catch(Exception ex)
          {
-            //Log.Trace( ex, "Swallowed error converting {0} to {1}", value, to );
+            Debug.WriteLine( ex.ToString() );
             ret = defaultValue;
          }
          return (T)ret;

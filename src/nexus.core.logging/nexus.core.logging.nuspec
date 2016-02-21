@@ -3,7 +3,7 @@
 <package>
    <metadata>
       <id>nexus.core.logging</id>
-      <version>0.11.3</version>
+      <version>0.11.4</version>
       <authors>nexussays</authors>
       <owners></owners>
       <description>An extremely light-weight, modular, cross-platform logging library. Logs can be text or structured data. Simple high-level API. Swap out how log entries are serialized, where they are output to, what additional structured data should be attached, etc. Or implement the interfaces from scratch.</description>
@@ -17,7 +17,7 @@
       <copyright>Copyright Malachi Griffie</copyright>
       <dependencies>
          <dependency id="nexus.core"
-                     version="0.11.3" />
+                     version="0.12.0" />
       </dependencies>
       <references></references>
       <tags></tags>

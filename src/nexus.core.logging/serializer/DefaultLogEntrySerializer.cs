@@ -30,8 +30,9 @@ namespace nexus.core.logging.serializer
             entry.Timestamp.ToUnixTimestampInMilliseconds(),
             entry.LogId == null ? "" : "{0}: " + entry.LogId,
             Format( "[{0}]", entry.Severity ).ToUpperInvariant(),
-            message,
-            String.Join( ", ", entry.Data.Select( x => x.ToString() ) ) );
+            message ); //,
+         // TODO: Implement serialization flow for attached objects, allow submitting serializers and store ISet<T,ISerializer<T, String>>
+         //String.Join( ", ", entry.Data.Select( x => x.ToString() ) ) );
       }
 
       /// <summary>
