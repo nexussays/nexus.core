@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 
 namespace nexus.core
@@ -12,7 +13,7 @@ namespace nexus.core
    /// to <see cref="Func{TResult}" /> by containing its return value upon first execution.
    /// </summary>
    /// <typeparam name="TResult"></typeparam>
-   public class Deferred<TResult>
+   public struct Deferred<TResult>
    {
       private Func<TResult> m_retrieve;
       private TResult m_value;
@@ -20,18 +21,19 @@ namespace nexus.core
       public Deferred( TResult value )
       {
          m_value = value;
-         IsResolved = true;
+         m_retrieve = null;
       }
 
       public Deferred( Func<TResult> retrieve )
       {
          m_retrieve = retrieve;
+         m_value = default(TResult);
       }
 
       /// <summary>
-      /// True of the deferred value has already been evaluated
+      /// True if the deferred value has already been evaluated
       /// </summary>
-      public Boolean IsResolved { get; private set; }
+      public Boolean IsResolved => m_retrieve == null;
 
       public TResult Value
       {
@@ -39,7 +41,6 @@ namespace nexus.core
          {
             if(!IsResolved)
             {
-               IsResolved = true;
                m_value = m_retrieve();
                m_retrieve = null;
             }
@@ -49,22 +50,12 @@ namespace nexus.core
 
       public static explicit operator TResult( Deferred<TResult> deferred )
       {
-         return deferred == null ? default(TResult) : deferred.Value;
-      }
-
-      public static explicit operator Deferred<TResult>( TResult value )
-      {
-         return ReferenceEquals( value, null ) ? null : new Deferred<TResult>( value );
+         return deferred.Value;
       }
 
       public static implicit operator Deferred<TResult>( Func<TResult> retrievalFunc )
       {
          return new Deferred<TResult>( retrievalFunc );
-      }
-
-      public static implicit operator Func<TResult>( Deferred<TResult> deferred )
-      {
-         return deferred == null ? null : deferred.m_retrieve;
       }
    }
 
