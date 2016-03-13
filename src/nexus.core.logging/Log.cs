@@ -39,18 +39,26 @@ namespace nexus.core.logging
          s_instance.Trace( objects );
       }
 
-      [StringFormatMethod( "format" )]
+      [StringFormatMethod( "message" )]
       [Conditional( "DEBUG" )]
-      public static void Debug( String format, params Object[] args )
+      public static void Debug( String message, params Object[] args )
       {
-         s_instance.Trace( format, args );
+         s_instance.Trace( message, args );
       }
 
-      [StringFormatMethod( "format" )]
+      [StringFormatMethod( "message" )]
       [Conditional( "DEBUG" )]
-      public static void Debug( Object[] objects, String format, params Object[] messageArgs )
+      public static void Debug( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Trace( objects, format, messageArgs );
+         s_instance.Trace( objects, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      [Conditional( "DEBUG" )]
+      public static void Debug( IException exception, String message = null, params Object[] messageArgs )
+      {
+         // ReSharper disable once InvokeAsExtensionMethod
+         LogExtensions.Trace( s_instance, exception, message, messageArgs );
       }
 
       public static void Error( params Object[] objects )
@@ -58,16 +66,23 @@ namespace nexus.core.logging
          s_instance.Error( objects );
       }
 
-      [StringFormatMethod( "format" )]
-      public static void Error( String format, params Object[] args )
+      [StringFormatMethod( "message" )]
+      public static void Error( String message, params Object[] args )
       {
-         s_instance.Error( format, args );
+         s_instance.Error( message, args );
       }
 
-      [StringFormatMethod( "format" )]
-      public static void Error( Object[] objects, String format, params Object[] messageArgs )
+      [StringFormatMethod( "message" )]
+      public static void Error( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Error( objects, format, messageArgs );
+         s_instance.Error( objects, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void Error( IException exception, String message = null, params Object[] messageArgs )
+      {
+         // ReSharper disable once InvokeAsExtensionMethod
+         LogExtensions.Error( s_instance, exception, message, messageArgs );
       }
 
       public static void Info( params Object[] objects )
@@ -75,16 +90,23 @@ namespace nexus.core.logging
          s_instance.Info( objects );
       }
 
-      [StringFormatMethod( "format" )]
-      public static void Info( String format, params Object[] args )
+      [StringFormatMethod( "message" )]
+      public static void Info( String message, params Object[] args )
       {
-         s_instance.Info( format, args );
+         s_instance.Info( message, args );
       }
 
-      [StringFormatMethod( "format" )]
-      public static void Info( Object[] objects, String format, params Object[] messageArgs )
+      [StringFormatMethod( "message" )]
+      public static void Info( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Info( objects, format, messageArgs );
+         s_instance.Info( objects, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void Info( IException exception, String message = null, params Object[] messageArgs )
+      {
+         // ReSharper disable once InvokeAsExtensionMethod
+         LogExtensions.Info( s_instance, exception, message, messageArgs );
       }
 
       public static void Trace( params Object[] objects )
@@ -92,16 +114,23 @@ namespace nexus.core.logging
          s_instance.Trace( objects );
       }
 
-      [StringFormatMethod( "format" )]
-      public static void Trace( String format, params Object[] args )
+      [StringFormatMethod( "message" )]
+      public static void Trace( String message, params Object[] args )
       {
-         s_instance.Trace( format, args );
+         s_instance.Trace( message, args );
       }
 
-      [StringFormatMethod( "format" )]
-      public static void Trace( Object[] objects, String format, params Object[] messageArgs )
+      [StringFormatMethod( "message" )]
+      public static void Trace( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Trace( objects, format, messageArgs );
+         s_instance.Trace( objects, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void Trace( IException exception, String message = null, params Object[] messageArgs )
+      {
+         // ReSharper disable once InvokeAsExtensionMethod
+         LogExtensions.Trace( s_instance, exception, message, messageArgs );
       }
 
       public static void Warn( params Object[] objects )
@@ -109,16 +138,23 @@ namespace nexus.core.logging
          s_instance.Warn( objects );
       }
 
-      [StringFormatMethod( "format" )]
-      public static void Warn( String format, params Object[] args )
+      [StringFormatMethod( "message" )]
+      public static void Warn( String message, params Object[] args )
       {
-         s_instance.Warn( format, args );
+         s_instance.Warn( message, args );
       }
 
-      [StringFormatMethod( "format" )]
-      public static void Warn( Object[] objects, String format, params Object[] messageArgs )
+      [StringFormatMethod( "message" )]
+      public static void Warn( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Warn( objects, format, messageArgs );
+         s_instance.Warn( objects, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void Warn( IException exception, String message = null, params Object[] messageArgs )
+      {
+         // ReSharper disable once InvokeAsExtensionMethod
+         LogExtensions.Warn( s_instance, exception, message, messageArgs );
       }
    }
 }

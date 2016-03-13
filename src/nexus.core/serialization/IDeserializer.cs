@@ -17,4 +17,27 @@ namespace nexus.core.serialization
    }
 
    public delegate TTo Deserializer<in TFrom, out TTo>( TFrom data );
+
+   public static class DeserializerExtensions
+   {
+      public static IDeserializer<TFrom, TTo> Wrap<TFrom, TTo>( this Deserializer<TFrom, TTo> function )
+      {
+         return new DeserializerWrapper<TFrom, TTo>( function );
+      }
+
+      private sealed class DeserializerWrapper<A, B> : IDeserializer<A, B>
+      {
+         private readonly Deserializer<A, B> m_func;
+
+         public DeserializerWrapper( Deserializer<A, B> func )
+         {
+            m_func = func;
+         }
+
+         public B Deserialize( A data )
+         {
+            return m_func( data );
+         }
+      }
+   }
 }

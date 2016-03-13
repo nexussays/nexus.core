@@ -37,6 +37,12 @@ namespace nexus.core.logging
          log.Trace( message, messageArgs );
       }
 
+      [StringFormatMethod( "message" )]
+      public static void Error( this ILog log, IException exception, String message = null, params Object[] messageArgs )
+      {
+         log.Error( new Object[] {exception}, message, messageArgs );
+      }
+
       /// <summary>
       /// Apply <see cref="String.Format(IFormatProvider,String,object[])" /> over <see cref="ILogEntry.Message" /> and
       /// <see cref="ILogEntry.MessageArguments" />; checking for null, invalid, and empty arguments. Catches any thrown
@@ -65,94 +71,69 @@ namespace nexus.core.logging
          }
       }
 
-      /// <summary>
-      /// Chainable version of setting <see cref="ILogControl.LogLevel" />
-      /// </summary>
-      public static T SetLogLevel<T>( this T log, LogLevel level ) where T : ILogControl
+      [StringFormatMethod( "message" )]
+      public static void HandledExceptionError( this ILog log, IExceptionSerializer serializer, Exception exception,
+                                                String message = null, params Object[] messageArgs )
       {
-         log.LogLevel = level;
-         return log;
+         log.Error( new Object[] {serializer.Serialize( exception, true )}, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void HandledExceptionInfo( this ILog log, IExceptionSerializer serializer, Exception exception,
+                                               String message = null, params Object[] messageArgs )
+      {
+         log.Info( new Object[] {serializer.Serialize( exception, true )}, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void HandledExceptionTrace( this ILog log, IExceptionSerializer serializer, Exception exception,
+                                                String message = null, params Object[] messageArgs )
+      {
+         log.Trace( new Object[] {serializer.Serialize( exception, true )}, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void HandledExceptionWarn( this ILog log, IExceptionSerializer serializer, Exception exception,
+                                               String message = null, params Object[] messageArgs )
+      {
+         log.Warn( new Object[] {serializer.Serialize( exception, true )}, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void Info( this ILog log, IException exception, String message = null, params Object[] messageArgs )
+      {
+         log.Info( new Object[] {exception}, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void Trace( this ILog log, IException exception, String message = null, params Object[] messageArgs )
+      {
+         log.Trace( new Object[] {exception}, message, messageArgs );
       }
 
       /// <summary>
-      /// Chainable version of setting <see cref="ILogControl.Serializer" />
+      /// Serialize this exception to <see cref="IException" />, mark it as unhandled, and write to
+      /// <see cref="Log.Error(object[])" />
       /// </summary>
-      public static ILogSource SetSerializer<T>( this ILogSource log ) where T : class, ILogEntrySerializer, new()
+      public static void UnhandledExceptionError( this ILog log, IExceptionSerializer serializer, Exception exception )
       {
-         log.Serializer = new T();
-         return log;
+         log.Error( new Object[] {serializer.Serialize( exception, false )} );
       }
 
       /// <summary>
-      /// Chainable version of setting <see cref="ILogControl.Serializer" />
+      /// Serialize this exception to <see cref="IException" />, mark it as unhandled, and write to
+      /// <see cref="Log.Error(object[])" />
       /// </summary>
-      public static T SetSerializer<T>( this T log, ILogEntrySerializer serializer ) where T : ILogControl
+      public static void UnhandledExceptionError( this ILog log, IExceptionSerializer serializer, Exception exception,
+                                                  String message, params Object[] messageArgs )
       {
-         log.Serializer = serializer;
-         return log;
+         log.Error( new Object[] {serializer.Serialize( exception, false )}, message, messageArgs );
       }
 
-      /// <summary>
-      /// Chainable version of setting <see cref="ILogControl.Serializer" />
-      /// </summary>
-      public static ILogControl SetSerializer<T>( this ILogControl log ) where T : class, ILogEntrySerializer, new()
+      [StringFormatMethod( "message" )]
+      public static void Warn( this ILog log, IException exception, String message = null, params Object[] messageArgs )
       {
-         log.Serializer = new T();
-         return log;
-      }
-
-      /// <summary>
-      /// Chainable version of <see cref="ILogControl.AddDecorator" />
-      /// </summary>
-      public static ILogSource WithDecorator<T>( this ILogSource log ) where T : class, ILogEntryDecorator, new()
-      {
-         log.AddDecorator( new T() );
-         return log;
-      }
-
-      /// <summary>
-      /// Chainable version of <see cref="ILogControl.AddDecorator" />
-      /// </summary>
-      public static ILogControl WithDecorator<T>( this ILogControl log ) where T : class, ILogEntryDecorator, new()
-      {
-         log.AddDecorator( new T() );
-         return log;
-      }
-
-      /// <summary>
-      /// Chainable version of <see cref="ILogControl.AddDecorator" />
-      /// </summary>
-      public static T WithDecorator<T>( this T log, ILogEntryDecorator decorator ) where T : ILogControl
-      {
-         log.AddDecorator( decorator );
-         return log;
-      }
-
-      /// <summary>
-      /// Chainable version of <see cref="ILogControl.AddSink" />
-      /// </summary>
-      public static ILogSource WithSink<T>( this ILogSource log ) where T : class, ILogSink, new()
-      {
-         log.AddSink( new T() );
-         return log;
-      }
-
-      /// <summary>
-      /// Chainable version of <see cref="ILogControl.AddSink" />
-      /// </summary>
-      public static ILogControl WithSink<T>( this ILogControl log ) where T : class, ILogSink, new()
-      {
-         log.AddSink( new T() );
-         return log;
-      }
-
-      /// <summary>
-      /// Chainable version of <see cref="ILogControl.AddSink" />
-      /// </summary>
-      public static T WithSink<T>( this T log, ILogSink sink ) where T : ILogControl
-      {
-         log.AddSink( sink );
-         return log;
+         log.Warn( new Object[] {exception}, message, messageArgs );
       }
    }
 }

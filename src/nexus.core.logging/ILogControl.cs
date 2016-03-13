@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Collections.Generic;
 using nexus.core.time;
@@ -38,12 +39,12 @@ namespace nexus.core.logging
       /// <param name="sink"></param>
       void AddSink( ILogSink sink );
 
-      void RemoveDecorator( ILogEntryDecorator decorator );
+      Boolean RemoveDecorator( ILogEntryDecorator decorator );
 
-      Boolean RemoveDecorator<T>() where T : class, ILogEntryDecorator, new();
+      Boolean RemoveDecoratorOfType<T>() where T : ILogEntryDecorator;
 
-      void RemoveSink( ILogSink sink );
+      Boolean RemoveSink( ILogSink sink );
 
-      Boolean RemoveSink<T>() where T : class, ILogSink, new();
+      Boolean RemoveSinkOfType<T>() where T : ILogSink;
    }
 }

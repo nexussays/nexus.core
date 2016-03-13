@@ -21,14 +21,14 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -44,6 +44,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="decorator\ImmutableValueDecorator.cs" />
     <Compile Include="ILog.cs" />
     <Compile Include="ILogControl.cs" />
     <Compile Include="ILogEntry.cs" />
@@ -53,7 +54,7 @@
     <Compile Include="ILogSource.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogEntry.cs" />
-    <Compile Include="LogExceptionExtensions.cs" />
+    <Compile Include="LogControlExtensions.cs" />
     <Compile Include="LogExtensions.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="LogSource.cs" />

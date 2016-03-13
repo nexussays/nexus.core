@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using JetBrains.Annotations;
 using nexus.core.logging.serializer;
 using nexus.core.time;
 
@@ -103,12 +104,14 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
+      [StringFormatMethod( "message" )]
       public void Error( String message, params Object[] messageArgs )
       {
          CreateLogEntry( LogLevel.Error, null, message, messageArgs );
       }
 
       /// <inheritDoc />
+      [StringFormatMethod( "message" )]
       public void Error( Object[] objects, String message, params Object[] messageArgs )
       {
          CreateLogEntry( LogLevel.Error, objects, message, messageArgs );
@@ -136,6 +139,7 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
+      [StringFormatMethod( "message" )]
       public void Info( String message, params Object[] messageArgs )
       {
          if(LogLevel.Info >= LogLevel)
@@ -145,6 +149,7 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
+      [StringFormatMethod( "message" )]
       public void Info( Object[] objects, String message, params Object[] messageArgs )
       {
          if(LogLevel.Info >= LogLevel)
@@ -154,16 +159,16 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
-      public void RemoveDecorator( ILogEntryDecorator decorator )
+      public Boolean RemoveDecorator( ILogEntryDecorator decorator )
       {
          lock(m_lock)
          {
-            m_decorators.Remove( decorator );
+            return m_decorators.Remove( decorator );
          }
       }
 
       /// <inheritDoc />
-      public Boolean RemoveDecorator<T>() where T : class, ILogEntryDecorator, new()
+      public Boolean RemoveDecoratorOfType<T>() where T : ILogEntryDecorator
       {
          var type = typeof(T);
          lock(m_lock)
@@ -179,16 +184,16 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
-      public void RemoveSink( ILogSink sink )
+      public Boolean RemoveSink( ILogSink sink )
       {
          lock(m_lock)
          {
-            m_sinks.Remove( sink );
+            return m_sinks.Remove( sink );
          }
       }
 
       /// <inheritDoc />
-      public Boolean RemoveSink<T>() where T : class, ILogSink, new()
+      public Boolean RemoveSinkOfType<T>() where T : ILogSink
       {
          var type = typeof(T);
          lock(m_lock)
@@ -213,6 +218,7 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
+      [StringFormatMethod( "message" )]
       public void Trace( String message, params Object[] messageArgs )
       {
          if(LogLevel.Trace >= LogLevel)
@@ -222,6 +228,7 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
+      [StringFormatMethod( "message" )]
       public void Trace( Object[] objects, String message, params Object[] messageArgs )
       {
          if(LogLevel.Trace >= LogLevel)
@@ -240,6 +247,7 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
+      [StringFormatMethod( "message" )]
       public void Warn( String message, params Object[] messageArgs )
       {
          if(LogLevel.Warn >= LogLevel)
@@ -249,6 +257,7 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
+      [StringFormatMethod( "message" )]
       public void Warn( Object[] objects, String message, params Object[] messageArgs )
       {
          if(LogLevel.Warn >= LogLevel)
@@ -259,6 +268,8 @@ namespace nexus.core.logging
 
       private void CreateLogEntry( LogLevel level, Object[] structuredData, String message, Object[] messageArgs )
       {
+         // TODO: create new level that runs through all objects in structuredData and serializes them to another type
+         // Eg, for the exception serializer it would be nice to add it at this top-level and not have to serialize at the call-site
          var entry = new LogEntry( Id, TimeSource.UtcNow, level, message, messageArgs, structuredData );
          foreach(var decorator in m_decorators)
          {
