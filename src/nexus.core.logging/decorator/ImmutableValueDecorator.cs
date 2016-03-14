@@ -7,16 +7,29 @@ namespace nexus.core.logging.decorator
    /// </summary>
    public class ImmutableValueDecorator<T> : ILogEntryDecorator
    {
-      public ImmutableValueDecorator( T data )
+      public ImmutableValueDecorator( T value )
       {
-         Data = data;
+         Value = value;
       }
 
-      public T Data { get; }
+      public T Value { get; }
 
       public Object Augment( ILogEntry entry )
       {
-         return Data;
+         return Value;
+      }
+   }
+
+   public static class ImmutableValueDecorator
+   {
+      public static ImmutableValueDecorator<T> Create<T>() where T : new()
+      {
+         return Create( new T() );
+      }
+
+      public static ImmutableValueDecorator<T> Create<T>( T value )
+      {
+         return new ImmutableValueDecorator<T>( value );
       }
    }
 }

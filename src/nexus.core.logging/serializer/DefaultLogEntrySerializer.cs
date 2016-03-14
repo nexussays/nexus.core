@@ -26,7 +26,7 @@ namespace nexus.core.logging.serializer
       {
          var message = entry.FormatMessageAndArguments( FormatProvider );
          return Format(
-            "{0} {1}{2,-7} {3}{4}",
+            "{0} {1}{2,-7} {3}",
             entry.Timestamp.ToUnixTimestampInMilliseconds(),
             entry.LogId == null ? "" : "{0}: " + entry.LogId,
             Format( "[{0}]", entry.Severity ).ToUpperInvariant(),

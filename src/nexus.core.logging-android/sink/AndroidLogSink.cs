@@ -13,7 +13,7 @@ namespace nexus.core.logging.sink
       public void Handle( ILogEntry entry, Deferred<String> serializedEntry )
       {
          var ex = entry.GetData<IException>();
-         var name = entry.LogId;
+         var name = entry.LogId ?? "AndroidLogSink";
          var message = entry.FormatMessageAndArguments() + (ex?.ToString() ?? "");
          switch(entry.Severity)
          {
@@ -27,6 +27,7 @@ namespace nexus.core.logging.sink
                Android.Util.Log.Info( name, message );
                break;
             case LogLevel.Trace:
+            default:
                Android.Util.Log.Debug( name, message );
                break;
          }
