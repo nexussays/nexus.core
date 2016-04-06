@@ -12,11 +12,11 @@ namespace nexus.core.logging.decorator
    /// If the <see cref="ILogEntry" /> has an <see cref="Exception" /> attached, then serialize it to
    /// <see cref="IException" /> and decorate.
    /// </summary>
-   public class LogEntryExceptionDecorator : ILogEntryDecorator
+   public class LogEntryExceptionSerializerDecorator : ILogEntryDecorator
    {
       private readonly IExceptionSerializer m_serializer;
 
-      public LogEntryExceptionDecorator( IExceptionSerializer serializer )
+      public LogEntryExceptionSerializerDecorator( IExceptionSerializer serializer )
       {
          if(serializer == null)
          {

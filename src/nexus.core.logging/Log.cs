@@ -34,16 +34,16 @@ namespace nexus.core.logging
       }
 
       [Conditional( "DEBUG" )]
-      public static void Debug( params Object[] objects )
+      public static void Debug( Object[] objects )
       {
          s_instance.Trace( objects );
       }
 
       [StringFormatMethod( "message" )]
       [Conditional( "DEBUG" )]
-      public static void Debug( String message, params Object[] args )
+      public static void Debug( String message, params Object[] messageArgs )
       {
-         s_instance.Trace( message, args );
+         s_instance.Trace( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
@@ -61,15 +61,15 @@ namespace nexus.core.logging
          LogExtensions.Trace( s_instance, exception, message, messageArgs );
       }
 
-      public static void Error( params Object[] objects )
+      public static void Error( Object[] objects )
       {
          s_instance.Error( objects );
       }
 
       [StringFormatMethod( "message" )]
-      public static void Error( String message, params Object[] args )
+      public static void Error( String message, params Object[] messageArgs )
       {
-         s_instance.Error( message, args );
+         s_instance.Error( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
@@ -85,15 +85,15 @@ namespace nexus.core.logging
          LogExtensions.Error( s_instance, exception, message, messageArgs );
       }
 
-      public static void Info( params Object[] objects )
+      public static void Info( Object[] objects )
       {
          s_instance.Info( objects );
       }
 
       [StringFormatMethod( "message" )]
-      public static void Info( String message, params Object[] args )
+      public static void Info( String message, params Object[] messageArgs )
       {
-         s_instance.Info( message, args );
+         s_instance.Info( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
@@ -109,15 +109,15 @@ namespace nexus.core.logging
          LogExtensions.Info( s_instance, exception, message, messageArgs );
       }
 
-      public static void Trace( params Object[] objects )
+      public static void Trace( Object[] objects )
       {
          s_instance.Trace( objects );
       }
 
       [StringFormatMethod( "message" )]
-      public static void Trace( String message, params Object[] args )
+      public static void Trace( String message, params Object[] messageArgs )
       {
-         s_instance.Trace( message, args );
+         s_instance.Trace( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
@@ -133,15 +133,15 @@ namespace nexus.core.logging
          LogExtensions.Trace( s_instance, exception, message, messageArgs );
       }
 
-      public static void Warn( params Object[] objects )
+      public static void Warn( Object[] objects )
       {
          s_instance.Warn( objects );
       }
 
       [StringFormatMethod( "message" )]
-      public static void Warn( String message, params Object[] args )
+      public static void Warn( String message, params Object[] messageArgs )
       {
-         s_instance.Warn( message, args );
+         s_instance.Warn( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
