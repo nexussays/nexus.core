@@ -34,9 +34,6 @@
     <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\nexus.core.logging-net\decorator\ILogEntryOriginPoint.cs">
-      <Link>decorator\ILogEntryOriginPoint.cs</Link>
-    </Compile>
     <Compile Include="..\nexus.core.logging-net\decorator\LogEntryOriginPointDecorator.cs">
       <Link>decorator\LogEntryOriginPointDecorator.cs</Link>
     </Compile>

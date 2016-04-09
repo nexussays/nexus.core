@@ -62,7 +62,7 @@ namespace nexus.core.logging
                ? String.Format( formatter ?? CultureInfo.InvariantCulture, message, args )
                : message;
          }
-         catch(FormatException ex)
+         catch(/*Format*/Exception ex)
          {
             return "** LOG [ERROR] in formatter ** string={0} arg_length={1} error={2}".F(
                message,

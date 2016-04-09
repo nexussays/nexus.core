@@ -155,7 +155,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="decorator\ILogEntryOriginPoint.cs" />
     <Compile Include="decorator\LogEntryOriginPointDecorator.cs" />
     <Compile Include="sink\ConsoleLogSink.cs" />
     <Compile Include="sink\TraceLogSink.cs" />
