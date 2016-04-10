@@ -83,15 +83,15 @@ namespace nexus.core
          }
          catch(ArgumentException ex)
          {
-            throw new ArgumentException( "{0} While converting {1} to {2}".F( ex.Message, value, to ), ex );
+            throw new ArgumentException( "{0} While converting {1} to {2}".F( ex.Message, value ?? "null", to ), ex );
          }
          catch(FormatException ex)
          {
-            throw new FormatException( "{0} While converting {1} to {2}".F( ex.Message, value, to ), ex );
+            throw new FormatException( "{0} While converting {1} to {2}".F( ex.Message, value ?? "null", to ), ex );
          }
          catch(OverflowException ex)
          {
-            throw new OverflowException( "{0} While converting {1} to {2}".F( ex.Message, value, to ), ex );
+            throw new OverflowException( "{0} While converting {1} to {2}".F( ex.Message, value ?? "null", to ), ex );
          }
       }
 

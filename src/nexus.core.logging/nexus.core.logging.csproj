@@ -62,6 +62,7 @@
     <Compile Include="serializer\DefaultLogEntrySerializer.cs" />
     <Compile Include="decorator\LogEntryExceptionSerializerDecorator.cs" />
     <Compile Include="sink\DebugLogSink.cs" />
+    <Compile Include="sink\LogSink.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations.PCL328">

@@ -289,7 +289,7 @@ namespace nexus.core.logging
                      ex ) );
             }
          }
-         var serialized = new Deferred<String>(
+         var serialized = Deferred.Of(
             () =>
             {
                try
