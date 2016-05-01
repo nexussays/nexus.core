@@ -33,4 +33,12 @@ namespace nexus.core.logging.sink
          }
       }
    }
+
+   public static class AndroidLogSinkExtensions
+   {
+      public static void AddAndroidLogSink( this ILogSource log )
+      {
+         log.AddSink( new AndroidLogSink() );
+      }
+   }
 }

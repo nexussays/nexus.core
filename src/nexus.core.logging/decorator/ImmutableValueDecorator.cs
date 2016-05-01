@@ -28,6 +28,11 @@ namespace nexus.core.logging.decorator
 
    public static class ImmutableValueDecorator
    {
+      public static void AddDecoratorConstant<T>( this ILogControl log, T value )
+      {
+         log.AddDecorator( Create( value ) );
+      }
+
       public static ImmutableValueDecorator<T> Create<T>() where T : new()
       {
          return Create( new T() );

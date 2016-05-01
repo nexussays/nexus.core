@@ -10,10 +10,25 @@ using System.Diagnostics.Contracts;
 namespace nexus.core.logging.sink
 {
    /// <summary>
-   /// Static utility methods to create <see cref="ILogSink"/> from an action
+   /// Static utility methods to create <see cref="ILogSink" /> from an action
    /// </summary>
    public static class LogSink
    {
+      public static void AddActionSink( this ILogSource log, Action<ILogEntry, Deferred<String>> handler )
+      {
+         log.AddSink( Create( handler ) );
+      }
+
+      public static void AddActionSink( this ILogSource log, Action<ILogEntry> handler )
+      {
+         log.AddSink( Create( handler ) );
+      }
+
+      public static void AddActionSink( this ILogSource log, Action<Deferred<String>> handler )
+      {
+         log.AddSink( Create( handler ) );
+      }
+
       public static ILogSink Create( Action<ILogEntry, Deferred<String>> handler )
       {
          return new DynamicLogSink( handler );
@@ -29,7 +44,7 @@ namespace nexus.core.logging.sink
          return new DynamicLogSink( ( e, s ) => handler( s ) );
       }
 
-      private class DynamicLogSink : ILogSink
+      private sealed class DynamicLogSink : ILogSink
       {
          private readonly Action<ILogEntry, Deferred<String>> m_handler;
 

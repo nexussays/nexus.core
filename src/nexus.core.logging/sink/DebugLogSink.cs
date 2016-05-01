@@ -9,6 +9,7 @@ using System.Diagnostics;
 
 namespace nexus.core.logging.sink
 {
+#if DEBUG
    /// <summary>
    /// Send all log data to <see cref="Debug.WriteLine(string)" />
    /// </summary>
@@ -20,4 +21,14 @@ namespace nexus.core.logging.sink
          Debug.WriteLine( serializedEntry.Value );
       }
    }
+
+   public static class DebugLogSinkExtensions
+   {
+      [Conditional( "DEBUG" )]
+      public static void AddDebugLogSink( this ILogSource log )
+      {
+         log.AddSink( new DebugLogSink() );
+      }
+   }
+#endif
 }
