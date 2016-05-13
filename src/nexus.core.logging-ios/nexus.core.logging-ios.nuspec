@@ -3,7 +3,7 @@
 <package>
    <metadata>
       <id>nexus.core.logging-ios</id>
-      <version>0.13.0</version>
+      <version>0.13.1</version>
       <authors>nexussays</authors>
       <owners></owners>
       <description>iOS implementations of Core.Logging (sinks, decorators, and serializers)</description>
@@ -17,7 +17,7 @@
       <copyright>Copyright Malachi Griffie</copyright>
       <dependencies>
          <dependency id="nexus.core.logging"
-                     version="0.13.0" />
+                     version="0.13.1" />
       </dependencies>
       <references></references>
       <tags></tags>

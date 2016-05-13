@@ -9,26 +9,8 @@ using System.Diagnostics.Contracts;
 
 namespace nexus.core.logging.sink
 {
-   /// <summary>
-   /// Static utility methods to create <see cref="ILogSink" /> from an action
-   /// </summary>
    public static class LogSink
    {
-      public static void AddSink( this ILogSource log, Action<ILogEntry, Deferred<String>> handler )
-      {
-         log.AddSink( Create( handler ) );
-      }
-
-      public static void AddSink( this ILogSource log, Action<ILogEntry> handler )
-      {
-         log.AddSink( Create( handler ) );
-      }
-
-      public static void AddSink( this ILogSource log, Action<Deferred<String>> handler )
-      {
-         log.AddSink( Create( handler ) );
-      }
-
       public static ILogSink Create( Action<ILogEntry, Deferred<String>> handler )
       {
          return new DynamicLogSink( handler );

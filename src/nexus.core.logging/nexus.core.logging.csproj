@@ -59,6 +59,8 @@
     <Compile Include="LogLevel.cs" />
     <Compile Include="LogSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="serializer\LogEntrySerializer.cs" />
+    <Compile Include="serializer\CustomLogEntrySerializer.cs" />
     <Compile Include="serializer\DefaultLogEntrySerializer.cs" />
     <Compile Include="decorator\LogEntryExceptionSerializerDecorator.cs" />
     <Compile Include="sink\DebugLogSink.cs" />

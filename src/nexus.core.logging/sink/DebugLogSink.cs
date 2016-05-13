@@ -23,13 +23,4 @@ namespace nexus.core.logging.sink
          Debug.WriteLine( serializedEntry.Value );
       }
    }
-
-   public static class DebugLogSinkExtensions
-   {
-      [Conditional( "DEBUG" )]
-      public static void AddDebugLogSink( this ILogSource log )
-      {
-         log.AddSink( new DebugLogSink() );
-      }
-   }
 }

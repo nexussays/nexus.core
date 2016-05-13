@@ -87,4 +87,13 @@ namespace nexus.core.logging.decorator
          public String Namespace { get; internal set; }
       }
    }
+
+   public static class LogEntryOriginPointDecoratorExtensions
+   {
+      [Conditional( "DEBUG" )]
+      public static void AddLogEntryOriginPointDecorator( this ILogSource log )
+      {
+         log.AddDecorator( new LogEntryOriginPointDecorator() );
+      }
+   }
 }
