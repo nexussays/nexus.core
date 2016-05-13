@@ -9,13 +9,15 @@ using System.Diagnostics;
 
 namespace nexus.core.logging.sink
 {
-#if DEBUG
    /// <summary>
    /// Send all log data to <see cref="Debug.WriteLine(string)" />
    /// </summary>
-   public class DebugLogSink : ILogSink
+   internal class DebugLogSink : ILogSink
    {
       /// <inheritDoc />
+      /// <remarks>
+      /// Will not work in Release mode
+      /// </remarks>
       public void Handle( ILogEntry entry, Deferred<String> serializedEntry )
       {
          Debug.WriteLine( serializedEntry.Value );
@@ -30,5 +32,4 @@ namespace nexus.core.logging.sink
          log.AddSink( new DebugLogSink() );
       }
    }
-#endif
 }

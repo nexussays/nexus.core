@@ -14,17 +14,17 @@ namespace nexus.core.logging.sink
    /// </summary>
    public static class LogSink
    {
-      public static void AddActionSink( this ILogSource log, Action<ILogEntry, Deferred<String>> handler )
+      public static void AddSink( this ILogSource log, Action<ILogEntry, Deferred<String>> handler )
       {
          log.AddSink( Create( handler ) );
       }
 
-      public static void AddActionSink( this ILogSource log, Action<ILogEntry> handler )
+      public static void AddSink( this ILogSource log, Action<ILogEntry> handler )
       {
          log.AddSink( Create( handler ) );
       }
 
-      public static void AddActionSink( this ILogSource log, Action<Deferred<String>> handler )
+      public static void AddSink( this ILogSource log, Action<Deferred<String>> handler )
       {
          log.AddSink( Create( handler ) );
       }

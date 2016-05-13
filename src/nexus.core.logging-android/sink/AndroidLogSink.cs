@@ -8,6 +8,9 @@ using System;
 
 namespace nexus.core.logging.sink
 {
+   /// <summary>
+   /// Write all log entries to <see cref="Android.Util.Log" />
+   /// </summary>
    public class AndroidLogSink : ILogSink
    {
       public void Handle( ILogEntry entry, Deferred<String> serializedEntry )
@@ -36,6 +39,9 @@ namespace nexus.core.logging.sink
 
    public static class AndroidLogSinkExtensions
    {
+      /// <summary>
+      /// Attach <see cref="AndroidLogSink" /> to write all log entries to <see cref="Android.Util.Log" />
+      /// </summary>
       public static void AddAndroidLogSink( this ILogSource log )
       {
          log.AddSink( new AndroidLogSink() );

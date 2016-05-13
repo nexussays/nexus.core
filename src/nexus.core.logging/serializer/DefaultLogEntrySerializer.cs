@@ -6,31 +6,68 @@
 
 using System;
 using JetBrains.Annotations;
+using nexus.core.logging.decorator;
 using nexus.core.time;
 
 namespace nexus.core.logging.serializer
 {
    /// <summary>
-   /// Serializes log entries to "[timestamp]
+   /// Serializes log entries to "Timestamp LogId: [Severity] Message"
    /// </summary>
    public class DefaultLogEntrySerializer : ILogEntrySerializer
    {
+      public enum TimestampFormat
+      {
+         UnixTimeInMs,
+         Iso8601
+      }
+
+      protected const String NEW_LINE = "\n"; //System.Environment.NewLine;
+
       public DefaultLogEntrySerializer( IFormatProvider formatter = null )
       {
          FormatProvider = formatter;
       }
 
+      /// <summary>
+      /// If true, any <see cref="IException" /> attached to the log entry will be emitted to the serialized string
+      /// </summary>
+      public Boolean DisplayExceptionIfAttached { get; set; }
+
+      /// <summary>
+      /// If true, any <see cref="ILogEntryOriginPoint" /> attached to the log entry will be emitted to the serialized string
+      /// </summary>
+      public Boolean DisplayOriginIfAttached { get; set; }
+
       public IFormatProvider FormatProvider { get; set; }
+
+      public TimestampFormat Timestamp { get; set; }
 
       public virtual String Serialize( ILogEntry entry )
       {
          var message = entry.FormatMessageAndArguments( FormatProvider );
+         var origin = "";
+         if(DisplayOriginIfAttached)
+         {
+            origin = IfAttached<ILogEntryOriginPoint>(
+               entry,
+               o => Format( "<{0}.{1}:{2}> ", o.NamespaceQualifiedName(), o.MethodName, o.Line ) );
+         }
+         var ex = "";
+         if(DisplayExceptionIfAttached)
+         {
+            ex = IfAttached<IException>( entry, exception => (message != null ? NEW_LINE : String.Empty) + exception );
+         }
          return Format(
-            "{0} {1}{2,-7} {3}",
-            entry.Timestamp.ToUnixTimestampInMilliseconds(),
-            entry.LogId == null ? "" : "{0}: " + entry.LogId,
+            "{0} {1,-7}{2}{3} {4}{5}",
+            Timestamp == TimestampFormat.Iso8601
+               ? "{0,-24:yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK}".F( entry.Timestamp )
+               : entry.Timestamp.ToUnixTimestampInMilliseconds().ToString(),
             Format( "[{0}]", entry.Severity ).ToUpperInvariant(),
-            message ); //,
+            entry.LogId.IsNullOrEmpty() ? "" : entry.LogId + ": ",
+            origin,
+            message,
+            ex ); //,
          // TODO: Implement serialization flow for attached objects, allow submitting serializers and store ISet<T,ISerializer<T, String>>
          //String.Join( ", ", entry.Data.Select( x => x.ToString() ) ) );
       }
