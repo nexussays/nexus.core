@@ -3,7 +3,9 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
+using System.Diagnostics.Contracts;
 
 namespace nexus.core
 {
@@ -18,14 +20,39 @@ namespace nexus.core
          return obj;
       }
 
+      public static Boolean IsNullableType( this Type type )
+      {
+         Contract.Requires( type != null );
+         return type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+      }
+
       /// <summary>
       /// Swap the two provided object references
       /// </summary>
       public static void Swap<T>( ref T x, ref T y )
       {
-         T tmp = x;
+         var tmp = x;
          x = y;
          y = tmp;
+      }
+
+      /// <summary>
+      /// Useful to generate an exception from library code to test exception handling
+      /// <code>return 100 / 0;</code>
+      /// </summary>
+      public static Int32 ThrowDivideByZero()
+      {
+         var zero = 0;
+         return 100 / zero;
+      }
+
+      /// <summary>
+      /// Useful to generate an exception from library code to test exception handling
+      /// <code>throw new Exception("Manually thrown exception.");</code>
+      /// </summary>
+      public static void ThrowException()
+      {
+         throw new Exception( "Manually thrown exception." );
       }
 
       /// <summary>

@@ -18,7 +18,8 @@ namespace nexus.core
 
       /// <summary>
       /// Indicates whether or not the exception was handled by the application code in order to determine severity of the
-      /// exception.
+      /// exception. Handled exceptions are less severe because they don't impact the user experience like an unhandled exception
+      /// would.
       /// </summary>
       Boolean? Handled { get; }
 
@@ -36,6 +37,7 @@ namespace nexus.core
       /// A text representation of the stack frames. Typically only one of <see cref="StackFrames" /> or
       /// <see cref="StackTrace" /> will be set.
       /// </summary>
+      /// TODO: Remove the need for this and parse stacktrace strings on each platform
       String StackTrace { get; }
    }
 }

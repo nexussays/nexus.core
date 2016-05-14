@@ -26,8 +26,10 @@ namespace nexus.core.logging
    public sealed class LogSource : ILogSource
    {
       private readonly ISet<ILogEntryDecorator> m_decorators;
+      private readonly List<ILogEntry> m_entries;
       private readonly Object m_lock = new Object();
       private readonly ISet<ILogSink> m_sinks;
+      private UInt32 m_entryCount;
 
       public LogSource( ITimeSource timeSource, ILogEntrySerializer serializer )
       {
@@ -37,6 +39,8 @@ namespace nexus.core.logging
          TimeSource = timeSource;
          Serializer = serializer;
          LogLevel = LogLevel.Info;
+         m_entryCount = 0;
+         m_entries = new List<ILogEntry>( 50 );
          m_sinks = new HashSet<ILogSink>();
          m_decorators = new HashSet<ILogEntryDecorator>();
       }

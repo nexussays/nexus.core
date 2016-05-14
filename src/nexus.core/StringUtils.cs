@@ -27,7 +27,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// String.IsNullOrEmpty(value) as an extension method
+      /// Syntax sugar for <code>String.IsNullOrEmpty(value)</code>
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
       public static Boolean IsNullOrEmpty( this String value )
@@ -36,7 +36,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// String.IsNullOrWhiteSpace(value) as an extension method
+      /// Syntax sugar for <code>String.IsNullOrWhiteSpace(value)</code>
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
       public static Boolean IsNullOrWhiteSpace( this String value )
@@ -48,13 +48,19 @@ namespace nexus.core
       /// <summary>
       /// Removes any of the characters in stripValues from the source string
       /// </summary>
-      /// <param name="source"></param>
-      /// <param name="stripValues"></param>
-      /// <returns>The new string</returns>
       [System.Diagnostics.Contracts.Pure]
       public static String StripCharacters( this String source, String stripValues )
       {
          return source.IsNullOrEmpty() ? source : Regex.Replace( source, "[" + Regex.Escape( stripValues ) + "]", "" );
+      }
+
+      /// <summary>
+      /// Removes any of the characters in stripValues from the source string
+      /// </summary>
+      [System.Diagnostics.Contracts.Pure]
+      public static String StripCharacters( this String source, params Char[] stripValues )
+      {
+         return StripCharacters( source, String.Join( "", stripValues ) );
       }
 
       /// <summary>
