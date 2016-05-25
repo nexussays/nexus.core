@@ -2,7 +2,7 @@
 
 [assembly: AssemblyTitle("nexus.core.logging-android")]
 [assembly: AssemblyProduct("nexus.core.logging-android")]
-[assembly: AssemblyVersion("0.14.0")]
+[assembly: AssemblyVersion("0.14.1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
