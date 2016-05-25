@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyTitle( "nexus.core" )]
-[assembly: AssemblyProduct( "nexus.core" )]
+[assembly: AssemblyTitle( "nexus.core.logging-ios" )]
+[assembly: AssemblyProduct( "nexus.core.logging-ios" )]
 [assembly: AssemblyVersion( "0.14.0" )]
 [assembly: AssemblyDescription( "" )]
 [assembly: AssemblyConfiguration( "" )]

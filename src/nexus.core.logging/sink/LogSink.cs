@@ -21,11 +21,6 @@ namespace nexus.core.logging.sink
          return new DynamicLogSink( ( e, s ) => handler( e ) );
       }
 
-      public static ILogSink Create( Action<Deferred<String>> handler )
-      {
-         return new DynamicLogSink( ( e, s ) => handler( s ) );
-      }
-
       private sealed class DynamicLogSink : ILogSink
       {
          private readonly Action<ILogEntry, Deferred<String>> m_handler;

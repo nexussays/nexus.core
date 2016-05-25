@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>nexus.core.logging</RootNamespace>
     <AssemblyName>nexus.core.logging-ios</AssemblyName>
-    <OutputPath>..\..\artifacts\bin\$(MSBuildThisFileName)\$(Configuration)\$(Platform)</OutputPath>
+    <OutputPath>..\..\artifacts\bin\nexus.core.logging-ios\$(Configuration)\$(Platform)</OutputPath>
     <NuGetPackageImportStamp>f3b7dbbd</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -43,6 +43,7 @@
     <Compile Include="..\nexus.core.logging-net\sink\TraceLogSink.cs">
       <Link>sink\TraceLogSink.cs</Link>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

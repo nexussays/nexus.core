@@ -5,7 +5,6 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
-using System.Diagnostics;
 using nexus.core.logging.decorator;
 using nexus.core.logging.sink;
 
@@ -13,12 +12,6 @@ namespace nexus.core.logging
 {
    public static class LogControlExtensions
    {
-      [Conditional( "DEBUG" )]
-      public static void AddDebugLogSink( this ILogControl log )
-      {
-         log.AddSink( new DebugLogSink() );
-      }
-
       public static void AddDecoratorConstant<T>( this ILogControl log, T value )
       {
          log.AddDecorator( ImmutableValueDecorator.Create( value ) );
@@ -30,11 +23,6 @@ namespace nexus.core.logging
       }
 
       public static void AddSink( this ILogControl log, Action<ILogEntry> handler )
-      {
-         log.AddSink( LogSink.Create( handler ) );
-      }
-
-      public static void AddSink( this ILogControl log, Action<Deferred<String>> handler )
       {
          log.AddSink( LogSink.Create( handler ) );
       }

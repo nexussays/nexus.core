@@ -32,7 +32,7 @@ namespace nexus.core.logging.sink
 
    public static class TraceLogSinkExtensions
    {
-      public static void AddTraceLogSink( this ILogSource log )
+      public static void AddTraceLogSink( this ILogControl log )
       {
          log.AddSink( new TraceLogSink() );
       }

@@ -29,7 +29,7 @@ namespace nexus.core.logging.sink
 
    public static class ConsoleLogSinkExtensions
    {
-      public static void AddConsoleLogSink( this ILogSource log )
+      public static void AddConsoleLogSink( this ILogControl log )
       {
          log.AddSink( new ConsoleLogSink() );
       }

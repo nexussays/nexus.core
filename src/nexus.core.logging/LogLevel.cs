@@ -17,8 +17,7 @@ namespace nexus.core.logging
       /// and the steps leading up to errors and warnings. These messages should be useful in debugging the application in both
       /// development and in troubleshooting customer-reported issues in production. The value, location, and number of Trace
       /// statements will change over time the application evolves (eg, it is often helpful early in an application's life to log
-      /// user input such as changing
-      /// displays or tabs).
+      /// user input such as changing displays or tabs).
       /// </summary>
       Trace = 0,
 

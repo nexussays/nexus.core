@@ -15,7 +15,7 @@
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>..\..\artifacts\bin\$(MSBuildThisFileName)\$(Configuration)\$(Platform)</OutputPath>
+    <OutputPath>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,7 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="nexus.core.logging.nuspec" />
+    <None Include="nexus.core.logging.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
@@ -63,7 +65,6 @@
     <Compile Include="serializer\CustomLogEntrySerializer.cs" />
     <Compile Include="serializer\DefaultLogEntrySerializer.cs" />
     <Compile Include="decorator\LogEntryExceptionSerializerDecorator.cs" />
-    <Compile Include="sink\DebugLogSink.cs" />
     <Compile Include="sink\LogSink.cs" />
   </ItemGroup>
   <ItemGroup>

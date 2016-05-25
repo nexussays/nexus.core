@@ -3,7 +3,7 @@
 <package>
    <metadata>
       <id>nexus.core.logging-android</id>
-      <version>0.13.1</version>
+      <version>0.14.0</version>
       <authors>nexussays</authors>
       <owners></owners>
       <description>Android implementations of Core.Logging (sinks, decorators, and serializers)</description>
@@ -17,7 +17,7 @@
       <copyright>Copyright Malachi Griffie</copyright>
       <dependencies>
          <dependency id="nexus.core.logging"
-                     version="0.13.1" />
+                     version="0.14.0" />
       </dependencies>
       <references></references>
       <tags></tags>

@@ -42,7 +42,7 @@ namespace nexus.core.logging.sink
       /// <summary>
       /// Attach <see cref="AndroidLogSink" /> to write all log entries to <see cref="Android.Util.Log" />
       /// </summary>
-      public static void AddAndroidLogSink( this ILogSource log )
+      public static void AddAndroidLogSink( this ILogControl log )
       {
          log.AddSink( new AndroidLogSink() );
       }

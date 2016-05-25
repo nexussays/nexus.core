@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyTitle( "Core.Logging" )]
+[assembly: AssemblyTitle( "nexus.core.logging" )]
+[assembly: AssemblyProduct( "nexus.core.logging" )]
+[assembly: AssemblyVersion( "0.14.0" )]
 [assembly: AssemblyDescription( "" )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "" )]
-[assembly: AssemblyProduct( "Core.Logging" )]
 [assembly: AssemblyCopyright( "Copyright Malachi Griffie" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]

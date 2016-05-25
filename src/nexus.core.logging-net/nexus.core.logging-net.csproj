@@ -12,7 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile />
-    <OutputPath>..\..\artifacts\bin\$(MSBuildThisFileName)\$(Configuration)\$(Platform)</OutputPath>
+    <OutputPath>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)</OutputPath>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <NuGetPackageImportStamp>9cd44bfd</NuGetPackageImportStamp>
   </PropertyGroup>

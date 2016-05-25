@@ -3,7 +3,7 @@
 <package>
    <metadata>
       <id>nexus.core</id>
-      <version>0.13.1</version>
+      <version>0.14.0</version>
       <authors>nexussays</authors>
       <owners></owners>
       <description>Core utilities and data structures</description>
@@ -15,10 +15,7 @@
       <requireLicenseAcceptance>false</requireLicenseAcceptance>
       <licenseUrl>https://www.mozilla.org/en-US/MPL/2.0/</licenseUrl>
       <copyright>Copyright Malachi Griffie</copyright>
-      <dependencies>
-         <dependency id="JetBrains.Annotations"
-                     version="10.0.0" />
-      </dependencies>
+      <dependencies></dependencies>
       <references></references>
       <tags></tags>
    </metadata>
