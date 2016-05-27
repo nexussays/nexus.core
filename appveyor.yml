@@ -1,4 +1,4 @@
 before_build:
   - nuget restore
 build:
-  project: Core.sln
+  project: nexus.core.sln
