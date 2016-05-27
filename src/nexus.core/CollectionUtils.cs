@@ -3,6 +3,7 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -11,6 +12,34 @@ namespace nexus.core
 {
    public static class CollectionUtils
    {
+      /// <param name="source">The list to shuffle in-place</param>
+      /// <param name="rand">Receives the max value and returns a random number less than that value</param>
+      private static void Shuffle<T>( this IList<T> source, Func<Int32, Int32> rand )
+      {
+         var i = source.Count;
+         while(i > 1)
+         {
+            var j = rand( i-- );
+            var temp = source[i];
+            source[i] = source[j];
+            source[j] = temp;
+         }
+      }
+
+      /// <param name="source">The array to shuffle in-place</param>
+      /// <param name="rand">Receives the max value and returns a random number less than that value</param>
+      private static void Shuffle<T>( this T[] source, Func<Int32, Int32> rand )
+      {
+         var i = source.Length;
+         while(i > 1)
+         {
+            var j = rand( i-- );
+            var temp = source[i];
+            source[i] = source[j];
+            source[j] = temp;
+         }
+      }
+
       public static void Add<TKey, TVal>( this ICollection<KeyValuePair<TKey, TVal>> dict, KeyValuePair<TKey, TVal> item )
       {
          Contract.Requires( dict != null );
@@ -183,6 +212,26 @@ namespace nexus.core
                dict.Set( item );
             }
          }
+      }
+
+      public static void Shuffle<T>( this T[] source, Random rand )
+      {
+         Shuffle( source, rand.Next );
+      }
+
+      public static void Shuffle<T>( this T[] source, Func<Double> rand )
+      {
+         Shuffle( source, i => (Int32)Math.Floor( rand() * i ) );
+      }
+
+      public static void Shuffle<T>( this IList<T> source, Random rand )
+      {
+         Shuffle( source, rand.Next );
+      }
+
+      public static void Shuffle<T>( this IList<T> source, Func<Double> rand )
+      {
+         Shuffle( source, i => (Int32)Math.Floor( rand() * i ) );
       }
 
       public static ImmutableDictionary<Tk, Tv> ToImmutable<Tk, Tv>( this IDictionary<Tk, Tv> source )
