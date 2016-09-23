@@ -37,7 +37,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nexus.core\nexus.core.csproj">
