@@ -9,6 +9,9 @@ using System.Diagnostics.Contracts;
 
 namespace nexus.core.logging.sink
 {
+   /// <summary>
+   /// Factory methods to create <see cref="ILogSink" /> instances
+   /// </summary>
    public static class LogSink
    {
       public static ILogSink Create( Action<ILogEntry, Deferred<String>> handler )
