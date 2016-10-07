@@ -49,7 +49,7 @@
       <Link>sink\TraceLogSink.cs</Link>
     </Compile>
     <Compile Include="sink\AndroidLogSink.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\android\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nexus.core.logging\nexus.core.logging.csproj">

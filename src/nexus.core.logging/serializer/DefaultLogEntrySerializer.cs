@@ -75,7 +75,7 @@ namespace nexus.core.logging.serializer
       /// <summary>
       /// Syntax-sugar utility method which calls <see cref="String.Format" /> with this instance's <see cref="FormatProvider" />
       /// </summary>
-      [StringFormatMethod( "format" )]
+      [core.Properties.resharper.StringFormatMethod( "format" )]
       protected String Format( String format, params Object[] args )
       {
          return String.Format( FormatProvider, format, args );

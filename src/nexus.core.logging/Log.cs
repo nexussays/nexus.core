@@ -6,7 +6,7 @@
 
 using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
+using nexus.core.Properties.resharper;
 
 namespace nexus.core.logging
 {

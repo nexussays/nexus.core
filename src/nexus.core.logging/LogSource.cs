@@ -9,8 +9,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using JetBrains.Annotations;
 using nexus.core.logging.serializer;
+using nexus.core.Properties.resharper;
 using nexus.core.time;
 
 namespace nexus.core.logging

@@ -43,7 +43,7 @@
     <Compile Include="..\nexus.core.logging-net\sink\TraceLogSink.cs">
       <Link>sink\TraceLogSink.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\ios\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
