@@ -13,25 +13,34 @@ namespace nexus.core.logging.sink
    /// </summary>
    public class AndroidLogSink : ILogSink
    {
+      private readonly String m_defaultLogId;
+
+      /// <summary>
+      /// </summary>
+      /// <param name="defaultLogId">Wll be used if <see cref="ILogEntry.LogId" /> is null</param>
+      public AndroidLogSink( String defaultLogId = null )
+      {
+         m_defaultLogId = defaultLogId;
+      }
+
       public void Handle( ILogEntry entry, Deferred<String> serializedEntry )
       {
-         var ex = entry.GetData<IException>();
-         var name = entry.LogId ?? "AndroidLogSink";
-         var message = entry.FormatMessageAndArguments() + (ex?.ToString() ?? "");
+         var message = serializedEntry.Value; //entry.FormatMessageAndArguments();
+         var id = entry.LogId ?? m_defaultLogId;
          switch(entry.Severity)
          {
             case LogLevel.Error:
-               Android.Util.Log.Error( name, message );
+               Android.Util.Log.Error( id, message );
                break;
             case LogLevel.Warn:
-               Android.Util.Log.Warn( name, message );
+               Android.Util.Log.Warn( id, message );
                break;
             case LogLevel.Info:
-               Android.Util.Log.Info( name, message );
+               Android.Util.Log.Info( id, message );
                break;
             case LogLevel.Trace:
             default:
-               Android.Util.Log.Debug( name, message );
+               Android.Util.Log.Debug( id, message );
                break;
          }
       }

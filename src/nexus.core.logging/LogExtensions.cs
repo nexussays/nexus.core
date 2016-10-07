@@ -8,7 +8,9 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using nexus.core.exception;
 using nexus.core.Properties.resharper;
+using nexus.core.serialization;
 
 namespace nexus.core.logging
 {
@@ -43,6 +45,13 @@ namespace nexus.core.logging
          log.Error( new Object[] {exception}, message, messageArgs );
       }
 
+      [StringFormatMethod( "message" )]
+      public static void ErrorException( this ILog log, ISerializer<Exception, IException> serializer,
+                                         Exception exception, String message = null, params Object[] messageArgs )
+      {
+         log.Error( new Object[] {serializer.Serialize( exception )}, message, messageArgs );
+      }
+
       /// <summary>
       /// Apply <see cref="String.Format(IFormatProvider,String,object[])" /> over <see cref="ILogEntry.Message" /> and
       /// <see cref="ILogEntry.MessageArguments" />; checking for null, invalid, and empty arguments. Catches any thrown
@@ -62,7 +71,7 @@ namespace nexus.core.logging
                ? String.Format( formatter ?? CultureInfo.InvariantCulture, message, args )
                : message;
          }
-         catch(/*Format*/Exception ex)
+         catch( /*Format*/Exception ex)
          {
             return "** LOG [ERROR] in formatter ** string={0} arg_length={1} error={2}".F(
                message,
@@ -72,37 +81,16 @@ namespace nexus.core.logging
       }
 
       [StringFormatMethod( "message" )]
-      public static void HandledExceptionError( this ILog log, IExceptionSerializer serializer, Exception exception,
-                                                String message = null, params Object[] messageArgs )
-      {
-         log.Error( new Object[] {serializer.Serialize( exception, true )}, message, messageArgs );
-      }
-
-      [StringFormatMethod( "message" )]
-      public static void HandledExceptionInfo( this ILog log, IExceptionSerializer serializer, Exception exception,
-                                               String message = null, params Object[] messageArgs )
-      {
-         log.Info( new Object[] {serializer.Serialize( exception, true )}, message, messageArgs );
-      }
-
-      [StringFormatMethod( "message" )]
-      public static void HandledExceptionTrace( this ILog log, IExceptionSerializer serializer, Exception exception,
-                                                String message = null, params Object[] messageArgs )
-      {
-         log.Trace( new Object[] {serializer.Serialize( exception, true )}, message, messageArgs );
-      }
-
-      [StringFormatMethod( "message" )]
-      public static void HandledExceptionWarn( this ILog log, IExceptionSerializer serializer, Exception exception,
-                                               String message = null, params Object[] messageArgs )
-      {
-         log.Warn( new Object[] {serializer.Serialize( exception, true )}, message, messageArgs );
-      }
-
-      [StringFormatMethod( "message" )]
       public static void Info( this ILog log, IException exception, String message = null, params Object[] messageArgs )
       {
          log.Info( new Object[] {exception}, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void InfoException( this ILog log, ISerializer<Exception, IException> serializer,
+                                        Exception exception, String message = null, params Object[] messageArgs )
+      {
+         log.Info( new Object[] {serializer.Serialize( exception )}, message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
@@ -111,29 +99,24 @@ namespace nexus.core.logging
          log.Trace( new Object[] {exception}, message, messageArgs );
       }
 
-      /// <summary>
-      /// Serialize this exception to <see cref="IException" />, mark it as unhandled, and write to
-      /// <see cref="Log.Error(object[])" />
-      /// </summary>
-      public static void UnhandledExceptionError( this ILog log, IExceptionSerializer serializer, Exception exception )
+      [StringFormatMethod( "message" )]
+      public static void TraceException( this ILog log, ISerializer<Exception, IException> serializer,
+                                         Exception exception, String message = null, params Object[] messageArgs )
       {
-         log.Error( new Object[] {serializer.Serialize( exception, false )} );
-      }
-
-      /// <summary>
-      /// Serialize this exception to <see cref="IException" />, mark it as unhandled, and write to
-      /// <see cref="Log.Error(object[])" />
-      /// </summary>
-      public static void UnhandledExceptionError( this ILog log, IExceptionSerializer serializer, Exception exception,
-                                                  String message, params Object[] messageArgs )
-      {
-         log.Error( new Object[] {serializer.Serialize( exception, false )}, message, messageArgs );
+         log.Trace( new Object[] {serializer.Serialize( exception )}, message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Warn( this ILog log, IException exception, String message = null, params Object[] messageArgs )
       {
          log.Warn( new Object[] {exception}, message, messageArgs );
+      }
+
+      [StringFormatMethod( "message" )]
+      public static void WarnException( this ILog log, ISerializer<Exception, IException> serializer,
+                                        Exception exception, String message = null, params Object[] messageArgs )
+      {
+         log.Warn( new Object[] {serializer.Serialize( exception )}, message, messageArgs );
       }
    }
 }

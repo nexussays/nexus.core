@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Threading;
 
 namespace nexus.core
 {
@@ -29,11 +30,12 @@ namespace nexus.core
       /// <summary>
       /// Swap the two provided object references
       /// </summary>
-      public static void Swap<T>( ref T x, ref T y )
+      public static void Swap<T>( ref T x, ref T y ) where T : class
       {
-         var tmp = x;
-         x = y;
-         y = tmp;
+         y = Interlocked.Exchange( ref x, y );
+         //var tmp = x;
+         //x = y;
+         //y = tmp;
       }
 
       /// <summary>

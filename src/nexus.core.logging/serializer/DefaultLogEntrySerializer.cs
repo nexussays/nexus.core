@@ -6,6 +6,7 @@
 
 using System;
 using JetBrains.Annotations;
+using nexus.core.exception;
 using nexus.core.logging.decorator;
 using nexus.core.time;
 

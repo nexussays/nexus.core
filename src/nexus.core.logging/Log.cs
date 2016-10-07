@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics;
+using nexus.core.exception;
 using nexus.core.Properties.resharper;
 
 namespace nexus.core.logging

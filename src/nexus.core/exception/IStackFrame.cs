@@ -6,7 +6,7 @@
 
 using System;
 
-namespace nexus.core
+namespace nexus.core.exception
 {
    public interface IStackFrame
    {

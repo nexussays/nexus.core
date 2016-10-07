@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nexus.core
+namespace nexus.core.exception
 {
    /// <summary>
    /// Interface for Exceptions that isn't a sealed class tied to .Net
@@ -15,13 +15,6 @@ namespace nexus.core
    public interface IException
    {
       String ClassName { get; }
-
-      /// <summary>
-      /// Indicates whether or not the exception was handled by the application code in order to determine severity of the
-      /// exception. Handled exceptions are less severe because they don't impact the user experience like an unhandled exception
-      /// would.
-      /// </summary>
-      Boolean? Handled { get; }
 
       IException InnerError { get; }
 

@@ -5,6 +5,8 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using nexus.core.exception;
+using nexus.core.serialization;
 
 namespace nexus.core.logging.decorator
 {
@@ -14,14 +16,14 @@ namespace nexus.core.logging.decorator
    /// </summary>
    public class LogEntryExceptionSerializerDecorator : ILogEntryDecorator
    {
-      private readonly IExceptionSerializer m_serializer;
+      private readonly ISerializer<Exception, IException> m_serializer;
 
-      public LogEntryExceptionSerializerDecorator( IExceptionSerializer serializer )
+      public LogEntryExceptionSerializerDecorator( ISerializer<Exception, IException> serializer )
       {
          if(serializer == null)
          {
             throw new ArgumentException(
-               "{0} must be provided a valid {1}".F( GetType().Name, nameof( IExceptionSerializer ) ),
+               "{0} must be provided a valid {1}".F( GetType().Name, nameof( ISerializer<Exception, IException> ) ),
                nameof( serializer ) );
          }
          m_serializer = serializer;
@@ -30,7 +32,7 @@ namespace nexus.core.logging.decorator
       public Object Augment( ILogEntry entry )
       {
          var ex = entry.GetData<Exception>();
-         return ex != null ? m_serializer.Serialize( ex, null ) : null;
+         return ex != null ? m_serializer.Serialize( ex ) : null;
       }
    }
 }

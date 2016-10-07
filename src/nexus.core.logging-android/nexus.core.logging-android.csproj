@@ -52,6 +52,9 @@
     <Compile Include="Properties\AssemblyInfoAndroid.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="nexus.core.logging-android.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\nexus.core.logging\nexus.core.logging.csproj">
       <Project>{a0d3d022-daf7-4a9f-aeb3-4c472e6f191b}</Project>
       <Name>nexus.core.logging</Name>
@@ -60,9 +63,6 @@
       <Project>{0bfb8710-a65c-453d-bd97-72f72d922156}</Project>
       <Name>nexus.core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="nexus.core.logging-android.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
