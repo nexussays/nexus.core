@@ -43,7 +43,7 @@
     <Compile Include="..\nexus.core.logging-net\sink\TraceLogSink.cs">
       <Link>sink\TraceLogSink.cs</Link>
     </Compile>
-    <Compile Include="Properties\ios\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfoiOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -64,5 +64,6 @@
   <ItemGroup>
     <None Include="nexus.core.logging-ios.nuspec" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using nexus.core.logging.Properties.dotnet;
+using nexus.core.logging.Properties;
 
-[assembly: AssemblyTitle( AssemblyInfo.APPID )]
-[assembly: AssemblyProduct( AssemblyInfo.APPID )]
+[assembly: AssemblyTitle( AssemblyInfoDotNet.APPID )]
+[assembly: AssemblyProduct( AssemblyInfoDotNet.APPID )]
 [assembly:
    AssemblyDescription( ".NET Framework 4.5 implementations of Core.Logging (sinks, decorators, and serializers)" )]
 [assembly: AssemblyConfiguration( "" )]
@@ -11,16 +11,16 @@ using nexus.core.logging.Properties.dotnet;
 [assembly: AssemblyCopyright( "Copyright Malachi Griffie" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
-[assembly: AssemblyInformationalVersion( AssemblyInfo.VERSION )]
-[assembly: AssemblyVersion( AssemblyInfo.VERSION )]
-[assembly: AssemblyFileVersion( AssemblyInfo.VERSION )]
+[assembly: AssemblyInformationalVersion( AssemblyInfoDotNet.VERSION )]
+[assembly: AssemblyVersion( AssemblyInfoDotNet.VERSION )]
+[assembly: AssemblyFileVersion( AssemblyInfoDotNet.VERSION )]
 
-namespace nexus.core.logging.Properties.dotnet
+namespace nexus.core.logging.Properties
 {
-   public static class AssemblyInfo
+   public static class AssemblyInfoDotNet
    {
-      public const String VERSION = "0.14.2";
-      public const String APPID = "nexus.core.logging-net";
+      public const String VERSION = AssemblyInfo.VERSION;
+      public const String APPID = AssemblyInfo.APPID + "-net";
 
       // ReSharper disable once ConditionIsAlwaysTrueOrFalse
       public const Boolean IS_DEBUG = 
