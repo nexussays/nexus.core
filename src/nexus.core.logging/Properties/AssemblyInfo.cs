@@ -21,7 +21,7 @@ namespace nexus.core.logging.Properties
 {
    public static class AssemblyInfo
    {
-      public const String VERSION = "0.14.2";
+      public const String VERSION = "0.15.0";
       public const String APPID = "nexus.core.logging";
 
       // ReSharper disable once ConditionIsAlwaysTrueOrFalse

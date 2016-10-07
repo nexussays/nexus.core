@@ -18,7 +18,7 @@ namespace nexus.core.Properties
 {
    public static class AssemblyInfo
    {
-      public const String VERSION = "0.14.2";
+      public const String VERSION = "0.15.0";
       public const String APPID = "nexus.core";
 
       // ReSharper disable once ConditionIsAlwaysTrueOrFalse
