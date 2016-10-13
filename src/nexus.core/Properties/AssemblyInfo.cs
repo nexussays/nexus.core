@@ -11,14 +11,15 @@ using nexus.core.Properties;
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 [assembly: AssemblyInformationalVersion( AssemblyInfo.VERSION )]
-[assembly: AssemblyVersion( AssemblyInfo.VERSION )]
-[assembly: AssemblyFileVersion( AssemblyInfo.VERSION )]
+[assembly: AssemblyVersion( AssemblyInfo.VERSION_SHORT )]
+[assembly: AssemblyFileVersion( AssemblyInfo.VERSION_SHORT )]
 
 namespace nexus.core.Properties
 {
    public static class AssemblyInfo
    {
-      public const String VERSION = "0.15.1";
+      public const String VERSION = "0.15.2";
+      public const String VERSION_SHORT = VERSION;
       public const String APPID = "nexus.core";
 
       // ReSharper disable once ConditionIsAlwaysTrueOrFalse

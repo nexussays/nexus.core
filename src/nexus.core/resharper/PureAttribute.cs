@@ -1,6 +1,6 @@
 using System;
 
-namespace nexus.core.Properties.resharper
+namespace nexus.core.resharper
 {
    /// <summary>
    /// Indicates that a method does not make any observable state changes.
