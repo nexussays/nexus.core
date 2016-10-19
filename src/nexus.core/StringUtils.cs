@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
-using nexus.core.Properties.resharper;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -18,7 +18,7 @@ namespace nexus.core
       /// Wraps String.Format() for more convenient use. eg - "Value {0}".@F(argument)
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
-      [Properties.resharper.Pure]
+      [resharper.Pure]
       [StringFormatMethod( "format" )]
       public static String F( this String format, params Object[] args )
       {
@@ -32,7 +32,7 @@ namespace nexus.core
       /// Syntax sugar for <code>String.IsNullOrEmpty(value)</code>
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
-      [Properties.resharper.Pure]
+      [resharper.Pure]
       public static Boolean IsNullOrEmpty( this String value )
       {
          return String.IsNullOrEmpty( value );
@@ -49,14 +49,14 @@ namespace nexus.core
       }
 
       [System.Diagnostics.Contracts.Pure]
-      [Properties.resharper.Pure]
+      [resharper.Pure]
       public static String Join( this String[] arr, String separator )
       {
          return String.Join( separator, arr );
       }
 
       [System.Diagnostics.Contracts.Pure]
-      [Properties.resharper.Pure]
+      [resharper.Pure]
       public static String Join( this IEnumerable<String> arr, String separator )
       {
          return String.Join( separator, arr );
@@ -66,7 +66,7 @@ namespace nexus.core
       /// Removes any of the characters in stripValues from the source string
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
-      [Properties.resharper.Pure]
+      [resharper.Pure]
       public static String StripCharacters( this String source, String stripValues )
       {
          return source.IsNullOrEmpty() ? source : Regex.Replace( source, "[" + Regex.Escape( stripValues ) + "]", "" );
@@ -76,7 +76,7 @@ namespace nexus.core
       /// Removes any of the characters in stripValues from the source string
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
-      [Properties.resharper.Pure]
+      [resharper.Pure]
       public static String StripCharacters( this String source, params Char[] stripValues )
       {
          return StripCharacters( source, String.Join( "", stripValues ) );
@@ -90,7 +90,7 @@ namespace nexus.core
       /// <param name="startAt">The character position at which to start the search. </param>
       /// <returns></returns>
       [System.Diagnostics.Contracts.Pure]
-      [Properties.resharper.Pure]
+      [resharper.Pure]
       public static Boolean Test( this Regex regex, String input, Int32? startAt = null )
       {
          if(startAt.HasValue)
