@@ -11,7 +11,7 @@ using System.Diagnostics.Contracts;
 namespace nexus.core.serialization.binary
 {
    /// <summary>
-   /// Use <see cref="Instance" /> instead.
+   /// Use <see cref="Instance" />
    /// </summary>
    public sealed class Base16Encoder : IBinaryEncoder
    {
@@ -24,10 +24,7 @@ namespace nexus.core.serialization.binary
          m_chars = SymbolTable;
       }
 
-      public IList<Char> SymbolTable
-      {
-         get { return "0123456789abcdef".ToCharArray(); }
-      }
+      public IList<Char> SymbolTable => "0123456789abcdef".ToCharArray();
 
       /// <summary>
       /// Decodes a hexadecimal string into a byte array.
@@ -49,20 +46,20 @@ namespace nexus.core.serialization.binary
          switch(source.Length)
          {
             case 1:
-               return new[] { Deserialize(source[0]) };
+               return new[] {Deserialize( source[0] )};
             case 2:
-               return new[] { Deserialize(source[0], source[1]) };
+               return new[] {Deserialize( source[0], source[1] )};
          }
-         return Deserialize(source.ToCharArray());
+         return Deserialize( source.ToCharArray() );
       }
 
       /// <exception cref="FormatException">If the provided characters are not valid base16 characters</exception>
       public Byte[] Deserialize( Char[] chars )
       {
-         Contract.Requires(chars != null);
-         Contract.Requires(chars.Length > 1);
-         Contract.Ensures(Contract.Result<Byte[]>() != null);
-         Contract.Ensures(Contract.Result<Byte[]>().Length == chars.Length / 2);
+         Contract.Requires( chars != null );
+         Contract.Requires( chars.Length > 1 );
+         Contract.Ensures( Contract.Result<Byte[]>() != null );
+         Contract.Ensures( Contract.Result<Byte[]>().Length == chars.Length / 2 );
 
          var newBytes = new Byte[chars.Length / 2];
          var odd = chars.Length % 2 == 1;
@@ -73,13 +70,13 @@ namespace nexus.core.serialization.binary
                if(x == 0 && odd)
                {
                   // if there are an odd number of characters then read the first one in solo
-                  newBytes[x] = (Byte)(0xf & m_chars.IndexOf(chars[x]));
+                  newBytes[x] = (Byte)(0xf & m_chars.IndexOf( chars[x] ));
                }
                else
                {
                   var index = (odd ? x + 1 : x) / 2;
-                  Contract.Assume(index < newBytes.Length);
-                  newBytes[index] = Deserialize(chars[x], chars[x + 1]);
+                  Contract.Assume( index < newBytes.Length );
+                  newBytes[index] = Deserialize( chars[x], chars[x + 1] );
                }
             }
             catch(Exception ex)
@@ -89,8 +86,8 @@ namespace nexus.core.serialization.binary
                      chars[x],
                      x,
                      chars[x + 1],
-                     x + 1),
-                  ex);
+                     x + 1 ),
+                  ex );
             }
          }
          return newBytes;
@@ -101,8 +98,8 @@ namespace nexus.core.serialization.binary
       public Byte Deserialize( Char digit1, Char? digit2 = null )
       {
          return digit2 == null
-            ? (Byte)(0xf & m_chars.IndexOf(digit1))
-            : (Byte)(((0xf & m_chars.IndexOf(digit1)) << 4) | (0xf & m_chars.IndexOf(digit2.Value)));
+            ? (Byte)(0xf & m_chars.IndexOf( digit1 ))
+            : (Byte)(((0xf & m_chars.IndexOf( digit1 )) << 4) | (0xf & m_chars.IndexOf( digit2.Value )));
       }
 
       /*
@@ -132,12 +129,12 @@ namespace nexus.core.serialization.binary
             result[charIndex++] = m_chars[((data[x] & 0xf0) >> 4)];
             result[charIndex++] = m_chars[(data[x] & 0x0f)];
          }
-         return new String(result);
+         return new String( result );
       }
 
       public String Serialize( Byte source )
       {
-         return new String(new[] { m_chars[((source & 0xf0) >> 4)], m_chars[(source & 0x0f)] });
+         return new String( new[] {m_chars[((source & 0xf0) >> 4)], m_chars[(source & 0x0f)]} );
       }
    }
 }

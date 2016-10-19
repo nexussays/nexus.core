@@ -66,6 +66,7 @@
     <Compile Include="Properties\resharper\StringFormatMethodAttribute.cs" />
     <Compile Include="serialization\binary\Base16Encoder.cs" />
     <Compile Include="serialization\binary\Base16EncoderExtensions.cs" />
+    <Compile Include="serialization\binary\Base64Encoder.cs" />
     <Compile Include="serialization\binary\IBinaryEncoder.cs" />
     <Compile Include="serialization\IDeserializer.cs" />
     <Compile Include="serialization\ISerializer.cs" />

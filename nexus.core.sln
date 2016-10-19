@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core", "src\nexus.core\nexus.core.csproj", "{0BFB8710-A65C-453D-BD97-72F72D922156}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0F31EA04-E04A-4889-AF4E-D5784825F94C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,8 +24,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{0BFB8710-A65C-453D-BD97-72F72D922156} = {0F31EA04-E04A-4889-AF4E-D5784825F94C}
 	EndGlobalSection
 EndGlobal
