@@ -46,14 +46,14 @@ namespace nexus.core.serialization.binary
          switch(source.Length)
          {
             case 1:
-               return new[] {Deserialize( source[0] )};
+               return new[] {Deserialize( source[0], null )};
             case 2:
                return new[] {Deserialize( source[0], source[1] )};
          }
          return Deserialize( source.ToCharArray() );
       }
 
-      /// <exception cref="FormatException">If the provided characters are not valid base16 characters</exception>
+      /// <exception cref="FormatException">If the value is not a valid base16 value</exception>
       public Byte[] Deserialize( Char[] chars )
       {
          Contract.Requires( chars != null );
@@ -83,9 +83,9 @@ namespace nexus.core.serialization.binary
             {
                throw new FormatException(
                   "Character '{0}' at position {1} or '{2}' at position {3} is not a valid a base16 value.".F(
-                     chars[x],
+                     chars.Length >= x ? chars[x] : default(Char),
                      x,
-                     chars[x + 1],
+                     chars.Length >= x + 1 ? chars[x + 1] : default(Char),
                      x + 1 ),
                   ex );
             }

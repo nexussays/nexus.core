@@ -3,13 +3,14 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 
 namespace nexus.core.time
 {
-   public class DateTimeTimeSource : ITimeSource
+   public class DateTimeTimeProvider : ITimeProvider
    {
-      public EpochTime Epoch => EpochTime.None;
+      public TimeEpoch Epoch => TimeEpoch.None;
 
       public Boolean IsSynchronized => false;
 

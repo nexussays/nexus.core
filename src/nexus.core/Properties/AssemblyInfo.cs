@@ -18,7 +18,7 @@ namespace nexus.core.Properties
 {
    public static class AssemblyInfo
    {
-      public const String VERSION = "0.15.2";
+      public const String VERSION = "0.16.0";
       public const String VERSION_SHORT = VERSION;
       public const String APPID = "nexus.core";
 

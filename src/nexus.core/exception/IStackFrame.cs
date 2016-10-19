@@ -12,6 +12,8 @@ namespace nexus.core.exception
    {
       String AssemblyName { get; }
 
+      String AssemblyVersion { get; }
+
       String ClassName { get; }
 
       Int32 Column { get; }

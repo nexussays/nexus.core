@@ -8,7 +8,8 @@ namespace nexus.core.exception
    public sealed class UniversalExceptionStackFrame : IStackFrame
    {
       public UniversalExceptionStackFrame( String fileName, Int32 lineNumber, Int32 columnNumber, String methodName,
-                                           String className, String namespaceName, String assemblyName )
+                                           String className, String namespaceName, String assemblyName,
+                                           String assemblyVersion )
       {
          FileName = fileName;
          Line = lineNumber;
@@ -17,10 +18,13 @@ namespace nexus.core.exception
          ClassName = className;
          Namespace = namespaceName;
          AssemblyName = assemblyName;
+         AssemblyVersion = assemblyVersion;
       }
 
       /// <inheritdoc />
       public String AssemblyName { get; }
+
+      public String AssemblyVersion { get; }
 
       /// <inheritdoc />
       public String ClassName { get; }

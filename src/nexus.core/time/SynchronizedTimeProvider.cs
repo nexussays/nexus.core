@@ -3,23 +3,24 @@
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 
 namespace nexus.core.time
 {
    /// <summary>
-   /// Creates a <see cref="ITimeSource" /> which can be synchronized to some standard time (eg, an NTP server). Allows you to
+   /// Creates a <see cref="ITimeProvider" /> which can be synchronized to some standard time (eg, an NTP server). Allows you to
    /// provide a consistent time regardless of variances in the time reported by the local device, or to create a
-   /// <see cref="ITimeSource" /> set in a different period.
+   /// <see cref="ITimeProvider" /> set in a different period.
    /// </summary>
-   public class SynchronizedTimeSource : ITimeSource
+   public class SynchronizedTimeProvider : ITimeProvider
    {
-      public SynchronizedTimeSource()
+      public SynchronizedTimeProvider()
       {
          Reset();
       }
 
-      public EpochTime Epoch { get; private set; }
+      public TimeEpoch Epoch { get; private set; }
 
       public Boolean IsSynchronized => SynchronizedAt.HasValue;
 
@@ -38,12 +39,12 @@ namespace nexus.core.time
       /// </summary>
       /// <param name="milliseconds">The number of milliseconds that have elapsed since the start of the given epoch.</param>
       /// <param name="epoch">The epoch being referenced in this synchronization.</param>
-      public void Synchronize( Int64 milliseconds, EpochTime epoch )
+      public void Synchronize( Int64 milliseconds, TimeEpoch epoch )
       {
          var localTime = DateTime.UtcNow;
          try
          {
-            SynchronizedAt = epoch.EpochStart().AddMilliseconds( milliseconds );
+            SynchronizedAt = epoch.Start.AddMilliseconds( milliseconds );
          }
          catch(Exception) // ArgumentException from EpochStart() or ArgumentOutOfRangeException from AddMilliseconds()
          {
@@ -58,7 +59,7 @@ namespace nexus.core.time
       {
          SynchronizedAt = null;
          OffsetFromLocalEnvironment = null;
-         Epoch = EpochTime.None;
+         Epoch = TimeEpoch.None;
       }
    }
 }
