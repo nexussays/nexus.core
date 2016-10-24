@@ -35,6 +35,8 @@ namespace nexus.core
       /// </summary>
       public Boolean IsResolved => m_retrieve == null;
 
+      public Type Type => typeof(TResult);
+
       public TResult Value
       {
          get
