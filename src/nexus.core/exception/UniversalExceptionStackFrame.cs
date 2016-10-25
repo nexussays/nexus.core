@@ -46,11 +46,8 @@ namespace nexus.core.exception
 
       public override String ToString()
       {
-         return "at {0}{1}.{2}{3}".F(
-            Namespace == null ? "" : Namespace + ".",
-            ClassName,
-            MethodName,
-            FileName != null ? " in {0}:{1}".F( FileName, Line ) : "" );
+         return "at " + (Namespace == null ? "" : Namespace + ".") + ClassName + "." + MethodName +
+                (FileName != null ? " in {0}:{1}".F( FileName, Line ) : "");
       }
    }
 }

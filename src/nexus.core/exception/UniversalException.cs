@@ -36,13 +36,10 @@ namespace nexus.core.exception
 
       public override String ToString()
       {
-         return "{1}: {0}{2}{3}{4}".F(
-            ClassName,
-            Message,
-            StackFrames == null
-               ? (StackTrace == null ? "" : $"\n{StackTrace}")
-               : "\n" + String.Join( "\n", StackFrames.Select( x => x.ToString() ) ),
-            InnerError != null ? "\n" + InnerError : "" );
+         return Message + ": " + ClassName +
+                (StackFrames != null
+                   ? "\n" + String.Join( "\n", StackFrames.Select( x => x.ToString() ) )
+                   : (StackTrace != null ? $"\n{StackTrace}" : "")) + (InnerError != null ? "\n" + InnerError : "");
       }
    }
 }
