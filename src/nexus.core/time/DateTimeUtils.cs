@@ -12,7 +12,7 @@ namespace nexus.core.time
    {
       public static Int64 ToUnixTimestamp( this DateTime dateTime )
       {
-         return (Int64)Math.Floor( dateTime.ToUniversalTime().Subtract( TimeEpoch.UnixEpoch.Start ).TotalSeconds );
+         return (Int64)Math.Floor( dateTime.ToUniversalTime().Subtract( TimeEpoch.UnixEpoch.EpochStart ).TotalSeconds );
       }
 
       public static Int64 ToUnixTimestamp( this DateTime? dateTime )
@@ -29,32 +29,37 @@ namespace nexus.core.time
       {
          return
             (Int64)
-            Math.Floor( dateTime.ToUniversalTime().Subtract( TimeEpoch.UnixEpoch.Start ).TotalMilliseconds );
+            Math.Floor( dateTime.ToUniversalTime().Subtract( TimeEpoch.UnixEpoch.EpochStart ).TotalMilliseconds );
       }
 
       public static DateTime UnixTimestampInMillisecondsToDateTime( this Int64 millisecondsSinceEpoch )
       {
-         return TimeEpoch.UnixEpoch.Start.AddMilliseconds( millisecondsSinceEpoch );
+         return TimeEpoch.UnixEpoch.EpochStart.AddMilliseconds( millisecondsSinceEpoch );
       }
 
       public static DateTime UnixTimestampInMillisecondsToDateTime( this Double millisecondsSinceEpoch )
       {
-         return TimeEpoch.UnixEpoch.Start.AddMilliseconds( millisecondsSinceEpoch );
+         return TimeEpoch.UnixEpoch.EpochStart.AddMilliseconds( millisecondsSinceEpoch );
       }
 
       public static DateTime UnixTimestampToDateTime( this Int64 secondsSinceEpoch )
       {
-         return TimeEpoch.UnixEpoch.Start.AddSeconds( secondsSinceEpoch );
+         return TimeEpoch.UnixEpoch.EpochStart.AddSeconds( secondsSinceEpoch );
       }
 
       public static DateTime UnixTimestampToDateTime( this Int32 secondsSinceEpoch )
       {
-         return TimeEpoch.UnixEpoch.Start.AddSeconds( secondsSinceEpoch );
+         return TimeEpoch.UnixEpoch.EpochStart.AddSeconds( secondsSinceEpoch );
       }
 
       public static DateTime UnixTimestampToDateTime( this Double secondsSinceEpoch )
       {
-         return TimeEpoch.UnixEpoch.Start.AddSeconds( secondsSinceEpoch );
+         return TimeEpoch.UnixEpoch.EpochStart.AddSeconds( secondsSinceEpoch );
+      }
+
+      public static String ToIso8601String( this DateTime time, Boolean includeDelimeters = false )
+      {
+         return time.ToString(includeDelimeters ? "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK" : "yyyyMMdd'T'HHmmss.fffK");
       }
    }
 }

@@ -8,12 +8,7 @@ using System;
 
 namespace nexus.core.time
 {
-   /// <summary>
-   /// Creates a <see cref="ITimeProvider" /> which can be synchronized to some standard time (eg, an NTP server). Allows you to
-   /// provide a consistent time regardless of variances in the time reported by the local device, or to create a
-   /// <see cref="ITimeProvider" /> set in a different period.
-   /// </summary>
-   public class SynchronizedTimeProvider : ITimeProvider
+   public class SynchronizedTimeProvider : ISynchronizedTimeProvider
    {
       public SynchronizedTimeProvider()
       {
@@ -30,21 +25,21 @@ namespace nexus.core.time
 
       public DateTime UtcNow
          =>
-            OffsetFromLocalEnvironment.HasValue
-               ? DateTime.UtcNow.AddMilliseconds( OffsetFromLocalEnvironment.Value.TotalMilliseconds )
-               : DateTime.UtcNow;
+         OffsetFromLocalEnvironment.HasValue
+            ? DateTime.UtcNow.AddMilliseconds( OffsetFromLocalEnvironment.Value.TotalMilliseconds )
+            : DateTime.UtcNow;
 
       /// <summary>
       /// Synchronize to the provided millisecond offset from the provided epoch.
       /// </summary>
-      /// <param name="milliseconds">The number of milliseconds that have elapsed since the start of the given epoch.</param>
       /// <param name="epoch">The epoch being referenced in this synchronization.</param>
-      public void Synchronize( Int64 milliseconds, TimeEpoch epoch )
+      /// <param name="msOffset"></param>
+      public void Synchronize( TimeEpoch epoch, Int64 msOffset )
       {
          var localTime = DateTime.UtcNow;
          try
          {
-            SynchronizedAt = epoch.Start.AddMilliseconds( milliseconds );
+            SynchronizedAt = epoch.EpochStart.AddMilliseconds( msOffset );
          }
          catch(Exception) // ArgumentException from EpochStart() or ArgumentOutOfRangeException from AddMilliseconds()
          {

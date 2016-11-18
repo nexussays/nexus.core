@@ -8,16 +8,11 @@ using System;
 
 namespace nexus.core.time
 {
-   public class DateTimeTimeProvider : ITimeProvider
+   /// <summary>
+   /// Use <see cref="DateTime.UtcNow" />
+   /// </summary>
+   public class DefaultTimeProvider : ITimeProvider
    {
-      public TimeEpoch Epoch => TimeEpoch.None;
-
-      public Boolean IsSynchronized => false;
-
-      public TimeSpan? OffsetFromLocalEnvironment => TimeSpan.Zero;
-
-      public DateTime? SynchronizedAt => null;
-
       public DateTime UtcNow => DateTime.UtcNow;
    }
 }

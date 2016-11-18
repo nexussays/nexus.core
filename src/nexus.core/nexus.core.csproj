@@ -37,13 +37,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionAsync.cs" />
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Bytes.cs" />
     <Compile Include="ByteUtils.cs" />
-    <Compile Include="ClaimAttribute.cs" />
     <Compile Include="CollectionUtils.cs" />
     <Compile Include="ComparableExtensions.cs" />
     <Compile Include="CoreUtils.cs" />
-    <Compile Include="DateTimeUtils.cs" />
     <Compile Include="Deferred.cs" />
     <Compile Include="DisposeAction.cs" />
     <Compile Include="Enum.cs" />
@@ -51,8 +50,8 @@
     <Compile Include="exception\NativeExceptionSerializer.cs" />
     <Compile Include="exception\UniversalException.cs" />
     <Compile Include="exception\UniversalExceptionStackFrame.cs" />
-    <Compile Include="Expected.cs" />
     <Compile Include="exception\IException.cs" />
+    <Compile Include="Expected.cs" />
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
     <Compile Include="exception\IStackFrame.cs" />
@@ -79,8 +78,9 @@
     <Compile Include="serialization\text\TextEncoder.cs" />
     <Compile Include="serialization\text\Utf16Encoder.cs" />
     <Compile Include="StringUtils.cs" />
-    <Compile Include="time\DateTimeTimeProvider.cs" />
+    <Compile Include="time\DefaultTimeProvider.cs" />
     <Compile Include="time\DateTimeUtils.cs" />
+    <Compile Include="time\ISynchronizedTimeProvider.cs" />
     <Compile Include="time\TimeEpoch.cs" />
     <Compile Include="time\ITimeProvider.cs" />
     <Compile Include="time\SynchronizedTimeProvider.cs" />

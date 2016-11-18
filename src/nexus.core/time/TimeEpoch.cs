@@ -8,44 +8,38 @@ using System;
 
 namespace nexus.core.time
 {
+   /// <summary>
+   /// A named <see cref="DateTime"/> representing the start of an epoch.
+   /// </summary>
+   /// <see cref="ISynchronizedTimeProvider"/>
    public sealed class TimeEpoch
    {
-      public enum EpochType
+      private TimeEpoch( DateTime epochStart, String epochName )
       {
-         /// <summary>
-         /// Error. Should not be used.
-         /// </summary>
-         None = 0,
-         NTP = 1,
-         Unix = 2
+         EpochStart = epochStart;
+         EpochName = epochName;
       }
 
-      private TimeEpoch( DateTime start, EpochType type )
-      {
-         Start = start;
-         Type = type;
-      }
+      public String EpochName { get; }
+
+      public DateTime EpochStart { get; }
 
       /// <summary>
       /// Epoch representing no value, starts at <see cref="DateTime.MinValue" />
       /// </summary>
-      public static TimeEpoch None { get; } = new TimeEpoch( DateTime.MinValue, EpochType.None );
+      public static TimeEpoch None { get; } = new TimeEpoch( DateTime.MinValue, "n/a" );
 
       /// <summary>
       /// Epoch which starts at January 1, 1900 UTC
       /// </summary>
       public static TimeEpoch NtpEpoch { get; } = new TimeEpoch(
          new DateTime( 1900, 1, 1, 0, 0, 0, DateTimeKind.Utc ),
-         EpochType.NTP );
-
-      public DateTime Start { get; }
-
-      public EpochType Type { get; }
+         "NTP" );
 
       /// <summary>
       /// Epoch which starts at January 1, 1970 UTC
       /// </summary>
       public static TimeEpoch UnixEpoch { get; } =
-         new TimeEpoch( new DateTime( 1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc ), EpochType.Unix );
+         new TimeEpoch( new DateTime( 1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc ), "Unix" );
    }
 }
