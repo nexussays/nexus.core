@@ -25,6 +25,6 @@ namespace nexus.core.serialization.binary
       /// <summary>
       /// An indexed and ordered list of the characters used to represent each numeral in this base number system.
       /// </summary>
-      IList<Char> SymbolTable { get; }
+      IEnumerable<Char> SymbolTable { get; }
    }
 }

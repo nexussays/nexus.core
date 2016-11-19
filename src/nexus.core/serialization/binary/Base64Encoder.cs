@@ -20,7 +20,7 @@ namespace nexus.core.serialization.binary
       {
       }
 
-      public IList<Char> SymbolTable => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".ToCharArray()
+      public IEnumerable<Char> SymbolTable => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".ToCharArray()
          ;
 
       public Byte[] Deserialize( String source )

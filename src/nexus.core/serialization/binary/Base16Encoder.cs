@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace nexus.core.serialization.binary
 {
@@ -17,14 +18,11 @@ namespace nexus.core.serialization.binary
    {
       public static readonly Base16Encoder Instance = new Base16Encoder();
 
-      private readonly IList<Char> m_chars;
+      private static readonly IList<Char> s_chars = Symbols.ToList();
 
-      private Base16Encoder()
-      {
-         m_chars = SymbolTable;
-      }
+      public static IEnumerable<Char> Symbols => "0123456789abcdef".ToCharArray();
 
-      public IList<Char> SymbolTable => "0123456789abcdef".ToCharArray();
+      public IEnumerable<Char> SymbolTable => Symbols;
 
       /// <summary>
       /// Decodes a hexadecimal string into a byte array.
@@ -70,7 +68,7 @@ namespace nexus.core.serialization.binary
                if(x == 0 && odd)
                {
                   // if there are an odd number of characters then read the first one in solo
-                  newBytes[x] = (Byte)(0xf & m_chars.IndexOf( chars[x] ));
+                  newBytes[x] = (Byte)(0xf & s_chars.IndexOf( chars[x] ));
                }
                else
                {
@@ -98,8 +96,8 @@ namespace nexus.core.serialization.binary
       public Byte Deserialize( Char digit1, Char? digit2 = null )
       {
          return digit2 == null
-            ? (Byte)(0xf & m_chars.IndexOf( digit1 ))
-            : (Byte)(((0xf & m_chars.IndexOf( digit1 )) << 4) | (0xf & m_chars.IndexOf( digit2.Value )));
+            ? (Byte)(0xf & s_chars.IndexOf( digit1 ))
+            : (Byte)(((0xf & s_chars.IndexOf( digit1 )) << 4) | (0xf & s_chars.IndexOf( digit2.Value )));
       }
 
       /*
@@ -126,15 +124,15 @@ namespace nexus.core.serialization.binary
          var charIndex = 0;
          for(var x = 0; x < data.Length; x++)
          {
-            result[charIndex++] = m_chars[((data[x] & 0xf0) >> 4)];
-            result[charIndex++] = m_chars[(data[x] & 0x0f)];
+            result[charIndex++] = s_chars[(data[x] & 0xf0) >> 4];
+            result[charIndex++] = s_chars[data[x] & 0x0f];
          }
          return new String( result );
       }
 
       public String Serialize( Byte source )
       {
-         return new String( new[] {m_chars[((source & 0xf0) >> 4)], m_chars[(source & 0x0f)]} );
+         return new String( new[] {s_chars[(source & 0xf0) >> 4], s_chars[source & 0x0f]} );
       }
    }
 }
