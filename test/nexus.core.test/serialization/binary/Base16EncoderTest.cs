@@ -13,9 +13,10 @@ namespace nexus.core.test.serialization.binary
    [TestFixture]
    internal class Base16EncoderTest
    {
-      private readonly Base16Encoder m_encoder;
+      private Base16Encoder m_encoder;
 
-      public Base16EncoderTest()
+      [OneTimeSetUp]
+      public void Setup()
       {
          m_encoder = Base16Encoder.Instance;
       }
@@ -25,6 +26,8 @@ namespace nexus.core.test.serialization.binary
       [TestCase( new Byte[] {26, 8, 34, 5, 8, 0, 64, 0, 7, 53, 53, 2, 46, 74, 30, 32, 5, 0, 7, 54, 78, 3, 2, 58} )]
       public void serializing_and_deserializing_bytearray_results_in_original_data( Byte[] data )
       {
+         var foo = m_encoder.Serialize( data );
+         TestContext.Out.WriteLine( data[0].EncodeToBase16() + " full=" + foo );
          Assert.That( m_encoder.Deserialize( m_encoder.Serialize( data ) ), Is.EqualTo( data ) );
       }
    }
