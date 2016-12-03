@@ -13,7 +13,7 @@ namespace nexus.core
    /// <summary>
    /// Used to give Enum values a detailed description
    /// </summary>
-   [AttributeUsage( AttributeTargets.Field, Inherited = false, AllowMultiple = false )]
+   [AttributeUsage( AttributeTargets.Field )]
    public sealed class EnumDescriptionAttribute : Attribute
    {
       public EnumDescriptionAttribute( String value )
@@ -21,27 +21,28 @@ namespace nexus.core
          StringValue = value;
       }
 
-      public String StringValue { get; private set; }
+      public String StringValue { get; }
    }
 
    public static class EnumDescriptionAttributeExtensions
    {
-      public static String GetStringValueAttribute( this Enum value, Boolean useNameIfNoStringValue = true )
+      /// <summary>
+      /// Retrieve the <see cref="EnumDescriptionAttribute" /> from this enum value
+      /// </summary>
+      public static String GetEnumDescription( this Enum value, Boolean useNameIfNoStringValue = true )
       {
          Contract.Requires( value != null );
 
-         var type = value.GetType();
-         var fieldInfo = type.GetRuntimeField( value.ToString() );
-
          //get the stringvalue attributes
-         var attribs = fieldInfo == null
-            ? null
-            : fieldInfo.GetCustomAttributes( typeof(EnumDescriptionAttribute), false ) as EnumDescriptionAttribute[];
+         var attribs =
+            value.GetType()
+                 .GetRuntimeField( value.ToString() )?.GetCustomAttributes( typeof(EnumDescriptionAttribute), false ) as
+               EnumDescriptionAttribute[];
 
          //return the first if there was a match or the attribute if not or null if specified not to return default value
-         return (attribs != null && attribs.Length > 0
+         return attribs != null && attribs.Length > 0
             ? attribs[0].StringValue
-            : (useNameIfNoStringValue ? value.ToString() : null));
+            : (useNameIfNoStringValue ? value.ToString() : null);
       }
    }
 }
