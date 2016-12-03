@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace nexus.core
 {
    /// <summary>
-   /// A paradox? Nay! Merely a bridge class that implements both <see cref="IDictionary{TKey,TValue}" /> and
+   /// A paradoxical bridge class that implements both <see cref="IDictionary{TKey,TValue}" /> and
    /// <see cref="IImmutableDictionary{TKey,TValue}" />
    /// </summary>
    public class MutableDictionary<TKey, TValue>
@@ -25,10 +25,7 @@ namespace nexus.core
          m_dict = dict ?? new Dictionary<TKey, TValue>();
       }
 
-      public TValue this[ TKey key ]
-      {
-         get { return m_dict[key]; }
-      }
+      public TValue this[ TKey key ] => m_dict[key];
 
       TValue IDictionary<TKey, TValue>.this[ TKey key ]
       {
@@ -36,35 +33,17 @@ namespace nexus.core
          set { m_dict[key] = value; }
       }
 
-      public Int32 Count
-      {
-         get { return m_dict.Count; }
-      }
+      public Int32 Count => m_dict.Count;
 
-      public Boolean IsReadOnly
-      {
-         get { return m_dict.IsReadOnly; }
-      }
+      public Boolean IsReadOnly => m_dict.IsReadOnly;
 
-      public IEnumerable<TKey> Keys
-      {
-         get { return m_dict.Keys; }
-      }
+      public IEnumerable<TKey> Keys => m_dict.Keys;
 
-      public IEnumerable<TValue> Values
-      {
-         get { return m_dict.Values; }
-      }
+      public IEnumerable<TValue> Values => m_dict.Values;
 
-      ICollection<TKey> IDictionary<TKey, TValue>.Keys
-      {
-         get { return m_dict.Keys; }
-      }
+      ICollection<TKey> IDictionary<TKey, TValue>.Keys => m_dict.Keys;
 
-      ICollection<TValue> IDictionary<TKey, TValue>.Values
-      {
-         get { return m_dict.Values; }
-      }
+      ICollection<TValue> IDictionary<TKey, TValue>.Values => m_dict.Values;
 
       public void Add( KeyValuePair<TKey, TValue> item )
       {
