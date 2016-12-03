@@ -7,22 +7,40 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 
 namespace nexus.core.serialization.binary
 {
    /// <summary>
-   /// Use <see cref="Instance" />
+   /// Use <see cref="Lowercase" /> or <see cref="Uppercase" />
    /// </summary>
    public sealed class Base16Encoder : IBinaryEncoder
    {
-      public static readonly Base16Encoder Instance = new Base16Encoder();
+      public static readonly Base16Encoder Lowercase = new Base16Encoder( SymbolsLowercase );
+      public static readonly Base16Encoder Uppercase = new Base16Encoder( SymbolsUppercase );
 
-      private static readonly IList<Char> s_chars = Symbols.ToList();
+      private readonly IList<Char> m_symbols;
 
-      public static IEnumerable<Char> Symbols => "0123456789abcdef".ToCharArray();
+      /// <summary>
+      /// Create a new base16 encoder with a custom symbol table
+      /// </summary>
+      public Base16Encoder( IList<Char> symbolTable )
+      {
+         Contract.Requires<ArgumentException>(
+            symbolTable != null,
+            "Symbol table provided to " + nameof( Base16Encoder ) + " cannot be null" );
+         Contract.Requires<ArgumentException>(
+            symbolTable.Count == 16,
+            "Symbol table provided to  " + nameof( Base16Encoder ) + " must contain exactly 16 characters" );
+         m_symbols = symbolTable;
+      }
 
-      public IEnumerable<Char> SymbolTable => Symbols;
+      public Int32 Base { get; } = 16;
+
+      public static Char[] SymbolsLowercase => "0123456789abcdef".ToCharArray();
+
+      public static Char[] SymbolsUppercase => "0123456789ABCDEF".ToCharArray();
+
+      public IEnumerable<Char> SymbolTable => new List<Char>( m_symbols );
 
       /// <summary>
       /// Decodes a hexadecimal string into a byte array.
@@ -35,7 +53,7 @@ namespace nexus.core.serialization.binary
       /// </exception>
       public Byte[] Deserialize( String source )
       {
-         if(source == null)
+         if(source.IsNullOrEmpty())
          {
             return null;
          }
@@ -47,11 +65,12 @@ namespace nexus.core.serialization.binary
                return new[] {Deserialize( source[0], null )};
             case 2:
                return new[] {Deserialize( source[0], source[1] )};
+            default:
+               return Deserialize( source.ToCharArray() );
          }
-         return Deserialize( source.ToCharArray() );
       }
 
-      /// <exception cref="FormatException">If the value is not a valid base16 value</exception>
+      /// <exception cref="FormatException">If any characters provided cannot be found in the symbol table</exception>
       public Byte[] Deserialize( Char[] chars )
       {
          Contract.Requires( chars != null );
@@ -68,7 +87,7 @@ namespace nexus.core.serialization.binary
                if(x == 0 && odd)
                {
                   // if there are an odd number of characters then read the first one in solo
-                  newBytes[x] = (Byte)(0xf & s_chars.IndexOf( chars[x] ));
+                  newBytes[x] = (Byte)(0xf & m_symbols.IndexOf( chars[x] ));
                }
                else
                {
@@ -80,24 +99,20 @@ namespace nexus.core.serialization.binary
             catch(Exception ex)
             {
                throw new FormatException(
-                  "Character '{0}' at position {1} or '{2}' at position {3} is not a valid a base16 value.".F(
+                  "One of char '{0}' or char '{1}' is not a valid encoded value and cannot be deserialized.".F(
                      chars.Length >= x ? chars[x] : default(Char),
-                     x,
-                     chars.Length >= x + 1 ? chars[x + 1] : default(Char),
-                     x + 1 ),
+                     chars.Length >= x + 1 ? chars[x + 1] : default(Char) ),
                   ex );
             }
          }
          return newBytes;
       }
 
-      /// <param name="digit1">Should represent a character in the range [0-9A-Z] and therefore represent 4 bits.</param>
-      /// <param name="digit2">Should represent a character in the range [0-9A-Z] and therefore represent 4 bits.</param>
       public Byte Deserialize( Char digit1, Char? digit2 = null )
       {
          return digit2 == null
-            ? (Byte)(0xf & s_chars.IndexOf( digit1 ))
-            : (Byte)(((0xf & s_chars.IndexOf( digit1 )) << 4) | (0xf & s_chars.IndexOf( digit2.Value )));
+            ? (Byte)(0xf & m_symbols.IndexOf( digit1 ))
+            : (Byte)(((0xf & m_symbols.IndexOf( digit1 )) << 4) | (0xf & m_symbols.IndexOf( digit2.Value )));
       }
 
       /*
@@ -124,15 +139,15 @@ namespace nexus.core.serialization.binary
          var charIndex = 0;
          for(var x = 0; x < data.Length; x++)
          {
-            result[charIndex++] = s_chars[(data[x] & 0xf0) >> 4];
-            result[charIndex++] = s_chars[data[x] & 0x0f];
+            result[charIndex++] = m_symbols[(data[x] & 0xf0) >> 4];
+            result[charIndex++] = m_symbols[data[x] & 0x0f];
          }
          return new String( result );
       }
 
       public String Serialize( Byte source )
       {
-         return new String( new[] {s_chars[(source & 0xf0) >> 4], s_chars[source & 0x0f]} );
+         return new String( new[] {m_symbols[(source & 0xf0) >> 4], m_symbols[source & 0x0f]} );
       }
    }
 }

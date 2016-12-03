@@ -20,8 +20,10 @@ namespace nexus.core.serialization.binary
       {
       }
 
-      public IEnumerable<Char> SymbolTable => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".ToCharArray()
-         ;
+      public Int32 Base { get; } = 64;
+
+      public IEnumerable<Char> SymbolTable
+         => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".ToCharArray();
 
       public Byte[] Deserialize( String source )
       {
@@ -37,19 +39,6 @@ namespace nexus.core.serialization.binary
       public String Serialize( Byte[] data )
       {
          return data == null ? null : Convert.ToBase64String( data );
-      }
-   }
-
-   public static class Base64EncoderUtils
-   {
-      public static Byte[] DecodeBase64( this String value )
-      {
-         return value.IsNullOrEmpty() ? new Byte[0] : Base64Encoder.Instance.Deserialize( value );
-      }
-
-      public static String EncodeAsBase64( this Byte[] bytes )
-      {
-         return Base64Encoder.Instance.Serialize( bytes );
       }
    }
 }

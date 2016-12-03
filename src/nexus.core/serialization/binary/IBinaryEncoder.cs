@@ -14,7 +14,7 @@ namespace nexus.core.serialization.binary
    /// losslessly to a human-readable string.
    /// Functionally, this means taking a byte array (base-2) and converting it into another base number system using
    /// characters as the symbols and resulting in a string as the encoded representation of the resulting value.
-   /// <see cref="IBinaryEncoder" /> can
+   /// Therefore use <see cref="IBinaryEncoder" /> to:
    /// 1. Serialize arbitrary bytes to a formatted string
    /// 2. Deserialize a formatted string to the original bytes
    /// </summary>
@@ -22,6 +22,11 @@ namespace nexus.core.serialization.binary
       : ISerializer<Byte[], String>,
         IDeserializer<String, Byte[]>
    {
+      /// <summary>
+      /// The number of symbols in the symbol table. I.e., the base of the number system of the encoded value.
+      /// </summary>
+      Int32 Base { get; }
+
       /// <summary>
       /// An indexed and ordered list of the characters used to represent each numeral in this base number system.
       /// </summary>

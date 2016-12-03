@@ -18,7 +18,7 @@ namespace nexus.core.test.serialization.binary
       [OneTimeSetUp]
       public void Setup()
       {
-         m_encoder = Base16Encoder.Instance;
+         m_encoder = Base16Encoder.Lowercase;
       }
 
       [TestCase( new Byte[] {120, 39, 45, 36, 22, 78, 63, 54, 87, 91, 13, 8, 0, 80, 106, 79, 39, 44, 72} )]
@@ -27,8 +27,17 @@ namespace nexus.core.test.serialization.binary
       public void serializing_and_deserializing_bytearray_results_in_original_data( Byte[] data )
       {
          var foo = m_encoder.Serialize( data );
-         TestContext.Out.WriteLine( data[0].EncodeToBase16() + " full=" + foo );
+         TestContext.Out.WriteLine( data[0].EncodeToBase16String() + " full=" + foo );
          Assert.That( m_encoder.Deserialize( m_encoder.Serialize( data ) ), Is.EqualTo( data ) );
+      }
+
+      [TestCase( null )]
+      [TestCase( new[] {'0'} )]
+      [TestCase( new[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g'} )]
+      public void instantiating_base16encoder_with_invalid_symboltable_throws_argumentexception( Char[] symbols )
+      {
+         // ReSharper disable once ObjectCreationAsStatement
+         Assert.Throws<ArgumentException>( () => new Base16Encoder( symbols ) );
       }
    }
 }
