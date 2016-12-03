@@ -11,11 +11,6 @@ namespace nexus.core.serialization
       TTo Deserialize( TFrom data );
    }
 
-   public interface IGenericDeserializer<in TFrom>
-   {
-      T Deserialize<T>( TFrom source );
-   }
-
    public delegate TTo Deserializer<in TFrom, out TTo>( TFrom data );
 
    public static class DeserializerExtensions
@@ -36,7 +31,7 @@ namespace nexus.core.serialization
 
          public B Deserialize( A data )
          {
-            return m_func( data );
+            return m_func.Invoke( data );
          }
       }
    }

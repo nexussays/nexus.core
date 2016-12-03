@@ -9,14 +9,8 @@ using System.Threading.Tasks;
 
 namespace nexus.core.serialization
 {
-   public interface IStreamDeserializer<T>
+   public interface IGenericStreamDeserializer : IGenericDeserializer<Stream>
    {
-      T Deserialize( Stream source );
-
-      Task<T> DeserializeAsync( Stream source );
+      Task<T> DeserializeAsync<T>( Stream source );
    }
-
-   public delegate TTo StreamDeserializer<out TTo>( Stream source );
-
-   public delegate Task<TTo> StreamDeserializerAsync<TTo>( Stream source );
 }
