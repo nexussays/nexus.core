@@ -124,10 +124,12 @@ namespace nexus.core
       public static Double ToFloat64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
          return endian == ByteOrder.BigEndian
-            ? bytes[startIndex] << 24 | (bytes[startIndex + 1] << 16) | (bytes[startIndex + 2] << 8) |
-              bytes[startIndex + 3]
-            : bytes[startIndex + 3] << 24 | (bytes[startIndex + 2] << 16) | (bytes[startIndex + 1] << 8) |
-              bytes[startIndex];
+            ? (bytes[startIndex] << 56) | (bytes[startIndex + 1] << 48) | (bytes[startIndex + 2] << 40) |
+              (bytes[startIndex + 3] << 32) | (bytes[startIndex + 4] << 24) | (bytes[startIndex + 5] << 16) |
+              (bytes[startIndex + 6] << 8) | bytes[startIndex + 7]
+            : (bytes[startIndex + 7] << 56) | (bytes[startIndex + 6] << 48) | (bytes[startIndex + 5] << 40) |
+              (bytes[startIndex + 4] << 32) | (bytes[startIndex + 3] << 24) | (bytes[startIndex + 2] << 16) |
+              (bytes[startIndex + 1] << 8) | bytes[startIndex];
       }
 
       public static Int16 ToInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
