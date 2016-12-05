@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BytesTest.cs" />
     <Compile Include="ByteUtilsTest.cs" />
     <Compile Include="CoreUtilsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -15,38 +15,56 @@ namespace nexus.core
       public static ByteOrder HostEnvironmentByteOrder
          => BitConverter.IsLittleEndian ? ByteOrder.LittleEndian : ByteOrder.BigEndian;
 
-      public static Byte[] DecodeBase16String( this String value )
+      /// <summary>
+      /// Parse this string as a hexadecimal-encoded value and return the resulting byte array the hex-encoded value represents
+      /// </summary>
+      public static Byte[] DecodeAsBase16( this String value )
       {
          try
          {
-            return DecodeBase16String( value, true );
+            return DecodeAsBase16( value, true );
          }
          catch(FormatException)
          {
-            return DecodeBase16String( value, false );
+            return DecodeAsBase16( value, false );
          }
       }
 
-      public static Byte[] DecodeBase16String( this String value, Boolean lowercase )
+      /// <summary>
+      /// Parse this string as a hexadecimal-encoded value and return the resulting byte array the hex-encoded value represents
+      /// </summary>
+      public static Byte[] DecodeAsBase16( this String value, Boolean lowercase )
       {
          return lowercase ? Base16Encoder.Lowercase.Deserialize( value ) : Base16Encoder.Uppercase.Deserialize( value );
       }
 
-      public static Byte[] DecodeBase64String( this String value )
+      /// <summary>
+      /// Parse this string as a Base64-encoded value and return the resulting byte array the Base64-encoded value represents
+      /// </summary>
+      public static Byte[] DecodeAsBase64( this String value )
       {
          return value.IsNullOrEmpty() ? new Byte[0] : Base64Encoder.Instance.Deserialize( value );
       }
 
+      /// <summary>
+      /// Encode the bytearray into a hexadecimal string
+      /// </summary>
       public static String EncodeToBase16String( this Byte[] value, Boolean lowercase = true )
       {
          return lowercase ? Base16Encoder.Lowercase.Serialize( value ) : Base16Encoder.Uppercase.Serialize( value );
       }
 
+      /// <summary>
+      /// Encode the bytearray into a hexadecimal string
+      /// </summary>
       public static String EncodeToBase16String( this Byte value, Boolean lowercase = true )
       {
          return lowercase ? Base16Encoder.Lowercase.Serialize( value ) : Base16Encoder.Uppercase.Serialize( value );
       }
 
+      /// <summary>
+      /// Encode the bytearray into a base-64 string
+      /// </summary>
       public static String EncodeToBase64String( this Byte[] value )
       {
          return Base64Encoder.Instance.Serialize( value );
@@ -82,11 +100,17 @@ namespace nexus.core
          return true;
       }
 
+      /// <summary>
+      ///    <code>bytes == null || bytes.Length &lt;= 0</code>
+      /// </summary>
       public static Boolean IsNullOrEmpty( this Byte[] bytes )
       {
          return bytes == null || bytes.Length <= 0;
       }
 
+      /// <summary>
+      ///    <code>bytes == null || bytes.Length &;t;= 0 || (bytes.Length == 1 && bytes[0] == 0)</code>
+      /// </summary>
       public static Boolean IsNullOrEmptyOrNullByte( this Byte[] bytes )
       {
          return bytes == null || bytes.Length <= 0 || (bytes.Length == 1 && bytes[0] == 0);
@@ -117,124 +141,6 @@ namespace nexus.core
          var result = new Byte[endByteIndex - startByteIndex];
          Buffer.BlockCopy( source, startByteIndex, result, 0, result.Length );
          return result;
-      }
-
-      public static Byte[] ToBytes( this Int16 value, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return endian == ByteOrder.BigEndian
-            ? new[] {(Byte)(value >> 8), (Byte)value}
-            : new[] {(Byte)value, (Byte)(value >> 8)};
-      }
-
-      public static Byte[] ToBytes( this Int32 value, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return endian == ByteOrder.BigEndian
-            ? new[] {(Byte)(value >> 24), (Byte)(value >> 16), (Byte)(value >> 8), (Byte)value}
-            : new[] {(Byte)value, (Byte)(value >> 8), (Byte)(value >> 16), (Byte)(value >> 24)};
-      }
-
-      public static Byte[] ToBytes( this Int64 value, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         throw new NotImplementedException();
-      }
-
-      public static Byte[] ToBytes( this UInt16 value, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return endian == ByteOrder.BigEndian
-            ? new[] {(Byte)(value >> 8), (Byte)value}
-            : new[] {(Byte)value, (Byte)(value >> 8)};
-      }
-
-      public static Byte[] ToBytes( this UInt32 value, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return endian == ByteOrder.BigEndian
-            ? new[] {(Byte)(value >> 24), (Byte)(value >> 16), (Byte)(value >> 8), (Byte)value}
-            : new[] {(Byte)value, (Byte)(value >> 8), (Byte)(value >> 16), (Byte)(value >> 24)};
-      }
-
-      public static Byte[] ToBytes( this UInt64 value, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         throw new NotImplementedException();
-      }
-
-      public static Byte[] ToBytes( this Single value, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         throw new NotImplementedException();
-      }
-
-      public static Byte[] ToBytes( this Double value, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         throw new NotImplementedException();
-      }
-
-      public static Double ToDouble( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         throw new NotImplementedException();
-      }
-
-      public static Int16 ToInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return endian == ByteOrder.BigEndian
-            ? (Int16)(bytes[startIndex] << 8 | bytes[startIndex + 1])
-            : (Int16)(bytes[startIndex + 1] << 8 | bytes[startIndex]);
-      }
-
-      public static Int32 ToInt32( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return endian == ByteOrder.BigEndian
-            ? bytes[startIndex] << 24 | (bytes[startIndex + 1] << 16) | (bytes[startIndex + 2] << 8) |
-              bytes[startIndex + 3]
-            : bytes[startIndex + 3] << 24 | (bytes[startIndex + 2] << 16) | (bytes[startIndex + 1] << 8) |
-              bytes[startIndex];
-      }
-
-      public static Int64 ToInt64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return endian == ByteOrder.BigEndian
-            ? (bytes[startIndex] << 56) | (bytes[startIndex + 1] << 48) | (bytes[startIndex + 2] << 40) |
-              (bytes[startIndex + 3] << 32) | (bytes[startIndex + 4] << 24) | (bytes[startIndex + 5] << 16) |
-              (bytes[startIndex + 6] << 8) | bytes[startIndex + 7]
-            : (bytes[startIndex + 7] << 56) | (bytes[startIndex + 6] << 48) | (bytes[startIndex + 5] << 40) |
-              (bytes[startIndex + 4] << 32) | (bytes[startIndex + 3] << 24) | (bytes[startIndex + 2] << 16) |
-              (bytes[startIndex + 1] << 8) | bytes[startIndex];
-      }
-
-      public static Double ToSingle( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         throw new NotImplementedException();
-      }
-
-      public static UInt16 ToUInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return
-            (UInt16)
-            (endian == ByteOrder.BigEndian
-               ? bytes[startIndex] << 8 | bytes[startIndex + 1]
-               : bytes[startIndex + 1] << 8 | bytes[startIndex]);
-      }
-
-      public static UInt32 ToUInt32( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return
-            (UInt32)
-            (endian == ByteOrder.BigEndian
-               ? bytes[startIndex] << 24 | (bytes[startIndex + 1] << 16) | (bytes[startIndex + 2] << 8) |
-                 bytes[startIndex + 3]
-               : bytes[startIndex + 3] << 24 | (bytes[startIndex + 2] << 16) | (bytes[startIndex + 1] << 8) |
-                 bytes[startIndex]);
-      }
-
-      public static UInt64 ToUInt64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
-      {
-         return
-            (UInt64)
-            (endian == ByteOrder.BigEndian
-               ? (bytes[startIndex] << 56) | (bytes[startIndex + 1] << 48) | (bytes[startIndex + 2] << 40) |
-                 (bytes[startIndex + 3] << 32) | (bytes[startIndex + 4] << 24) | (bytes[startIndex + 5] << 16) |
-                 (bytes[startIndex + 6] << 8) | bytes[startIndex + 7]
-               : (bytes[startIndex + 7] << 56) | (bytes[startIndex + 6] << 48) | (bytes[startIndex + 5] << 40) |
-                 (bytes[startIndex + 4] << 32) | (bytes[startIndex + 3] << 24) | (bytes[startIndex + 2] << 16) |
-                 (bytes[startIndex + 1] << 8) | bytes[startIndex]);
       }
    }
 }

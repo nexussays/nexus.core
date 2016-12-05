@@ -10,11 +10,11 @@ namespace nexus.core
 {
    public static class AssemblyInfo
    {
-      public const String VERSION = "0.17.0";
+      public const String VERSION = "0.18.0";
       public const String VERSION_SHORT = VERSION;
       public const String ID = "nexus.core";
 
-      public const String DESCRIPTION = "Core utilities and data structures";
+      public const String DESCRIPTION = "Core library of utilities and data structures for all projects";
 
       // ReSharper disable once ConditionIsAlwaysTrueOrFalse
       public const Boolean IS_DEBUG = 
