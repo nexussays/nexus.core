@@ -92,14 +92,9 @@
     <Compile Include="ByteOrder.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="EnumDescriptionAttribute.cs" />
-    <Compile Include="exception\NativeExceptionSerializer.cs" />
-    <Compile Include="exception\UniversalException.cs" />
-    <Compile Include="exception\UniversalExceptionStackFrame.cs" />
-    <Compile Include="exception\IException.cs" />
     <Compile Include="Expected.cs" />
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
-    <Compile Include="exception\IStackFrame.cs" />
     <Compile Include="MutableDictionary.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Option.cs" />
@@ -124,12 +119,6 @@
     <Compile Include="serialization\text\TextEncoder.cs" />
     <Compile Include="serialization\text\Utf16Encoder.cs" />
     <Compile Include="StringUtils.cs" />
-    <Compile Include="time\DefaultTimeProvider.cs" />
-    <Compile Include="time\DateTimeUtils.cs" />
-    <Compile Include="time\ISynchronizedTimeProvider.cs" />
-    <Compile Include="time\TimeEpoch.cs" />
-    <Compile Include="time\ITimeProvider.cs" />
-    <Compile Include="time\SynchronizedTimeProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
