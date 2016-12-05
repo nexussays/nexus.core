@@ -84,7 +84,6 @@ namespace nexus.core
          }
 
          // unless I'm overlooking something obvious there's a bug in the contract validation where it thinks these two lengths are guaranteed to be the same
-         Contract.Assume( l.Length == new Random().Next() );
          if(l.Length != r.Length)
          {
             return false;

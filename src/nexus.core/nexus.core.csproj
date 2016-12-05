@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
@@ -121,6 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="nexus.core.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionAsync.cs" />
@@ -164,4 +165,8 @@
     <Compile Include="StringUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <PropertyGroup>
+    <CodeContractsInstallDir Condition="'$(CodeContractsInstallDir)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\lib\packages\DotNet.Contracts.1.10.20606.1'))</CodeContractsInstallDir>
+  </PropertyGroup>
+  <Import Project="$(CodeContractsInstallDir)\MsBuild\v$(VisualStudioVersion)\Microsoft.CodeContracts.targets" Condition="'$(CodeContractsImported)' != 'true' AND '$(DontImportCodeContracts)' != 'true'" />
 </Project>
