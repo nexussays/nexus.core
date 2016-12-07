@@ -26,7 +26,6 @@ namespace nexus.core.logging
    {
       private static readonly SystemLog s_source = new SystemLog( new DefaultTimeProvider() );
 
-      private readonly ISet<ILogEntryDecorator> m_decorators;
       private readonly IDictionary<LogLevel, Int32> m_entriesSkipped;
       private readonly IDictionary<LogLevel, Int32> m_entriesWritten;
       private readonly ILogEntry[] m_entryBuffer;
@@ -34,6 +33,7 @@ namespace nexus.core.logging
       private readonly IDictionary<Type, IGenericSerializer> m_serializers;
       private readonly ISet<ILogSink> m_sinks;
       private readonly ITimeProvider m_timeProvider;
+      private Int32 m_entrySequence;
 
       public SystemLog( ITimeProvider timeSource )
       {
@@ -45,11 +45,7 @@ namespace nexus.core.logging
          m_timeProvider = timeSource;
          LogLevel = LogLevel.Trace;
          m_sinks = new HashSet<ILogSink>();
-         m_decorators = new HashSet<ILogEntryDecorator>();
       }
-
-      /// <inheritDoc />
-      public IEnumerable<ILogEntryDecorator> Decorators => new List<ILogEntryDecorator>( m_decorators );
 
       /// <inheritDoc />
       public String Id { get; set; }
@@ -72,19 +68,6 @@ namespace nexus.core.logging
 
       /// <inheritDoc />
       public IEnumerable<ILogSink> Sinks => new List<ILogSink>( m_sinks );
-
-      /// <summary>
-      /// Add a dcorator which can add additional data to <see cref="ILogEntry" /> before it is sent to <see cref="ILogSink" />
-      /// or <see cref="ILogEntrySerializer" />.
-      /// </summary>
-      /// <param name="decorator"></param>
-      public void AddDecorator( ILogEntryDecorator decorator )
-      {
-         lock(m_lock)
-         {
-            m_decorators.Add( decorator );
-         }
-      }
 
       /// <summary>
       /// Add a log sink which be called each time a <see cref="ILogEntry" /> is created.
@@ -120,18 +103,6 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
-      public T GetOrAddDecorator<T>() where T : class, ILogEntryDecorator, new()
-      {
-         var decorator = m_decorators.FirstOrDefault( x => x.GetType() == typeof(T) ) as T;
-         if(decorator == null)
-         {
-            decorator = new T();
-            AddDecorator( decorator );
-         }
-         return decorator;
-      }
-
-      /// <inheritDoc />
       public void Info( Object[] objects )
       {
          CreateLogEntry( LogLevel.Info, objects, null, null );
@@ -149,31 +120,6 @@ namespace nexus.core.logging
       public void Info( Object[] objects, String message, params Object[] messageArgs )
       {
          CreateLogEntry( LogLevel.Info, objects, message, messageArgs );
-      }
-
-      /// <inheritDoc />
-      public Boolean RemoveDecorator( ILogEntryDecorator decorator )
-      {
-         lock(m_lock)
-         {
-            return m_decorators.Remove( decorator );
-         }
-      }
-
-      /// <inheritDoc />
-      public Boolean RemoveDecoratorOfType<T>() where T : ILogEntryDecorator
-      {
-         var type = typeof(T);
-         lock(m_lock)
-         {
-            var decorator = m_decorators.FirstOrDefault( x => x.GetType() == type );
-            if(decorator != null)
-            {
-               m_decorators.Remove( decorator );
-               return true;
-            }
-         }
-         return false;
       }
 
       /// <inheritDoc />
@@ -245,44 +191,29 @@ namespace nexus.core.logging
       {
          if(severity >= LogLevel)
          {
-            var seqNum = -1;
+            Int32 seqNum;
             lock(m_lock)
             {
                m_entriesWritten[severity] += 1;
-               seqNum = m_entriesWritten.Values.Sum();
+               m_entrySequence += 1;
+               seqNum = m_entrySequence;
             }
 
-            // TODO: create new level that runs through all objects in structuredData and serializes them to another type
-            // Eg, for the exception serializer it would be nice to add it at this top-level and not have to serialize at the call-site
+            // Run through all objects and see if any of them have serializers, if so remove the object and add the serialized result in its place
             var queue = new Queue<Object>( objects );
             while(queue.Count > 0)
             {
-               var item = queue.Dequeue();
-               if(m_serializers.ContainsKey( item.GetType() ))
+               if(m_serializers.ContainsKey( queue.Peek().GetType() ))
                {
+                  var item = queue.Dequeue();
                   // add the serialized value to the queue in case there is further processing to perform
                   queue.Enqueue( m_serializers[item.GetType()].Serialize( item ) );
                }
             }
-            var entry = new LogEntry( Id, m_timeProvider.UtcNow, severity, message, messageArgs, objects );
-            foreach(var decorator in m_decorators)
-            {
-               try
-               {
-                  var decoration = decorator.Augment( entry );
-                  if(decoration != null)
-                  {
-                     entry.AttachObject( decoration );
-                  }
-               }
-               catch(Exception ex)
-               {
-                  Debug.WriteLine(
-                     "** LOG [ERROR] in decorator {0} **\n{1}".F(
-                        decorator != null ? decorator.GetType().Name : "null",
-                        ex ) );
-               }
-            }
+
+            var entry = new LogEntry( Id, m_timeProvider.UtcNow, severity, message, messageArgs, queue.ToArray() );
+            m_entryBuffer[seqNum % m_entryBuffer.Length] = entry;
+
             foreach(var sink in m_sinks)
             {
                try
@@ -291,8 +222,7 @@ namespace nexus.core.logging
                }
                catch(Exception ex)
                {
-                  Debug.WriteLine(
-                     "** LOG [ERROR] in sink {0} **\n{1}".F( sink != null ? sink.GetType().Name : "null", ex ) );
+                  Debug.WriteLine( "** LOG [ERROR] in sink {0} ** : {1}".F( sink?.GetType().FullName ?? "null", ex ) );
                }
             }
          }
@@ -314,17 +244,10 @@ namespace nexus.core.logging
          {
             LogId = id;
             MessageArguments = messageArguments;
-            m_data = new List<Object>();
-            if(attachedObjects != null)
-            {
-               foreach(var o in attachedObjects)
-               {
-                  m_data.Add( o );
-               }
-            }
             Severity = severity;
             Message = message;
             Timestamp = time;
+            m_data = new List<Object>( attachedObjects );
          }
 
          public IEnumerable<Object> Data => m_data;
@@ -352,11 +275,6 @@ namespace nexus.core.logging
                }
             }
             return null;
-         }
-
-         internal void AttachObject<T>( T obj ) where T : class
-         {
-            m_data.Add( obj );
          }
       }
    }

@@ -14,8 +14,6 @@ namespace nexus.core.logging
    /// </summary>
    public interface ILogControl
    {
-      IEnumerable<ILogEntryDecorator> Decorators { get; }
-
       String Id { get; set; }
 
       /// <summary>
@@ -26,17 +24,11 @@ namespace nexus.core.logging
 
       IEnumerable<ILogSink> Sinks { get; }
 
-      void AddDecorator( ILogEntryDecorator decorator );
-
       /// <summary>
       /// Will dispatch logs to the provided listener after formatting them and checking that the current log level is met.
       /// </summary>
       /// <param name="sink"></param>
       void AddSink( ILogSink sink );
-
-      Boolean RemoveDecorator( ILogEntryDecorator decorator );
-
-      Boolean RemoveDecoratorOfType<T>() where T : ILogEntryDecorator;
 
       Boolean RemoveSink( ILogSink sink );
 

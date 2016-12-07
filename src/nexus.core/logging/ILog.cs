@@ -12,6 +12,7 @@ namespace nexus.core.logging
    /// <summary>
    /// Interface to write information to a log
    /// </summary>
+   /// TODO: Implement: ILog CreateChildLog( String id );
    public interface ILog
    {
       /// <summary>

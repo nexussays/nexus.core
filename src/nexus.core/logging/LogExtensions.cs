@@ -5,6 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.Diagnostics;
 using nexus.core.exception;
 using nexus.core.resharper;
 
@@ -12,6 +13,36 @@ namespace nexus.core.logging
 {
    public static class LogExtensions
    {
+      [Conditional( "DEBUG" )]
+      public static void Debug( this ILog log, params Object[] objects )
+      {
+         log.Trace( objects );
+      }
+
+      [Conditional( "DEBUG" )]
+      [StringFormatMethod( "message" )]
+      public static void Debug( this ILog log, String message, params Object[] messageArgs )
+      {
+         log.Trace( message, messageArgs );
+      }
+
+      [Conditional( "DEBUG" )]
+      [StringFormatMethod( "message" )]
+      public static void Debug( this ILog log, Object[] objects, String message, params Object[] messageArgs )
+      {
+         log.Trace( message, messageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log
+      /// </summary>
+      [Conditional( "DEBUG" )]
+      [StringFormatMethod( "message" )]
+      public static void Debug( this ILog log, IException exception, String message = null, params Object[] messageArgs )
+      {
+         log.Trace( new Object[] {exception}, message, messageArgs );
+      }
+
       /// <summary>
       /// Utility method to wrap the exception in an object array and write it to the log
       /// </summary>

@@ -12,38 +12,30 @@ using nexus.core.resharper;
 namespace nexus.core.logging
 {
    /// <summary>
-   /// Static global <see cref="ILog" />
+   /// Static global <see cref="ILog" /> writing to <see cref="SystemLog" />
    /// </summary>
    public static class Log
    {
-      private static readonly ILog s_instance;
-
-      static Log()
-      {
-         // store a reference to save on the lookup since it will be happening a lot
-         s_instance = SystemLog.Instance;
-      }
-
-      public static LogLevel LogLevel => s_instance.LogLevel;
+      public static LogLevel LogLevel => SystemLog.Instance.LogLevel;
 
       [Conditional( "DEBUG" )]
       public static void Debug( Object[] objects )
       {
-         s_instance.Trace( objects );
+         SystemLog.Instance.Trace( objects );
       }
 
       [StringFormatMethod( "message" )]
       [Conditional( "DEBUG" )]
       public static void Debug( String message, params Object[] messageArgs )
       {
-         s_instance.Trace( message, messageArgs );
+         SystemLog.Instance.Trace( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       [Conditional( "DEBUG" )]
       public static void Debug( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Trace( objects, message, messageArgs );
+         SystemLog.Instance.Trace( objects, message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
@@ -51,103 +43,103 @@ namespace nexus.core.logging
       public static void Debug( IException exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Trace( s_instance, exception, message, messageArgs );
+         LogExtensions.Trace( SystemLog.Instance, exception, message, messageArgs );
       }
 
       public static void Error( Object[] objects )
       {
-         s_instance.Error( objects );
+         SystemLog.Instance.Error( objects );
       }
 
       [StringFormatMethod( "message" )]
       public static void Error( String message, params Object[] messageArgs )
       {
-         s_instance.Error( message, messageArgs );
+         SystemLog.Instance.Error( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Error( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Error( objects, message, messageArgs );
+         SystemLog.Instance.Error( objects, message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Error( IException exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Error( s_instance, exception, message, messageArgs );
+         LogExtensions.Error( SystemLog.Instance, exception, message, messageArgs );
       }
 
       public static void Info( Object[] objects )
       {
-         s_instance.Info( objects );
+         SystemLog.Instance.Info( objects );
       }
 
       [StringFormatMethod( "message" )]
       public static void Info( String message, params Object[] messageArgs )
       {
-         s_instance.Info( message, messageArgs );
+         SystemLog.Instance.Info( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Info( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Info( objects, message, messageArgs );
+         SystemLog.Instance.Info( objects, message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Info( IException exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Info( s_instance, exception, message, messageArgs );
+         LogExtensions.Info( SystemLog.Instance, exception, message, messageArgs );
       }
 
       public static void Trace( Object[] objects )
       {
-         s_instance.Trace( objects );
+         SystemLog.Instance.Trace( objects );
       }
 
       [StringFormatMethod( "message" )]
       public static void Trace( String message, params Object[] messageArgs )
       {
-         s_instance.Trace( message, messageArgs );
+         SystemLog.Instance.Trace( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Trace( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Trace( objects, message, messageArgs );
+         SystemLog.Instance.Trace( objects, message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Trace( IException exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Trace( s_instance, exception, message, messageArgs );
+         LogExtensions.Trace( SystemLog.Instance, exception, message, messageArgs );
       }
 
       public static void Warn( Object[] objects )
       {
-         s_instance.Warn( objects );
+         SystemLog.Instance.Warn( objects );
       }
 
       [StringFormatMethod( "message" )]
       public static void Warn( String message, params Object[] messageArgs )
       {
-         s_instance.Warn( message, messageArgs );
+         SystemLog.Instance.Warn( message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Warn( Object[] objects, String message, params Object[] messageArgs )
       {
-         s_instance.Warn( objects, message, messageArgs );
+         SystemLog.Instance.Warn( objects, message, messageArgs );
       }
 
       [StringFormatMethod( "message" )]
       public static void Warn( IException exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Warn( s_instance, exception, message, messageArgs );
+         LogExtensions.Warn( SystemLog.Instance, exception, message, messageArgs );
       }
    }
 }
