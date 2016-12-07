@@ -12,9 +12,6 @@ namespace nexus.core
 {
    public static class ByteUtils
    {
-      public static ByteOrder HostEnvironmentByteOrder
-         => BitConverter.IsLittleEndian ? ByteOrder.LittleEndian : ByteOrder.BigEndian;
-
       /// <summary>
       /// Parse this string as a hexadecimal-encoded value and return the resulting byte array the hex-encoded value represents
       /// </summary>

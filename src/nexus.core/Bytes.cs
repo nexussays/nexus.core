@@ -14,6 +14,9 @@ namespace nexus.core
       public const Byte Space = 32;
       public const Byte Linefeed = 10;
 
+      public static ByteOrder HostEnvironmentByteOrder
+         => BitConverter.IsLittleEndian ? ByteOrder.LittleEndian : ByteOrder.BigEndian;
+
       public static Byte[] ToBytes( this Int16 value, ByteOrder endian = ByteOrder.LittleEndian )
       {
          return endian == ByteOrder.BigEndian
@@ -33,25 +36,25 @@ namespace nexus.core
          return endian == ByteOrder.BigEndian
             ? new[]
             {
-               (Byte)(value >> 56),
-               (Byte)(value >> 48),
-               (Byte)(value >> 40),
-               (Byte)(value >> 32),
-               (Byte)(value >> 24),
-               (Byte)(value >> 16),
-               (Byte)(value >> 8),
-               (Byte)value
+               (Byte)((value >> 56) & 0xff),
+               (Byte)((value >> 48) & 0xff),
+               (Byte)((value >> 40) & 0xff),
+               (Byte)((value >> 32) & 0xff),
+               (Byte)((value >> 24) & 0xff),
+               (Byte)((value >> 16) & 0xff),
+               (Byte)((value >> 8) & 0xff),
+               (Byte)(value & 0xff)
             }
             : new[]
             {
-               (Byte)value,
-               (Byte)(value >> 8),
-               (Byte)(value >> 16),
-               (Byte)(value >> 24),
-               (Byte)(value >> 32),
-               (Byte)(value >> 40),
-               (Byte)(value >> 48),
-               (Byte)(value >> 56)
+               (Byte)(value & 0xff),
+               (Byte)((value >> 8) & 0xff),
+               (Byte)((value >> 16) & 0xff),
+               (Byte)((value >> 24) & 0xff),
+               (Byte)((value >> 32) & 0xff),
+               (Byte)((value >> 40) & 0xff),
+               (Byte)((value >> 48) & 0xff),
+               (Byte)((value >> 56) & 0xff)
             };
       }
 
@@ -74,25 +77,25 @@ namespace nexus.core
          return endian == ByteOrder.BigEndian
             ? new[]
             {
-               (Byte)(value >> 56),
-               (Byte)(value >> 48),
-               (Byte)(value >> 40),
-               (Byte)(value >> 32),
-               (Byte)(value >> 24),
-               (Byte)(value >> 16),
-               (Byte)(value >> 8),
-               (Byte)value
+               (Byte)((value >> 56) & 0xff),
+               (Byte)((value >> 48) & 0xff),
+               (Byte)((value >> 40) & 0xff),
+               (Byte)((value >> 32) & 0xff),
+               (Byte)((value >> 24) & 0xff),
+               (Byte)((value >> 16) & 0xff),
+               (Byte)((value >> 8) & 0xff),
+               (Byte)(value & 0xff)
             }
             : new[]
             {
-               (Byte)value,
-               (Byte)(value >> 8),
-               (Byte)(value >> 16),
-               (Byte)(value >> 24),
-               (Byte)(value >> 32),
-               (Byte)(value >> 40),
-               (Byte)(value >> 48),
-               (Byte)(value >> 56)
+               (Byte)(value & 0xff),
+               (Byte)((value >> 8) & 0xff),
+               (Byte)((value >> 16) & 0xff),
+               (Byte)((value >> 24) & 0xff),
+               (Byte)((value >> 32) & 0xff),
+               (Byte)((value >> 40) & 0xff),
+               (Byte)((value >> 48) & 0xff),
+               (Byte)((value >> 56) & 0xff)
             };
       }
 
@@ -111,11 +114,7 @@ namespace nexus.core
       /// </summary>
       public static Single ToFloat32( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
-         return endian == ByteOrder.BigEndian
-            ? bytes[startIndex] << 24 | (bytes[startIndex + 1] << 16) | (bytes[startIndex + 2] << 8) |
-              bytes[startIndex + 3]
-            : bytes[startIndex + 3] << 24 | (bytes[startIndex + 2] << 16) | (bytes[startIndex + 1] << 8) |
-              bytes[startIndex];
+         return ToUInt32( bytes, startIndex, endian );
       }
 
       /// <summary>
@@ -123,40 +122,22 @@ namespace nexus.core
       /// </summary>
       public static Double ToFloat64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
-         return endian == ByteOrder.BigEndian
-            ? (bytes[startIndex] << 56) | (bytes[startIndex + 1] << 48) | (bytes[startIndex + 2] << 40) |
-              (bytes[startIndex + 3] << 32) | (bytes[startIndex + 4] << 24) | (bytes[startIndex + 5] << 16) |
-              (bytes[startIndex + 6] << 8) | bytes[startIndex + 7]
-            : (bytes[startIndex + 7] << 56) | (bytes[startIndex + 6] << 48) | (bytes[startIndex + 5] << 40) |
-              (bytes[startIndex + 4] << 32) | (bytes[startIndex + 3] << 24) | (bytes[startIndex + 2] << 16) |
-              (bytes[startIndex + 1] << 8) | bytes[startIndex];
+         return ToUInt64( bytes, startIndex, endian );
       }
 
       public static Int16 ToInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
-         return endian == ByteOrder.BigEndian
-            ? (Int16)(bytes[startIndex] << 8 | bytes[startIndex + 1])
-            : (Int16)(bytes[startIndex + 1] << 8 | bytes[startIndex]);
+         return (Int16)ToUInt16( bytes, startIndex, endian );
       }
 
       public static Int32 ToInt32( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
-         return endian == ByteOrder.BigEndian
-            ? bytes[startIndex] << 24 | (bytes[startIndex + 1] << 16) | (bytes[startIndex + 2] << 8) |
-              bytes[startIndex + 3]
-            : bytes[startIndex + 3] << 24 | (bytes[startIndex + 2] << 16) | (bytes[startIndex + 1] << 8) |
-              bytes[startIndex];
+         return (Int32)ToUInt32( bytes, startIndex, endian );
       }
 
       public static Int64 ToInt64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
-         return endian == ByteOrder.BigEndian
-            ? (bytes[startIndex] << 56) | (bytes[startIndex + 1] << 48) | (bytes[startIndex + 2] << 40) |
-              (bytes[startIndex + 3] << 32) | (bytes[startIndex + 4] << 24) | (bytes[startIndex + 5] << 16) |
-              (bytes[startIndex + 6] << 8) | bytes[startIndex + 7]
-            : (bytes[startIndex + 7] << 56) | (bytes[startIndex + 6] << 48) | (bytes[startIndex + 5] << 40) |
-              (bytes[startIndex + 4] << 32) | (bytes[startIndex + 3] << 24) | (bytes[startIndex + 2] << 16) |
-              (bytes[startIndex + 1] << 8) | bytes[startIndex];
+         return (Int64)ToUInt64( bytes, startIndex, endian );
       }
 
       public static UInt16 ToUInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
@@ -181,15 +162,15 @@ namespace nexus.core
 
       public static UInt64 ToUInt64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
-         return
-            (UInt64)
-            (endian == ByteOrder.BigEndian
-               ? (bytes[startIndex] << 56) | (bytes[startIndex + 1] << 48) | (bytes[startIndex + 2] << 40) |
-                 (bytes[startIndex + 3] << 32) | (bytes[startIndex + 4] << 24) | (bytes[startIndex + 5] << 16) |
-                 (bytes[startIndex + 6] << 8) | bytes[startIndex + 7]
-               : (bytes[startIndex + 7] << 56) | (bytes[startIndex + 6] << 48) | (bytes[startIndex + 5] << 40) |
-                 (bytes[startIndex + 4] << 32) | (bytes[startIndex + 3] << 24) | (bytes[startIndex + 2] << 16) |
-                 (bytes[startIndex + 1] << 8) | bytes[startIndex]);
+         return endian == ByteOrder.BigEndian
+            ? ((UInt64)bytes[startIndex] << 56) | ((UInt64)bytes[startIndex + 1] << 48) |
+              ((UInt64)bytes[startIndex + 2] << 40) | ((UInt64)bytes[startIndex + 3] << 32) |
+              (UInt32)(bytes[startIndex + 4] << 24) | (UInt32)(bytes[startIndex + 5] << 16) |
+              (UInt32)(bytes[startIndex + 6] << 8) | bytes[startIndex + 7]
+            : ((UInt64)bytes[startIndex + 7] << 56) | ((UInt64)bytes[startIndex + 6] << 48) |
+              ((UInt64)bytes[startIndex + 5] << 40) | ((UInt64)bytes[startIndex + 4] << 32) |
+              (UInt32)(bytes[startIndex + 3] << 24) | (UInt32)(bytes[startIndex + 2] << 16) |
+              (UInt32)(bytes[startIndex + 1] << 8) | bytes[startIndex];
       }
    }
 }
