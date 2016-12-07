@@ -15,9 +15,9 @@ namespace nexus.core.serialization
 
       Task SerializeAsync( Stream to, TFrom data );
 
-      //Task Serialize( IOutputStream serializeTo, T data );
-
       // TODO: Implement IOutputStream
+
+      //Task Serialize( IOutputStream serializeTo, T data );
    }
 
    public delegate TTo StreamSerializer<out TTo>( Stream serializeTo );

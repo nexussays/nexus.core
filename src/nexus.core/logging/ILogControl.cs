@@ -24,8 +24,6 @@ namespace nexus.core.logging
       /// </summary>
       LogLevel LogLevel { get; set; }
 
-      ILogEntrySerializer Serializer { get; set; }
-
       IEnumerable<ILogSink> Sinks { get; }
 
       void AddDecorator( ILogEntryDecorator decorator );

@@ -5,14 +5,14 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
-using nexus.core.serialization;
 
-namespace nexus.core.logging
+namespace nexus.core.time
 {
    /// <summary>
-   /// Just a strongly-typed interface for <see cref="ISerializer{ILogEntry,String}"/>
+   /// Use <see cref="DateTime.UtcNow" />
    /// </summary>
-   public interface ILogEntrySerializer : ISerializer<ILogEntry, String>
+   public class DefaultTimeProvider : ITimeProvider
    {
+      public DateTime UtcNow => DateTime.UtcNow;
    }
 }

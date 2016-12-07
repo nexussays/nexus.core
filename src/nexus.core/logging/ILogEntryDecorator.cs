@@ -12,6 +12,7 @@ namespace nexus.core.logging
    /// Once registered with a <see cref="ILogControl" />, a <see cref="ILogEntryDecorator" /> allows augmenting the data of a
    /// <see cref="ILogEntry" /> with additional data
    /// </summary>
+   [Obsolete]
    public interface ILogEntryDecorator
    {
       /// <summary>

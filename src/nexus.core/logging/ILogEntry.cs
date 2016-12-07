@@ -12,8 +12,7 @@ namespace nexus.core.logging
    public interface ILogEntry
    {
       /// <summary>
-      /// A freeform list of objects that have been attached to this log message at creation or by a
-      /// <see cref="ILogEntryDecorator" />. It is up to a <see cref="ILogEntrySerializer" /> or a <see cref="ILogSink" /> to
+      /// A freeform list of objects that have been attached to this log message. It is up to attached <see cref="ILogSink" /> to
       /// make use of these attached values.
       /// </summary>
       IEnumerable<Object> Data { get; }
@@ -34,6 +33,11 @@ namespace nexus.core.logging
 
       DateTime /*Int64*/ Timestamp { get; }
 
+      /// <summary>
+      /// Utility method to pull data out of <see cref="Data" /> by type
+      /// </summary>
+      /// <typeparam name="T"></typeparam>
+      /// <returns></returns>
       T GetData<T>() where T : class;
    }
 }

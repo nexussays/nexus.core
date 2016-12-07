@@ -15,7 +15,7 @@ namespace nexus.core.logging
    public interface ILog
    {
       /// <summary>
-      /// A unique name for this log, if desired
+      /// A unique name for this log within the application, if desired
       /// </summary>
       String Id { get; }
 
