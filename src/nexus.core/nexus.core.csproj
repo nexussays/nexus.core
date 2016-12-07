@@ -139,6 +139,14 @@
     <Compile Include="Expected.cs" />
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
+    <Compile Include="logging\ILog.cs" />
+    <Compile Include="logging\ILogControl.cs" />
+    <Compile Include="logging\ILogEntry.cs" />
+    <Compile Include="logging\ILogEntryDecorator.cs" />
+    <Compile Include="logging\ILogEntrySerializer.cs" />
+    <Compile Include="logging\ILogSink.cs" />
+    <Compile Include="logging\ILogSource.cs" />
+    <Compile Include="logging\LogLevel.cs" />
     <Compile Include="MutableDictionary.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Option.cs" />
