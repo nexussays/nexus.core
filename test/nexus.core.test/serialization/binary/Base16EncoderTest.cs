@@ -5,10 +5,11 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using nexus.core;
 using nexus.core.serialization.binary;
 using NUnit.Framework;
 
-namespace nexus.core.test.serialization.binary
+namespace nexus.core_test.serialization.binary
 {
    [TestFixture]
    internal class Base16EncoderTest

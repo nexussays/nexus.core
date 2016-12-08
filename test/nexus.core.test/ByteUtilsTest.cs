@@ -5,11 +5,12 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using nexus.core;
 using NUnit.Framework;
 
 // ReSharper disable InvokeAsExtensionMethod
 
-namespace nexus.core.test
+namespace nexus.core_test
 {
    [TestFixture]
    internal class ByteUtilsTest

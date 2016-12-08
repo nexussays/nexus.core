@@ -34,11 +34,20 @@ namespace nexus.core.logging
       private readonly ITimeProvider m_timeProvider;
       private Int32 m_entrySequence;
 
-      public SystemLog( ITimeProvider time )
+      /// <summary>
+      /// Create a new system log with the provided configuration
+      /// </summary>
+      /// <param name="time"></param>
+      /// <param name="logBufferSize">
+      /// The size of the rolling buffer used to store log entries so newly attached sinks don't lose
+      /// any entries. This is only really necessary at start/launch time so unless you are expecting a lot of logging prior to
+      /// attaching your sinks the default value is probably fine.
+      /// </param>
+      public SystemLog( ITimeProvider time, Int32 logBufferSize )
       {
          Contract.Requires( time != null );
          m_entrySequence = -1;
-         m_entryBuffer = new ILogEntry[50];
+         m_entryBuffer = new ILogEntry[logBufferSize];
          m_entriesWritten = new Dictionary<LogLevel, Int32>
          {
             {LogLevel.Error, 0},
@@ -71,7 +80,9 @@ namespace nexus.core.logging
       /// <summary>
       /// You should only access this in the main entry-point of your application code and **never** from libraries.
       /// </summary>
-      public static SystemLog Instance { get; } = new SystemLog( new DefaultTimeProvider() );
+      public static SystemLog Instance { get; } = new SystemLog( new DefaultTimeProvider(), 50 );
+
+      public Int32 LogBufferSize => m_entryBuffer.Length;
 
       /// <inheritDoc />
       public IEnumerable<ILogSink> Sinks => new List<ILogSink>( m_sinks );
@@ -101,13 +112,15 @@ namespace nexus.core.logging
                   // if the sequence number is greater than the length of the buffer then we've wrapped around,
                   // so start at one past the latest entry (i.e., the oldest entry) and read to the end and then
                   // wrap back around to index 0 and read up until the current seqNum
-                  var startIndex = (m_entrySequence + 1) % m_entryBuffer.Length;
-                  /*
-                  for(var x = 0; x < m_entryBuffer.Length; ++x)
+                  var index = m_entrySequence % m_entryBuffer.Length;
+                  for(Int32 x = index + 1, count = 1; x < m_entryBuffer.Length; ++x, ++count)
                   {
-                     backlog.Add( Tuple.Create( m_entryBuffer[startIndex + x], m_entrySequence - startIndex ) );
+                     backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - m_entryBuffer.Length + count ) );
                   }
-                  */
+                  for(var x = 0; x <= index; ++x)
+                  {
+                     backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - index + x ) );
+                  }
                }
                else
                {
@@ -272,7 +285,7 @@ namespace nexus.core.logging
                m_entrySequence += 1;
                seqNum = m_entrySequence;
                entry = new LogEntry( Id, time, severity, message, messageArgs, queue?.ToArray() );
-               m_entryBuffer[seqNum % m_entryBuffer.Length] = entry;
+               m_entryBuffer[m_entrySequence % m_entryBuffer.Length] = entry;
             }
 
             foreach(var sink in m_sinks)

@@ -6,7 +6,7 @@
 
 using NUnit.Framework;
 
-namespace nexus.core.test
+namespace nexus.core_test
 {
    [SetUpFixture]
    internal class UnitTests

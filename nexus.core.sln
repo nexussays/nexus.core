@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core", "src\nexus.core\nexus.core.csproj", "{0BFB8710-A65C-453D-BD97-72F72D922156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core.test", "test\nexus.core.test\nexus.core.test.csproj", "{4767107F-4CD1-4A89-A073-E523D89C7BF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core_test", "test\nexus.core.test\nexus.core_test.csproj", "{4767107F-4CD1-4A89-A073-E523D89C7BF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

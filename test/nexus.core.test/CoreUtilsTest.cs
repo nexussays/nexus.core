@@ -5,9 +5,10 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using nexus.core;
 using NUnit.Framework;
 
-namespace nexus.core.test
+namespace nexus.core_test
 {
    [TestFixture]
    internal class CoreUtilsTest

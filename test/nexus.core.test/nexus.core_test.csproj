@@ -7,8 +7,8 @@
     <ProjectGuid>{4767107F-4CD1-4A89-A073-E523D89C7BF4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>nexus.core.test</RootNamespace>
-    <AssemblyName>nexus.core.test</AssemblyName>
+    <RootNamespace>nexus.core_test</RootNamespace>
+    <AssemblyName>nexus.core_test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <OutputPath>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)</OutputPath>
