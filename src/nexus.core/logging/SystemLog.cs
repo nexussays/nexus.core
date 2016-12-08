@@ -171,6 +171,22 @@ namespace nexus.core.logging
          CreateLogEntry( LogLevel.Error, objects, message, messageArgs );
       }
 
+      /// <summary>
+      /// Returns the number of entries of the given severity that have been discarded due to <see cref="CurrentLevel" />.
+      /// </summary>
+      public Int32 GetCountOfEntriesSkipped( LogLevel severity )
+      {
+         return m_entriesSkipped[severity];
+      }
+
+      /// <summary>
+      /// Returns the number of entries of the given severity that have been written to the log thus far.
+      /// </summary>
+      public Int32 GetCountOfEntriesWritten( LogLevel severity )
+      {
+         return m_entriesWritten[severity];
+      }
+
       /// <inheritDoc />
       public void Info( Object[] objects )
       {
