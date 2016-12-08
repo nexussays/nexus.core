@@ -47,6 +47,7 @@
     <Compile Include="BytesTest.cs" />
     <Compile Include="ByteUtilsTest.cs" />
     <Compile Include="CoreUtilsTest.cs" />
+    <Compile Include="logging\SystemLogTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="serialization\binary\Base16EncoderTest.cs" />
     <Compile Include="UnitTests.cs" />

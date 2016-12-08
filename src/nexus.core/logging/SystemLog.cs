@@ -39,8 +39,20 @@ namespace nexus.core.logging
          Contract.Requires( time != null );
          m_entrySequence = -1;
          m_entryBuffer = new ILogEntry[50];
-         m_entriesWritten = new Dictionary<LogLevel, Int32>();
-         m_entriesSkipped = new Dictionary<LogLevel, Int32>();
+         m_entriesWritten = new Dictionary<LogLevel, Int32>
+         {
+            {LogLevel.Error, 0},
+            {LogLevel.Warn, 0},
+            {LogLevel.Info, 0},
+            {LogLevel.Trace, 0}
+         };
+         m_entriesSkipped = new Dictionary<LogLevel, Int32>
+         {
+            {LogLevel.Error, 0},
+            {LogLevel.Warn, 0},
+            {LogLevel.Info, 0},
+            {LogLevel.Trace, 0}
+         };
          m_serializers = new Dictionary<Type, IUntypedSerializer>();
          m_timeProvider = time;
          CurrentLevel = LogLevel.Trace;
@@ -75,43 +87,50 @@ namespace nexus.core.logging
             throw new ArgumentNullException( nameof( sink ) );
          }
 
-         Int32 seqNum;
+         List<Tuple<ILogEntry, Int32>> backlog = null;
          lock(m_lock)
          {
             m_sinks.Add( sink );
-            seqNum = m_entrySequence;
+
+            // copy out any buffered log entries to a backlog for the sink
+            if(m_entrySequence >= 0)
+            {
+               backlog = new List<Tuple<ILogEntry, Int32>>();
+               if(m_entrySequence >= m_entryBuffer.Length)
+               {
+                  // if the sequence number is greater than the length of the buffer then we've wrapped around,
+                  // so start at one past the latest entry (i.e., the oldest entry) and read to the end and then
+                  // wrap back around to index 0 and read up until the current seqNum
+                  var startIndex = (m_entrySequence + 1) % m_entryBuffer.Length;
+                  /*
+                  for(var x = 0; x < m_entryBuffer.Length; ++x)
+                  {
+                     backlog.Add( Tuple.Create( m_entryBuffer[startIndex + x], m_entrySequence - startIndex ) );
+                  }
+                  */
+               }
+               else
+               {
+                  for(var x = 0; x <= m_entrySequence; ++x)
+                  {
+                     backlog.Add( Tuple.Create( m_entryBuffer[x], x ) );
+                  }
+               }
+            }
          }
 
-         // write out any buffered log entries to the sink. This isn't thread safe but oh well.
-         if(seqNum > 0)
+         // now that we're outside of the lock, send all the backlog of buffered log entries to the new sink
+         if(backlog?.Count > 0)
          {
-            if(seqNum >= m_entryBuffer.Length)
+            foreach(var entry in backlog)
             {
-               // if the sequence number is greater than the length of the buffer then we've wrapped around,
-               // so start at one past the latest entry (i.e., the oldest entry) and read to the end and then
-               // wrap back around to index 0 and read up until the current seqNum
-               var startIndex = (seqNum + 1) % m_entryBuffer.Length;
-               /*
-               // TODO: Finish implementing
-               for(var x = 0; x < m_entryBuffer.Length; ++x)
+               try
                {
-                  sink.Handle(m_entryBuffer[startIndex + x], startIndex);
+                  sink.Handle( entry.Item1, entry.Item2 );
                }
-               */
-            }
-            else
-            {
-               for(var x = 0; x <= seqNum; ++x)
+               catch(Exception ex)
                {
-                  try
-                  {
-                     sink.Handle( m_entryBuffer[x], x );
-                  }
-                  catch(Exception ex)
-                  {
-                     Debug.WriteLine(
-                        "** LOG [ERROR] in sink {0} ** : {1}".F( sink?.GetType().FullName ?? "null", ex ) );
-                  }
+                  Debug.WriteLine( "** LOG [ERROR] in sink {0} ** : {1}".F( sink?.GetType().FullName ?? "null", ex ) );
                }
             }
          }
@@ -230,14 +249,18 @@ namespace nexus.core.logging
             var time = m_timeProvider.UtcNow;
 
             // run through all objects and see if any of them have serializers, if so remove the object and add the serialized result in its place
-            var queue = new Queue<Object>( objects );
-            while(queue.Count > 0)
+            Queue<Object> queue = null;
+            if(objects != null)
             {
-               if(m_serializers.ContainsKey( queue.Peek().GetType() ))
+               queue = new Queue<Object>( objects );
+               while(queue.Count > 0)
                {
-                  var item = queue.Dequeue();
-                  // add the serialized value to the queue in case there is further processing to perform
-                  queue.Enqueue( m_serializers[item.GetType()].Serialize( item ) );
+                  if(m_serializers.ContainsKey( queue.Peek().GetType() ))
+                  {
+                     var item = queue.Dequeue();
+                     // add the serialized value to the queue in case there is further processing to perform
+                     queue.Enqueue( m_serializers[item.GetType()].Serialize( item ) );
+                  }
                }
             }
 
@@ -248,7 +271,7 @@ namespace nexus.core.logging
                m_entriesWritten[severity] += 1;
                m_entrySequence += 1;
                seqNum = m_entrySequence;
-               entry = new LogEntry( Id, time, severity, message, messageArgs, queue.ToArray() );
+               entry = new LogEntry( Id, time, severity, message, messageArgs, queue?.ToArray() );
                m_entryBuffer[seqNum % m_entryBuffer.Length] = entry;
             }
 
@@ -285,7 +308,7 @@ namespace nexus.core.logging
             Severity = severity;
             Message = message;
             Timestamp = time;
-            m_data = new List<Object>( attachedObjects );
+            m_data = attachedObjects == null ? new List<Object>() : new List<Object>( attachedObjects );
          }
 
          public IEnumerable<Object> Data => m_data;

@@ -41,7 +41,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Debug( this ILog log, Object[] objects, String message, params Object[] messageArgs )
       {
-         log.Trace( message, messageArgs );
+         log.Trace( objects, message, messageArgs );
       }
 
       /// <summary>
@@ -134,6 +134,81 @@ namespace nexus.core.logging
       public static void Warn( this ILog log, IException exception, String message = null, params Object[] messageArgs )
       {
          log.Warn( new Object[] {exception}, message, messageArgs );
+      }
+
+      /// <summary>
+      /// Write to the log with the given severity. Utility class if you have <paramref name="severity" /> as a variable and wish
+      /// to use that to determine the level to write
+      /// </summary>
+      public static void Write( this ILog log, LogLevel severity, params Object[] objects )
+      {
+         switch(severity)
+         {
+            case LogLevel.Error:
+               log.Error( objects );
+               break;
+            case LogLevel.Warn:
+               log.Warn( objects );
+               break;
+            case LogLevel.Info:
+               log.Info( objects );
+               break;
+            case LogLevel.Trace:
+            default:
+               log.Trace( objects );
+               break;
+         }
+      }
+
+      /// <summary>
+      /// Write to the log with the given severity. Utility class if you have <paramref name="severity" /> as a variable and wish
+      /// to use that to determine the level to write
+      /// </summary>
+      [StringFormatMethod( "message" )]
+      public static void Write( this ILog log, LogLevel severity, String message, params Object[] messageArgs )
+      {
+         switch(severity)
+         {
+            case LogLevel.Error:
+               log.Error( message, messageArgs );
+               break;
+            case LogLevel.Warn:
+               log.Warn( message, messageArgs );
+               break;
+            case LogLevel.Info:
+               log.Info( message, messageArgs );
+               break;
+            case LogLevel.Trace:
+            default:
+               log.Trace( message, messageArgs );
+               break;
+         }
+      }
+
+      /// <summary>
+      /// Write to the log with the given severity. Utility class if you have <paramref name="severity" /> as a variable and wish
+      /// to use that to determine the level to write
+      /// </summary>
+      [StringFormatMethod( "message" )]
+      public static void Write( this ILog log, LogLevel severity, Object[] objects, String message,
+                                params Object[] messageArgs )
+      {
+         switch(severity)
+         {
+            case LogLevel.Error:
+               log.Error( message, messageArgs );
+               break;
+            case LogLevel.Warn:
+               log.Warn( message, messageArgs );
+               break;
+            case LogLevel.Info:
+               log.Info( message, messageArgs );
+               break;
+            case LogLevel.Trace:
+            default:
+               log.Trace( message, messageArgs );
+               break;
+         }
       }
    }
 }
