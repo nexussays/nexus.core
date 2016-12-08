@@ -13,8 +13,8 @@ namespace nexus.core.serialization.text
    /// <summary>
    /// Use <see cref="ITextEncoder" /> when your source data is a string and you want to convert that information
    /// losslessly to a byte array.
-   /// This is the string/char equivalent to to <see cref="ITextEncoder" />.
-   /// <see cref="IBinaryEncoder" /> can
+   /// This is the string/char equivalent to to <see cref="IBinaryEncoder" />.
+   /// <see cref="ITextEncoder" /> can
    /// 1. Encode an arbitrary string to formatted bytes
    /// 2. Decode formatted bytes to the original string
    /// </summary>

@@ -9,14 +9,23 @@ using System.Text;
 
 namespace nexus.core.serialization.text
 {
-   public class Utf16Encoder : TextEncoder
+   public sealed class Utf16Encoder : TextEncoder
    {
-      public static readonly ITextEncoder WithBOM = new Utf16Encoder( true, false );
-      public static readonly ITextEncoder WithoutBOM = new Utf16Encoder( false, false );
-
-      public Utf16Encoder( Boolean useBom, Boolean bigEndian )
-         : base( new UnicodeEncoding( bigEndian, useBom ) )
+      public Utf16Encoder( Boolean useByteOrderMark, ByteOrder endianness, Boolean throwOnInvalidBytes )
+         : base( new UnicodeEncoding( endianness == ByteOrder.BigEndian, useByteOrderMark, throwOnInvalidBytes ) )
       {
       }
+
+      /// <summary>
+      /// <see cref="Utf16Encoder" /> with byte-order-mark, endianness set to <see cref="Bytes.HostEnvironmentByteOrder" />, and
+      /// exceptions thrown on invalid bytes
+      /// </summary>
+      public static ITextEncoder WithBOM { get; } = new Utf16Encoder( true, Bytes.HostEnvironmentByteOrder, true );
+
+      /// <summary>
+      /// <see cref="Utf16Encoder" /> with **no** byte-order-mark, endianness set to
+      /// <see cref="Bytes.HostEnvironmentByteOrder" />, and exceptions thrown on invalid bytes
+      /// </summary>
+      public static ITextEncoder WithoutBOM { get; } = new Utf16Encoder( false, Bytes.HostEnvironmentByteOrder, true );
    }
 }

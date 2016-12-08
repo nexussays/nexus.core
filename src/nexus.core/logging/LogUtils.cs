@@ -43,12 +43,11 @@ namespace nexus.core.logging
 
       /// <summary>
       /// Apply <see cref="String.Format(IFormatProvider,String,object[])" /> over <see cref="ILogEntry.Message" /> and
-      /// <see cref="ILogEntry.MessageArguments" />; checking for null, invalid, and empty arguments. Catches any thrown
-      /// <see cref="FormatException" /> and returns a string-formatted version of the exception.
+      /// <see cref="ILogEntry.MessageArguments" /> while checking for null, invalid, and empty arguments. This method catches
+      /// any thrown exceptions and returns an error message.
       /// </summary>
       /// <param name="entry">The log entry to format</param>
       /// <param name="formatter">The format provider to use, or <see cref="CultureInfo.InvariantCulture" /> if null</param>
-      /// <returns></returns>
       public static String FormatMessageAndArguments( this ILogEntry entry, IFormatProvider formatter = null )
       {
          Contract.Requires( entry != null );

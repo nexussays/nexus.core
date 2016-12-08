@@ -9,6 +9,9 @@ using System.Collections.Generic;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// Utility methods to get data from and parse strings to enum values
+   /// </summary>
    public static class Enum<T>
       where T : struct
    {

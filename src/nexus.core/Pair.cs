@@ -9,13 +9,16 @@ using System.Collections.Generic;
 namespace nexus.core
 {
    /// <summary>
-   /// Utility method to create a <see cref="KeyValuePair" />
+   /// Utility method to create a <see cref="KeyValuePair{TKey,TValue}" /> with <see cref="Of{TKey,TValue}" />. That's all :)
    /// </summary>
    public static class Pair
    {
-      public static KeyValuePair<TK, TV> Of<TK, TV>( TK key, TV value )
+      /// <summary>
+      /// Utility method to create a <see cref="KeyValuePair{TKey,TValue}" />
+      /// </summary>
+      public static KeyValuePair<TKey, TValue> Of<TKey, TValue>( TKey key, TValue value )
       {
-         return new KeyValuePair<TK, TV>( key, value );
+         return new KeyValuePair<TKey, TValue>( key, value );
       }
    }
 }

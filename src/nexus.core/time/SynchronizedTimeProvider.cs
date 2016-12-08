@@ -19,14 +19,14 @@ namespace nexus.core.time
 
       public Boolean IsSynchronized => SynchronizedAt.HasValue;
 
-      public TimeSpan? OffsetFromLocalEnvironment { get; private set; }
+      public TimeSpan? OffsetFromHostEnvironment { get; private set; }
 
       public DateTime? SynchronizedAt { get; private set; }
 
       public DateTime UtcNow
          =>
-         OffsetFromLocalEnvironment.HasValue
-            ? DateTime.UtcNow.AddMilliseconds( OffsetFromLocalEnvironment.Value.TotalMilliseconds )
+         OffsetFromHostEnvironment.HasValue
+            ? DateTime.UtcNow.AddMilliseconds( OffsetFromHostEnvironment.Value.TotalMilliseconds )
             : DateTime.UtcNow;
 
       /// <summary>
@@ -46,14 +46,14 @@ namespace nexus.core.time
             Reset();
             throw;
          }
-         OffsetFromLocalEnvironment = SynchronizedAt.Value - localTime;
+         OffsetFromHostEnvironment = SynchronizedAt.Value - localTime;
          Epoch = epoch;
       }
 
       private void Reset()
       {
          SynchronizedAt = null;
-         OffsetFromLocalEnvironment = null;
+         OffsetFromHostEnvironment = null;
          Epoch = TimeEpoch.None;
       }
    }

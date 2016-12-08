@@ -12,8 +12,20 @@ using System.Reflection;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// Utility methods to to type conversions with methods to catch exceptions and return default values or return
+   /// <see cref="Option{T}" />
+   /// </summary>
    public static class Parse
    {
+      /// <summary>
+      /// Convert <paramref name="value" /> to the provided type or return <paramref name="defaultValue" /> if an
+      /// exception is thrown.
+      /// </summary>
+      /// <returns>
+      /// The result from converting <paramref name="value" /> or <paramref name="defaultValue" /> if an exception is
+      /// thrown.
+      /// </returns>
       public static T OrDefault<T>( Object value, T defaultValue )
       {
          Object ret;
@@ -95,16 +107,26 @@ namespace nexus.core
          }
       }
 
+      /// <summary>
+      /// Parse the given string to the provided type or return <paramref name="defaultValue" /> if an exception is thrown.
+      /// </summary>
       public static T ParseOrDefault<T>( this String source, T defaultValue = default(T) )
       {
          return Parse<T>.OrDefault( source, defaultValue );
       }
 
+      /// <summary>
+      /// Parse the given string to the provided type, throwing any exceptions up the stack
+      /// </summary>
       public static T ParseOrThrow<T>( this String source )
       {
          return Parse<T>.OrThrow( source );
       }
 
+      /// <summary>
+      /// Try to parse the given string to the provided type, exceptions will be swallowed and an empty
+      /// <see cref="Option{String}" /> will be returned
+      /// </summary>
       public static Option<T> TryParse<T>( this String source )
       {
          return Parse<T>.Maybe( source );
@@ -141,7 +163,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Parses the passed object into the generic type, if an exception is thrown by the parsing the default value is used
+      /// Parses the passed object into the generic type, if an exception is thrown, the default value is used
       /// instead. This method does not throw any exceptions.
       /// <remarks><see cref="DateTime" /> conversions are assumed to be UTC if no timezone is present.</remarks>
       /// </summary>

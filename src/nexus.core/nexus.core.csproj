@@ -16,6 +16,7 @@
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OutputPath>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)</OutputPath>
+    <DocumentationFile>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)\$(AssemblyName).xml</DocumentationFile>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -166,12 +167,10 @@
     <Compile Include="serialization\binary\IBinaryEncoder.cs" />
     <Compile Include="serialization\IDeserializer.cs" />
     <Compile Include="serialization\IGenericDeserializer.cs" />
+    <Compile Include="serialization\IUntypedSerializer.cs" />
     <Compile Include="serialization\ISerializer.cs" />
-    <Compile Include="serialization\IGenericStreamDeserializer.cs" />
     <Compile Include="serialization\IStreamDeserializer.cs" />
     <Compile Include="serialization\IStreamSerializer.cs" />
-    <Compile Include="serialization\ITextWriterSerializer.cs" />
-    <Compile Include="serialization\text\EncodedBytes.cs" />
     <Compile Include="serialization\text\Utf8Encoder.cs" />
     <Compile Include="serialization\text\ITextEncoder.cs" />
     <Compile Include="serialization\text\TextEncoder.cs" />

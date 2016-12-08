@@ -15,7 +15,8 @@ namespace nexus.core
    public static class StringUtils
    {
       /// <summary>
-      /// Wraps String.Format() for more convenient use. eg - "Value {0}".@F(argument)
+      /// Wraps <see cref="String.Format(String,object[])" /> for more convenient use, e.g.,
+      /// <code>"Value {0}".@F(argument)</code>.
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
@@ -29,7 +30,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Syntax sugar for <code>String.IsNullOrEmpty(value)</code>
+      /// Syntax sugar for <see cref="String.IsNullOrEmpty" />
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
@@ -39,7 +40,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Syntax sugar for <code>String.IsNullOrWhiteSpace(value)</code>
+      /// Syntax sugar for <see cref="String.IsNullOrWhiteSpace" />
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
       public static Boolean IsNullOrWhiteSpace( this String value )
@@ -48,6 +49,9 @@ namespace nexus.core
          return String.IsNullOrWhiteSpace( value );
       }
 
+      /// <summary>
+      /// Syntax sugar for <see cref="String.Join(String,String[])" />
+      /// </summary>
       [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
       public static String Join( this String[] arr, String separator )
@@ -55,6 +59,9 @@ namespace nexus.core
          return String.Join( separator, arr );
       }
 
+      /// <summary>
+      /// Syntax sugar for <see cref="String.Join(String,System.Collections.Generic.IEnumerable{String})" />
+      /// </summary>
       [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
       public static String Join( this IEnumerable<String> arr, String separator )
@@ -63,7 +70,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Removes any of the characters in stripValues from the source string
+      /// Removes any of the individual characters in <paramref name="stripValues" /> from <paramref name="source" />
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
@@ -73,7 +80,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Removes any of the characters in stripValues from the source string
+      /// Removes any of the characters in <paramref name="stripValues" /> from <paramref name="source" />
       /// </summary>
       [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
@@ -98,6 +105,30 @@ namespace nexus.core
             return input != null && regex.IsMatch( input, startAt.Value );
          }
          return input != null && regex.IsMatch( input );
+      }
+
+      /// <summary>
+      /// Convert <see cref="Int16" /> to string in a given base number system.
+      /// </summary>
+      public static String ToString( this Int16 value, Int32 toBase )
+      {
+         return Convert.ToString( value, toBase );
+      }
+
+      /// <summary>
+      /// Convert <see cref="Int32" /> to string in a given base number system.
+      /// </summary>
+      public static String ToString( this Int32 value, Int32 toBase )
+      {
+         return Convert.ToString( value, toBase );
+      }
+
+      /// <summary>
+      /// Convert <see cref="Int64" /> to string in a given base number system.
+      /// </summary>
+      public static String ToString( this Int64 value, Int32 toBase )
+      {
+         return Convert.ToString( value, toBase );
       }
    }
 }

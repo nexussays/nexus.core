@@ -7,6 +7,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using nexus.core.serialization.binary;
+using nexus.core.serialization.text;
 
 namespace nexus.core
 {
@@ -17,6 +18,7 @@ namespace nexus.core
       /// </summary>
       public static Byte[] DecodeAsBase16( this String value )
       {
+         // TODO: This should really just handle all cases in the same string without this hacky method
          try
          {
             return DecodeAsBase16( value, true );
@@ -43,6 +45,20 @@ namespace nexus.core
          return value.IsNullOrEmpty() ? new Byte[0] : Base64Encoder.Instance.Deserialize( value );
       }
 
+      public static String DecodeAsUtf16String( this Byte[] value, Boolean includeByteOrderMark = false )
+      {
+         return value == null
+            ? null
+            : (includeByteOrderMark ? Utf16Encoder.WithBOM : Utf16Encoder.WithoutBOM).Deserialize( value );
+      }
+
+      public static String DecodeAsUtf8String( this Byte[] value, Boolean includeByteOrderMark = false )
+      {
+         return value == null
+            ? null
+            : (includeByteOrderMark ? Utf8Encoder.WithBOM : Utf8Encoder.WithoutBOM).Deserialize( value );
+      }
+
       /// <summary>
       /// Encode the bytearray into a hexadecimal string
       /// </summary>
@@ -67,6 +83,9 @@ namespace nexus.core
          return Base64Encoder.Instance.Serialize( value );
       }
 
+      /// <summary>
+      /// Compare two byte arrays and return true if they are the same length and have the same values at each index
+      /// </summary>
       public static Boolean EqualsByteArray( this Byte[] l, Byte[] r )
       {
          if(ReferenceEquals( l, r ))
@@ -75,25 +94,44 @@ namespace nexus.core
          }
 
          // short circuit loop if anything is null or lengths aren't equal
-         if(ReferenceEquals( null, l ) || ReferenceEquals( null, r ))
-         {
-            return false;
-         }
-
-         // unless I'm overlooking something obvious there's a bug in the contract validation where it thinks these two lengths are guaranteed to be the same
-         if(l.Length != r.Length)
+         if(ReferenceEquals( null, l ) || ReferenceEquals( null, r ) || l.Length != r.Length)
          {
             return false;
          }
 
          for(var x = 0; x < l.Length; ++x)
          {
+            // TODO: is the bitwise operation faster?
             if(l[x] != r[x]) //if((l[x] ^ r[x]) != 0)
             {
                return false;
             }
          }
          return true;
+      }
+
+      public static Byte[] GetUtf16Bytes( this String value, Boolean includeByteOrderMark = false )
+      {
+         return value == null
+            ? null
+            : (includeByteOrderMark ? Utf16Encoder.WithBOM : Utf16Encoder.WithoutBOM).Serialize( value );
+      }
+
+      public static Option<Byte[]> GetUtf16Bytes( this Option<String> value, Boolean includeByteOrderMark = false )
+      {
+         return value.HasValue ? GetUtf16Bytes( value.Value ) : Option<Byte[]>.NoValue;
+      }
+
+      public static Byte[] GetUtf8Bytes( this String value, Boolean includeByteOrderMark = false )
+      {
+         return value == null
+            ? null
+            : (includeByteOrderMark ? Utf8Encoder.WithBOM : Utf8Encoder.WithoutBOM).Serialize( value );
+      }
+
+      public static Option<Byte[]> GetUtf8Bytes( this Option<String> value, Boolean includeByteOrderMark = false )
+      {
+         return value.HasValue ? GetUtf8Bytes( value.Value ) : Option<Byte[]>.NoValue;
       }
 
       /// <summary>
@@ -117,9 +155,10 @@ namespace nexus.core
       /// </summary>
       public static Byte[] Slice( this Byte[] source, Int32 startByteIndex = 0 )
       {
-         Contract.Requires( source != null );
-         Contract.Requires( source.Length >= startByteIndex );
-         Contract.Requires( startByteIndex >= 0 );
+         Contract.Requires<ArgumentNullException>( source != null );
+         // ReSharper disable once PossibleNullReferenceException
+         Contract.Requires<ArgumentException>( source.Length >= startByteIndex );
+         Contract.Requires<ArgumentException>( startByteIndex >= 0 );
          Contract.Ensures( Contract.Result<Byte[]>() != null );
          return Slice( source, startByteIndex, source.Length );
       }
@@ -129,9 +168,9 @@ namespace nexus.core
       /// </summary>
       public static Byte[] Slice( this Byte[] source, Int32 startByteIndex, Int32 endByteIndex )
       {
-         Contract.Requires( source != null );
-         Contract.Requires( startByteIndex >= 0 );
-         Contract.Requires( endByteIndex >= startByteIndex );
+         Contract.Requires<ArgumentNullException>( source != null );
+         Contract.Requires<ArgumentException>( startByteIndex >= 0 );
+         Contract.Requires<ArgumentException>( endByteIndex >= startByteIndex );
          Contract.Ensures( Contract.Result<Byte[]>() != null );
          Contract.Ensures( Contract.Result<Byte[]>().Length == endByteIndex - startByteIndex );
          var result = new Byte[endByteIndex - startByteIndex];

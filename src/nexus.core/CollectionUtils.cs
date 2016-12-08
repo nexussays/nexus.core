@@ -46,14 +46,24 @@ namespace nexus.core
          dict.Add( item );
       }
 
+      /// <summary>
+      /// Add all of the provided <paramref name="items" /> to the provided <paramref name="collection" />. If
+      /// <paramref name="collection" /> is a <see cref="List{T}" /> then <see cref="List{T}.AddRange" /> will be called,
+      /// otherwise <paramref name="items" /> will be iterated over with a <c>foreach</c> and each item added individually to
+      /// <paramref name="collection" />
+      /// </summary>
+      /// <typeparam name="T"></typeparam>
+      /// <param name="collection"></param>
+      /// <param name="items"></param>
       public static void AddAll<T>( this ICollection<T> collection, IEnumerable<T> items )
       {
          Contract.Requires( collection != null );
          if(items != null)
          {
-            if(collection is List<T>)
+            var list = collection as List<T>;
+            if(list != null)
             {
-               ((List<T>)collection).AddRange( items );
+               list.AddRange( items );
             }
             else
             {
@@ -66,7 +76,8 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Retrieve a value and remove it from the dictionary
+      /// Retrieve a value and remove it from the dictionary, the resulting option will be empty if the requested key did not
+      /// exist
       /// </summary>
       public static Option<TVal> Extract<TKey, TVal>( this IDictionary<TKey, TVal> dict, TKey key )
       {

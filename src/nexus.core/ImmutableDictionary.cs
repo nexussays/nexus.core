@@ -19,25 +19,13 @@ namespace nexus.core
          m_data = source ?? new Dictionary<TKey, TValue>();
       }
 
-      public TValue this[ TKey key ]
-      {
-         get { return m_data[key]; }
-      }
+      public TValue this[ TKey key ] => m_data[key];
 
-      public Int32 Count
-      {
-         get { return m_data.Count; }
-      }
+      public Int32 Count => m_data.Count;
 
-      public IEnumerable<TKey> Keys
-      {
-         get { return m_data.Keys; }
-      }
+      public IEnumerable<TKey> Keys => m_data.Keys;
 
-      public IEnumerable<TValue> Values
-      {
-         get { return m_data.Values; }
-      }
+      public IEnumerable<TValue> Values => m_data.Values;
 
       public Boolean ContainsKey( TKey key )
       {

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using nexus.core.resharper;
 using nexus.core.serialization;
@@ -24,25 +25,24 @@ namespace nexus.core.logging
       : ILog,
         ILogControl
    {
-      private static readonly SystemLog s_source = new SystemLog( new DefaultTimeProvider() );
-
       private readonly IDictionary<LogLevel, Int32> m_entriesSkipped;
       private readonly IDictionary<LogLevel, Int32> m_entriesWritten;
       private readonly ILogEntry[] m_entryBuffer;
       private readonly Object m_lock = new Object();
-      private readonly IDictionary<Type, IGenericSerializer> m_serializers;
+      private readonly IDictionary<Type, IUntypedSerializer> m_serializers;
       private readonly ISet<ILogSink> m_sinks;
       private readonly ITimeProvider m_timeProvider;
       private Int32 m_entrySequence;
 
-      public SystemLog( ITimeProvider timeSource )
+      public SystemLog( ITimeProvider time )
       {
-         Contract.Requires( timeSource != null );
+         Contract.Requires( time != null );
+         m_entrySequence = -1;
          m_entryBuffer = new ILogEntry[50];
          m_entriesWritten = new Dictionary<LogLevel, Int32>();
          m_entriesSkipped = new Dictionary<LogLevel, Int32>();
-         m_serializers = new Dictionary<Type, IGenericSerializer>();
-         m_timeProvider = timeSource;
+         m_serializers = new Dictionary<Type, IUntypedSerializer>();
+         m_timeProvider = time;
          LogLevel = LogLevel.Trace;
          m_sinks = new HashSet<ILogSink>();
       }
@@ -53,12 +53,7 @@ namespace nexus.core.logging
       /// <summary>
       /// You should only access this in the main entry-point of your application code and **never** from libraries.
       /// </summary>
-      public static ILog Instance => s_source;
-
-      /// <summary>
-      /// You should only access this in the main entry-point of your application code and **never** from libraries.
-      /// </summary>
-      public static ILogControl InstanceControl => s_source;
+      public static SystemLog Instance { get; } = new SystemLog( new DefaultTimeProvider() );
 
       /// <summary>
       /// The level of log entires to write. Only entries of this level and above will be written to the log, others will be
@@ -75,10 +70,50 @@ namespace nexus.core.logging
       /// <param name="sink"></param>
       public void AddSink( ILogSink sink )
       {
+         if(sink == null)
+         {
+            throw new ArgumentNullException( nameof( sink ) );
+         }
+
+         Int32 seqNum;
          lock(m_lock)
          {
             m_sinks.Add( sink );
-            // TODO: Write out any buffered log entries to the sink
+            seqNum = m_entrySequence;
+         }
+
+         // write out any buffered log entries to the sink. This isn't thread safe but oh well.
+         if(seqNum > 0)
+         {
+            if(seqNum >= m_entryBuffer.Length)
+            {
+               // if the sequence number is greater than the length of the buffer then we've wrapped around,
+               // so start at one past the latest entry (i.e., the oldest entry) and read to the end and then
+               // wrap back around to index 0 and read up until the current seqNum
+               var startIndex = (seqNum + 1) % m_entryBuffer.Length;
+               /*
+               // TODO: Finish implementing
+               for(var x = 0; x < m_entryBuffer.Length; ++x)
+               {
+                  sink.Handle(m_entryBuffer[startIndex + x], startIndex);
+               }
+               */
+            }
+            else
+            {
+               for(var x = 0; x <= seqNum; ++x)
+               {
+                  try
+                  {
+                     sink.Handle( m_entryBuffer[x], x );
+                  }
+                  catch(Exception ex)
+                  {
+                     Debug.WriteLine(
+                        "** LOG [ERROR] in sink {0} ** : {1}".F( sink?.GetType().FullName ?? "null", ex ) );
+                  }
+               }
+            }
          }
       }
 
@@ -191,15 +226,10 @@ namespace nexus.core.logging
       {
          if(severity >= LogLevel)
          {
-            Int32 seqNum;
-            lock(m_lock)
-            {
-               m_entriesWritten[severity] += 1;
-               m_entrySequence += 1;
-               seqNum = m_entrySequence;
-            }
+            // get the time immediately in case serializing objects takes time
+            var time = m_timeProvider.UtcNow;
 
-            // Run through all objects and see if any of them have serializers, if so remove the object and add the serialized result in its place
+            // run through all objects and see if any of them have serializers, if so remove the object and add the serialized result in its place
             var queue = new Queue<Object>( objects );
             while(queue.Count > 0)
             {
@@ -211,8 +241,16 @@ namespace nexus.core.logging
                }
             }
 
-            var entry = new LogEntry( Id, m_timeProvider.UtcNow, severity, message, messageArgs, queue.ToArray() );
-            m_entryBuffer[seqNum % m_entryBuffer.Length] = entry;
+            Int32 seqNum;
+            LogEntry entry;
+            lock(m_lock)
+            {
+               m_entriesWritten[severity] += 1;
+               m_entrySequence += 1;
+               seqNum = m_entrySequence;
+               entry = new LogEntry( Id, time, severity, message, messageArgs, queue.ToArray() );
+               m_entryBuffer[seqNum % m_entryBuffer.Length] = entry;
+            }
 
             foreach(var sink in m_sinks)
             {

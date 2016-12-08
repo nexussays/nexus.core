@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace nexus.core.serialization
 {
+   public delegate TTo StreamDeserializer<out TTo>( Stream source );
+
+   public delegate Task<TTo> StreamDeserializerAsync<TTo>( Stream source );
+
    public interface IStreamDeserializer<T>
    {
       T Deserialize( Stream source );
@@ -16,7 +20,16 @@ namespace nexus.core.serialization
       Task<T> DeserializeAsync( Stream source );
    }
 
-   public delegate TTo StreamDeserializer<out TTo>( Stream source );
+   public static class StreamDeserializerExtensions
+   {
+      public static void ReadObject<T>( this Stream stream, T source, IStreamDeserializer<T> deserializer )
+      {
+         deserializer.Deserialize( stream );
+      }
 
-   public delegate Task<TTo> StreamDeserializerAsync<TTo>( Stream source );
+      public static Task ReadObjectAsync<T>( this Stream stream, T source, IStreamDeserializer<T> deserializer )
+      {
+         return deserializer.DeserializeAsync( stream );
+      }
+   }
 }

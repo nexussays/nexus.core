@@ -13,7 +13,7 @@ namespace nexus.core
    public static class CoreUtils
    {
       /// <summary>
-      /// Copy <see cref="obj" /> into <see cref="destination" /> and return <see cref="obj" /> for easy chaining
+      /// Copy <paramref name="obj" /> into <paramref name="destination" /> and return <paramref name="obj" /> for easy chaining
       /// </summary>
       public static T Into<T>( this T obj, out T destination )
       {
@@ -21,10 +21,38 @@ namespace nexus.core
          return obj;
       }
 
+      /// <summary>
+      /// True if the given <paramref name="type" /> is <see cref="Nullable{T}" />
+      /// </summary>
       public static Boolean IsNullableType( this Type type )
       {
          Contract.Requires( type != null );
          return type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+      }
+
+      /// <summary>
+      /// True if the given type is <see cref="Nullable{T}" />
+      /// </summary>
+      public static Boolean IsNullableType<T>()
+      {
+         return IsNullableType( typeof(T) );
+      }
+
+      /// <summary>
+      /// True if the given <paramref name="type" /> is <see cref="Option{T}" />
+      /// </summary>
+      public static Boolean IsOptionType( this Type type )
+      {
+         Contract.Requires( type != null );
+         return type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Option<>);
+      }
+
+      /// <summary>
+      /// True if the given type is <see cref="Option{T}" />
+      /// </summary>
+      public static Boolean IsOptionType<T>()
+      {
+         return IsOptionType( typeof(T) );
       }
 
       /// <summary>
@@ -42,7 +70,7 @@ namespace nexus.core
       /// Useful to generate an exception from library code to test exception handling
       /// <code>return 100 / 0;</code>
       /// </summary>
-      public static Int32 ThrowDivideByZero()
+      public static Int32 ThrowDivideByZeroException()
       {
          var zero = 0;
          return 100 / zero;
@@ -58,14 +86,6 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Convert <see cref="Int32" /> to string as a given base number system.
-      /// </summary>
-      public static String ToString( this Int32 value, Int32 toBase )
-      {
-         return Convert.ToString( value, toBase );
-      }
-
-      /// <summary>
       /// Dispose of this object if it is not-null
       /// </summary>
       public static void TryDispose( this IDisposable disposable )
@@ -74,9 +94,8 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Dispose of this object if it is not-null and implements <see cref="IDisposable" />
+      /// Dispose of this object if it implements <see cref="IDisposable" /> and is not-null
       /// </summary>
-      /// <param name="obj"></param>
       public static void TryDispose( this Object obj )
       {
          TryDispose( obj as IDisposable );

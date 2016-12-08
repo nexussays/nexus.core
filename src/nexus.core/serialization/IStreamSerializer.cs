@@ -9,18 +9,27 @@ using System.Threading.Tasks;
 
 namespace nexus.core.serialization
 {
-   public interface IStreamSerializer<in TFrom>
-   {
-      void Serialize( Stream to, TFrom source );
-
-      Task SerializeAsync( Stream to, TFrom data );
-
-      // TODO: Implement IOutputStream
-
-      //Task Serialize( IOutputStream serializeTo, T data );
-   }
-
    public delegate TTo StreamSerializer<out TTo>( Stream serializeTo );
 
    public delegate Task<TTo> StreamSerializerAsync<TTo>( Stream source );
+
+   public interface IStreamSerializer<in T>
+   {
+      void Serialize( Stream to, T source );
+
+      Task SerializeAsync( Stream to, T source );
+   }
+
+   public static class StreamSerializerExtensions
+   {
+      public static void WriteObject<T>( this Stream stream, T source, IStreamSerializer<T> serializer )
+      {
+         serializer.Serialize( stream, source );
+      }
+
+      public static Task WriteObjectAsync<T>( this Stream stream, T source, IStreamSerializer<T> serializer )
+      {
+         return serializer.SerializeAsync( stream, source );
+      }
+   }
 }
