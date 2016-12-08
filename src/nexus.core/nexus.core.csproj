@@ -179,9 +179,7 @@
     <Compile Include="StringUtils.cs" />
     <Compile Include="time\DateTimeUtils.cs" />
     <Compile Include="time\DefaultTimeProvider.cs" />
-    <Compile Include="time\ISynchronizedTimeProvider.cs" />
     <Compile Include="time\ITimeProvider.cs" />
-    <Compile Include="time\SynchronizedTimeProvider.cs" />
     <Compile Include="time\TimeEpoch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

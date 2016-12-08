@@ -82,6 +82,9 @@ namespace nexus.core.logging
       /// </summary>
       public static SystemLog Instance { get; } = new SystemLog( new DefaultTimeProvider(), 50 );
 
+      /// <summary>
+      /// Mostly just needed for unit tests
+      /// </summary>
       public Int32 LogBufferSize => m_entryBuffer.Length;
 
       /// <inheritDoc />
@@ -90,7 +93,6 @@ namespace nexus.core.logging
       /// <summary>
       /// Add a log sink which be called each time a <see cref="ILogEntry" /> is created.
       /// </summary>
-      /// <param name="sink"></param>
       public void AddSink( ILogSink sink )
       {
          if(sink == null)

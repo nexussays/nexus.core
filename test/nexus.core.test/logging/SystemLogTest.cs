@@ -149,7 +149,7 @@ namespace nexus.core_test.logging
       {
          const Int32 count = 68;
          WriteStringsToLog( level, count );
-         var seqCheck = AddSinkCheckSequence( count % m_log.LogBufferSize );
+         var seqCheck = AddSinkCheckSequence( count - m_log.LogBufferSize );
          Assert.That(
             seqCheck.Item1,
             Is.EqualTo( count ),
