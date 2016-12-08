@@ -1,4 +1,4 @@
-﻿// Copyright Malachi Griffie
+// Copyright Malachi Griffie
 // 
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,21 +7,20 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace nexus.core.serialization
+namespace nexus.core.io
 {
-   public delegate TTo StreamSerializer<out TTo>( Stream serializeTo );
-
-   public delegate Task<TTo> StreamSerializerAsync<TTo>( Stream source );
-
-   public interface IStreamSerializer<in T>
+   public static class StreamUtils
    {
-      void Serialize( Stream to, T source );
+      public static void ReadObject<T>( this Stream stream, T source, IStreamDeserializer<T> deserializer )
+      {
+         deserializer.Deserialize( stream );
+      }
 
-      Task SerializeAsync( Stream to, T source );
-   }
+      public static Task ReadObjectAsync<T>( this Stream stream, T source, IStreamDeserializer<T> deserializer )
+      {
+         return deserializer.DeserializeAsync( stream );
+      }
 
-   public static class StreamSerializerExtensions
-   {
       public static void WriteObject<T>( this Stream stream, T source, IStreamSerializer<T> serializer )
       {
          serializer.Serialize( stream, source );

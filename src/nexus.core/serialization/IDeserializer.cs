@@ -4,6 +4,9 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+using System;
+using System.Diagnostics.Contracts;
+
 namespace nexus.core.serialization
 {
    public interface IDeserializer<in TFrom, out TTo>
@@ -11,20 +14,22 @@ namespace nexus.core.serialization
       TTo Deserialize( TFrom data );
    }
 
-   public delegate TTo Deserializer<in TFrom, out TTo>( TFrom data );
-
-   public static class DeserializerExtensions
+   public static class Deserializer
    {
-      public static IDeserializer<TFrom, TTo> Wrap<TFrom, TTo>( this Deserializer<TFrom, TTo> function )
+      /// <summary>
+      /// Create a new <see cref="IDeserializer{TFrom,TTo}" /> from the provided function
+      /// </summary>
+      public static IDeserializer<TFrom, TTo> Create<TFrom, TTo>( this Func<TFrom, TTo> function )
       {
+         Contract.Requires<ArgumentNullException>( function != null );
          return new DeserializerWrapper<TFrom, TTo>( function );
       }
 
       private sealed class DeserializerWrapper<A, B> : IDeserializer<A, B>
       {
-         private readonly Deserializer<A, B> m_func;
+         private readonly Func<A, B> m_func;
 
-         public DeserializerWrapper( Deserializer<A, B> func )
+         public DeserializerWrapper( Func<A, B> func )
          {
             m_func = func;
          }

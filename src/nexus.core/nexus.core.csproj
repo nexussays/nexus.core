@@ -170,8 +170,9 @@
     <Compile Include="serialization\IGenericDeserializer.cs" />
     <Compile Include="serialization\IUntypedSerializer.cs" />
     <Compile Include="serialization\ISerializer.cs" />
-    <Compile Include="serialization\IStreamDeserializer.cs" />
-    <Compile Include="serialization\IStreamSerializer.cs" />
+    <Compile Include="io\IStreamDeserializer.cs" />
+    <Compile Include="io\IStreamSerializer.cs" />
+    <Compile Include="io\StreamUtils.cs" />
     <Compile Include="serialization\text\Utf8Encoder.cs" />
     <Compile Include="serialization\text\ITextEncoder.cs" />
     <Compile Include="serialization\text\TextEncoder.cs" />
