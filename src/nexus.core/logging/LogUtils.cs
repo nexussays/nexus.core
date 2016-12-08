@@ -6,8 +6,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using System.Globalization;
-using nexus.core.serialization;
 
 namespace nexus.core.logging
 {
@@ -30,57 +28,6 @@ namespace nexus.core.logging
          Contract.Requires<ArgumentNullException>( handler != null );
          // ReSharper disable once PossibleNullReferenceException
          return new DynamicLogSink( ( e, s ) => handler( e ) );
-      }
-
-      /// <summary>
-      /// Factory method to create log entry serializer
-      /// </summary>
-      public static ISerializer<ILogEntry, String> CreateStringSerializer( Func<ILogEntry, String> serializer )
-      {
-         Contract.Requires<ArgumentNullException>( serializer != null );
-         return new DynamicLogEntrySerializer( serializer );
-      }
-
-      /// <summary>
-      /// Apply <see cref="String.Format(IFormatProvider,String,object[])" /> over <see cref="ILogEntry.Message" /> and
-      /// <see cref="ILogEntry.MessageArguments" /> while checking for null, invalid, and empty arguments. This method catches
-      /// any thrown exceptions and returns an error message.
-      /// </summary>
-      /// <param name="entry">The log entry to format</param>
-      /// <param name="formatter">The format provider to use, or <see cref="CultureInfo.InvariantCulture" /> if null</param>
-      public static String FormatMessageAndArguments( this ILogEntry entry, IFormatProvider formatter = null )
-      {
-         Contract.Requires( entry != null );
-         var message = entry.Message;
-         var args = entry.MessageArguments;
-         try
-         {
-            return message != null && args != null && args.Length > 0
-               ? String.Format( formatter ?? CultureInfo.InvariantCulture, message, args )
-               : message;
-         }
-         catch( /*Format*/Exception ex)
-         {
-            return "** LOG [ERROR] in formatter ** string={0} arg_length={1} error={2}".F(
-               message,
-               args != null ? args.Length.ToString() : "null",
-               ex.Message );
-         }
-      }
-
-      private sealed class DynamicLogEntrySerializer : ISerializer<ILogEntry, String>
-      {
-         private readonly Func<ILogEntry, String> m_serializer;
-
-         public DynamicLogEntrySerializer( Func<ILogEntry, String> serializer )
-         {
-            m_serializer = serializer;
-         }
-
-         public String Serialize( ILogEntry source )
-         {
-            return m_serializer( source );
-         }
       }
 
       private sealed class DynamicLogSink : ILogSink

@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
 using nexus.core.resharper;
 using nexus.core.serialization;
@@ -18,7 +17,8 @@ namespace nexus.core.logging
 {
    /// <summary>
    /// The default/standard implementation of <see cref="ILog" /> and <see cref="ILogControl" />. If the current
-   /// <see cref="LogLevel" /> is lower than the called log method then the log call will be counted but no output sent to the
+   /// <see cref="CurrentLevel" /> is lower than the called log method then the log call will be counted but no output sent to
+   /// the
    /// sinks.
    /// </summary>
    public sealed class SystemLog
@@ -43,9 +43,15 @@ namespace nexus.core.logging
          m_entriesSkipped = new Dictionary<LogLevel, Int32>();
          m_serializers = new Dictionary<Type, IUntypedSerializer>();
          m_timeProvider = time;
-         LogLevel = LogLevel.Trace;
+         CurrentLevel = LogLevel.Trace;
          m_sinks = new HashSet<ILogSink>();
       }
+
+      /// <summary>
+      /// The level of log entires to write. Only entries of this level and above will be written to the log, others will be
+      /// silently dropped.
+      /// </summary>
+      public LogLevel CurrentLevel { get; set; }
 
       /// <inheritDoc />
       public String Id { get; set; }
@@ -54,12 +60,6 @@ namespace nexus.core.logging
       /// You should only access this in the main entry-point of your application code and **never** from libraries.
       /// </summary>
       public static SystemLog Instance { get; } = new SystemLog( new DefaultTimeProvider() );
-
-      /// <summary>
-      /// The level of log entires to write. Only entries of this level and above will be written to the log, others will be
-      /// silently dropped.
-      /// </summary>
-      public LogLevel LogLevel { get; set; }
 
       /// <inheritDoc />
       public IEnumerable<ILogSink> Sinks => new List<ILogSink>( m_sinks );
@@ -224,7 +224,7 @@ namespace nexus.core.logging
 
       private void CreateLogEntry( LogLevel severity, Object[] objects, String message, Object[] messageArgs )
       {
-         if(severity >= LogLevel)
+         if(severity >= CurrentLevel)
          {
             // get the time immediately in case serializing objects takes time
             var time = m_timeProvider.UtcNow;
@@ -299,21 +299,6 @@ namespace nexus.core.logging
          public LogLevel Severity { get; }
 
          public DateTime Timestamp { get; }
-
-         /// <summary>
-         /// Get the first object from <see cref="ILogEntry.Data" /> that is of type {T}
-         /// </summary>
-         public T GetData<T>() where T : class
-         {
-            foreach(var obj in m_data)
-            {
-               if(obj is T)
-               {
-                  return (T)obj;
-               }
-            }
-            return null;
-         }
       }
    }
 }

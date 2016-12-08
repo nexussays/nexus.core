@@ -14,13 +14,13 @@ namespace nexus.core.logging
    /// </summary>
    public interface ILogControl
    {
-      String Id { get; set; }
-
       /// <summary>
-      /// The level of log entires to write. Only entries of this level and above will be written to the log, others will be
-      /// silently dropped.
+      /// The level of log entires to write. Only entries of this level and above will be written to the log, others will
+      /// dropped.
       /// </summary>
-      LogLevel LogLevel { get; set; }
+      LogLevel CurrentLevel { get; set; }
+
+      String Id { get; set; }
 
       IEnumerable<ILogSink> Sinks { get; }
 

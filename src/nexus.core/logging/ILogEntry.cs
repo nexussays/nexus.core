@@ -17,6 +17,7 @@ namespace nexus.core.logging
       /// </summary>
       IEnumerable<Object> Data { get; }
 
+      /// TODO: determine if this should be broken up into a log ID and a contextual ID or if we just attach context in Data
       String LogId { get; }
 
       /// <summary>
@@ -29,15 +30,11 @@ namespace nexus.core.logging
       /// </summary>
       Object[] MessageArguments { get; }
 
+      /// <summary>
+      /// The severity of this log entry
+      /// </summary>
       LogLevel Severity { get; }
 
       DateTime /*Int64*/ Timestamp { get; }
-
-      /// <summary>
-      /// Utility method to pull data out of <see cref="Data" /> by type
-      /// </summary>
-      /// <typeparam name="T"></typeparam>
-      /// <returns></returns>
-      T GetData<T>() where T : class;
    }
 }

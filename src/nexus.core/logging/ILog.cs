@@ -16,44 +16,80 @@ namespace nexus.core.logging
    public interface ILog
    {
       /// <summary>
+      /// Only entries of this level or higher will be written to the log, others will be silently dropped.
+      /// </summary>
+      LogLevel CurrentLevel { get; }
+
+      /// <summary>
       /// A unique name for this log within the application, if desired
       /// </summary>
       String Id { get; }
 
       /// <summary>
-      /// Only entries of this level or higher will be written to the log, others will be silently dropped.
+      /// Write <see cref="LogLevel.Error" /> level log data
       /// </summary>
-      LogLevel LogLevel { get; }
-
       void Error( Object[] objects );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Error" /> level log data
+      /// </summary>
       [StringFormatMethod( "message" )]
       void Error( String message, params Object[] messageArgs );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Error" /> level log data
+      /// </summary>
       [StringFormatMethod( "message" )]
       void Error( Object[] objects, String message, params Object[] messageArgs );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Info" /> level log data
+      /// </summary>
       void Info( Object[] objects );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Info" /> level log data
+      /// </summary>
       [StringFormatMethod( "message" )]
       void Info( String message, params Object[] messageArgs );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Info" /> level log data
+      /// </summary>
       [StringFormatMethod( "message" )]
       void Info( Object[] objects, String message, params Object[] messageArgs );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Trace" /> level log data
+      /// </summary>
       void Trace( Object[] objects );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Trace" /> level log data
+      /// </summary>
       [StringFormatMethod( "message" )]
       void Trace( String message, params Object[] messageArgs );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Trace" /> level log data
+      /// </summary>
       [StringFormatMethod( "message" )]
       void Trace( Object[] objects, String message, params Object[] messageArgs );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Warn" /> level log data
+      /// </summary>
       void Warn( Object[] objects );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Warn" /> level log data
+      /// </summary>
       [StringFormatMethod( "message" )]
       void Warn( String message, params Object[] messageArgs );
 
+      /// <summary>
+      /// Write <see cref="LogLevel.Warn" /> level log data
+      /// </summary>
       [StringFormatMethod( "message" )]
       void Warn( Object[] objects, String message, params Object[] messageArgs );
    }
