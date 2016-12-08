@@ -14,7 +14,7 @@ namespace nexus.core
       public const String VERSION_SHORT = VERSION;
       public const String ID = "nexus.core";
 
-      public const String DESCRIPTION = "Core library of utilities and data structures for all projects";
+      public const String DESCRIPTION = "Cross-platform library of core utility methods and data structures.";
 
       // ReSharper disable once ConditionIsAlwaysTrueOrFalse
       public const Boolean IS_DEBUG = 
