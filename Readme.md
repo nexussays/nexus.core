@@ -1,4 +1,4 @@
-# core [![Build status](https://img.shields.io/appveyor/ci/nexussays/core.svg?style=flat-square)](https://ci.appveyor.com/project/nexussays/core) [![NuGet](https://img.shields.io/nuget/v/nexus.core.svg?style=flat-square)](https://www.nuget.org/packages/nexus.core) [![MPLv2 License](https://img.shields.io/badge/license-MPLv2-blue.svg?style=flat-square)](https://www.mozilla.org/MPL/2.0/)
+# nexus.core [![Build status](https://img.shields.io/vso/build/nexussays/ebc6aafa-2931-41dc-b030-7f1eff5a28e5/4.svg?style=flat-square)](https://ci.appveyor.com/project/nexussays/core) [![NuGet](https://img.shields.io/nuget/v/nexus.core.svg?style=flat-square)](https://www.nuget.org/packages/nexus.core) [![MPLv2 License](https://img.shields.io/badge/license-MPLv2-blue.svg?style=flat-square)](https://www.mozilla.org/MPL/2.0/)
 
 Core utilities and data structures.
 
@@ -10,7 +10,9 @@ Install-Package nexus.core
 
 ---
 
-## core.logging [![NuGet](https://img.shields.io/nuget/dt/nexus.core.logging.svg?style=flat-square)](https://www.nuget.org/packages/nexus.core.logging)
+> Note: This Readme is out-of-date and only valid for versions <= `0.14.0`
+
+## nexus.core.logging
 
 An extremely light-weight, modular, cross-platform logging library. Logs can be text or structured data. Control how log entries are serialized, where they are output to, what additional structured data should be attached, etc. Or implement the interfaces from scratch.
 
