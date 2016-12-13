@@ -24,12 +24,12 @@ namespace nexus.core.logging
       : ILog,
         ILogControl
    {
+      private readonly IList<IObjectConverter> m_converters;
       private readonly IDictionary<LogLevel, Int32> m_entriesSkipped;
       private readonly IDictionary<LogLevel, Int32> m_entriesWritten;
       private readonly ILogEntry[] m_entryBuffer;
       private readonly Object m_lock = new Object();
       private readonly Boolean m_rethrowSinkExceptions;
-      private readonly IList<IObjectSerializer> m_serializers;
       private readonly ISet<ILogSink> m_sinks;
       private readonly ITimeProvider m_timeProvider;
       private Int32 m_entrySequence;
@@ -68,7 +68,7 @@ namespace nexus.core.logging
             {LogLevel.Info, 0},
             {LogLevel.Trace, 0}
          };
-         m_serializers = new List<IObjectSerializer>();
+         m_converters = new List<IObjectConverter>();
          m_timeProvider = time;
          CurrentLevel = LogLevel.Trace;
          m_sinks = new HashSet<ILogSink>();
@@ -95,22 +95,22 @@ namespace nexus.core.logging
       public Int32 LogBufferSize => m_entryBuffer.Length;
 
       /// <inheritDoc />
-      public IEnumerable<IObjectSerializer> ObjectSerializers => new List<IObjectSerializer>( m_serializers );
+      public IEnumerable<IObjectConverter> ObjectConverters => new List<IObjectConverter>( m_converters );
 
       /// <inheritDoc />
       public IEnumerable<ILogSink> Sinks => new List<ILogSink>( m_sinks );
 
       /// <inheritDoc />
-      public void AddSerializer( IObjectSerializer serializer )
+      public void AddConverter( IObjectConverter converter )
       {
-         if(serializer == null)
+         if(converter == null)
          {
             return;
          }
 
          lock(m_lock)
          {
-            m_serializers.Add( serializer );
+            m_converters.Add( converter );
          }
       }
 
@@ -230,11 +230,11 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
-      public Boolean RemoveSerializer( IObjectSerializer serializer )
+      public Boolean RemoveConverter( IObjectConverter converter )
       {
          lock(m_lock)
          {
-            return m_serializers.Remove( serializer );
+            return m_converters.Remove( converter );
          }
       }
 
@@ -329,17 +329,18 @@ namespace nexus.core.logging
             var data = new List<Object>();
             if(objects != null)
             {
-               // run through all objects and see if any of them have serializers, if so remove the object and add the serialized result in its place
+               // run through all objects and see if any of them have converters, if so remove the object and add the serialized result in its place
                var queue = new Queue<Object>( objects );
                while(queue.Count > 0)
                {
                   var item = queue.Dequeue();
-                  foreach(var serializer in m_serializers)
+                  foreach(var converter in m_converters)
                   {
-                     if(serializer.CanSerializeObjectOfType( item.GetType() ))
+                     if(converter.CanConvertObjectOfType( item.GetType() ))
                      {
-                        // add the serialized value to the queue in case there is further processing to perform
-                        queue.Enqueue( serializer.Serialize( item ) );
+                        // add the converted value back to the queue in case there is further processing to perform
+                        // TODO: Add a test that checks for circular converters that create an infinite loop
+                        queue.Enqueue( converter.Convert( item ) );
                         item = null;
                         break;
                      }

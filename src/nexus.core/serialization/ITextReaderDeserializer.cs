@@ -1,4 +1,4 @@
-﻿// Copyright Malachi Griffie
+// Copyright Malachi Griffie
 // 
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,14 +8,12 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace nexus.core.io
+namespace nexus.core.serialization
 {
-   public interface IStreamSerializer
+   public interface ITextReaderDeserializer : IDeserializer<TextReader>
    {
-      Boolean CanSerializeObjectOfType( Type source );
+      Task<T> DeserializeAsync<T>( TextReader source );
 
-      void Serialize( Stream to, Object source );
-
-      Task SerializeAsync( Stream to, Object source );
+      Task<Object> DeserializeAsync( TextReader source, Type desiredReturnType );
    }
 }

@@ -7,25 +7,25 @@
 using System;
 using System.Text;
 
-namespace nexus.core.serialization.text
+namespace nexus.core.text
 {
-   public sealed class Utf8Encoder : TextEncoder
+   public sealed class Utf8Encoding : TextEncoding
    {
-      public Utf8Encoder( Boolean useByteOrderMark, Boolean throwOnInvalidBytes )
+      public Utf8Encoding( Boolean useByteOrderMark, Boolean throwOnInvalidBytes )
          : base( new UTF8Encoding( useByteOrderMark, throwOnInvalidBytes ) )
       {
 
       }
 
       /// <summary>
-      /// <see cref="Utf8Encoder" /> with byte-order-mark, and
+      /// <see cref="Utf8Encoding" /> with byte-order-mark, and
       /// exceptions thrown on invalid bytes
       /// </summary>
-      public static ITextEncoder WithBOM { get; } = new Utf8Encoder( true, true );
+      public static ITextEncoding WithBOM { get; } = new Utf8Encoding( true, true );
 
       /// <summary>
-      /// <see cref="Utf8Encoder" /> with **no** byte-order-mark, and exceptions thrown on invalid bytes
+      /// <see cref="Utf8Encoding" /> with **no** byte-order-mark, and exceptions thrown on invalid bytes
       /// </summary>
-      public static ITextEncoder WithoutBOM { get; } = new Utf8Encoder( false, true );
+      public static ITextEncoding WithoutBOM { get; } = new Utf8Encoding( false, true );
    }
 }

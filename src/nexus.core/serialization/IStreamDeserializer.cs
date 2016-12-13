@@ -8,20 +8,11 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace nexus.core.io
+namespace nexus.core.serialization
 {
-   public interface IStreamDeserializer<T>
+   public interface IStreamDeserializer : IDeserializer<Stream>
    {
-      T Deserialize( Stream source );
-
-      Task<T> DeserializeAsync( Stream source );
-   }
-
-   public interface IStreamDeserializer
-   {
-      Boolean CanDeserializeObjectOfType( Type source );
-
-      Object Deserialize( Stream source, Type desiredReturnType );
+      Task<T> DeserializeAsync<T>( Stream source );
 
       Task<Object> DeserializeAsync( Stream source, Type desiredReturnType );
    }

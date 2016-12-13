@@ -23,21 +23,21 @@ namespace nexus.core.logging
 
       String Id { get; set; }
 
-      IEnumerable<IObjectSerializer> ObjectSerializers { get; }
+      IEnumerable<IObjectConverter> ObjectConverters { get; }
 
       IEnumerable<ILogSink> Sinks { get; }
 
       /// <summary>
-      /// Add a serializer which will convert any viable objects attached to log entries
+      /// Add a converter which will convert any viable objects attached to log entries
       /// </summary>
-      void AddSerializer( IObjectSerializer serializer );
+      void AddConverter( IObjectConverter converter );
 
       /// <summary>
       /// Will dispatch logs to the provided listener after formatting them and checking that the current log level is met.
       /// </summary>
       void AddSink( ILogSink sink );
 
-      Boolean RemoveSerializer( IObjectSerializer serializer );
+      Boolean RemoveConverter( IObjectConverter converter );
 
       Boolean RemoveSink( ILogSink sink );
    }

@@ -10,7 +10,7 @@ namespace nexus.core
 {
    public static class AssemblyInfo
    {
-      public const String VERSION = "0.24.0";
+      public const String VERSION = "0.25.0";
       public const String VERSION_SHORT = VERSION;
       public const String ID = "nexus.core";
 

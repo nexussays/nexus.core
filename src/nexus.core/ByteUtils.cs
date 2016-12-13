@@ -7,12 +7,32 @@
 using System;
 using System.Diagnostics.Contracts;
 using nexus.core.serialization.binary;
-using nexus.core.serialization.text;
+using nexus.core.text;
 
 namespace nexus.core
 {
    public static class ByteUtils
    {
+      /// <summary>
+      /// Presume the given bytes are Unicode UTF-16 encoded and return its string value
+      /// </summary>
+      public static String AsUtf16String( this Byte[] value, Boolean includeByteOrderMark = false )
+      {
+         return value == null
+            ? null
+            : (includeByteOrderMark ? Utf16Encoding.WithBOM : Utf16Encoding.WithoutBOM).AsString( value );
+      }
+
+      /// <summary>
+      /// Presume the given bytes are Unicode UTF-8 encoded and return its string value
+      /// </summary>
+      public static String AsUtf8String( this Byte[] value, Boolean includeByteOrderMark = false )
+      {
+         return value == null
+            ? null
+            : (includeByteOrderMark ? Utf8Encoding.WithBOM : Utf8Encoding.WithoutBOM).AsString( value );
+      }
+
       /// <summary>
       /// Parse this string as a hexadecimal-encoded value and return the resulting byte array the hex-encoded value represents
       /// </summary>
@@ -43,20 +63,6 @@ namespace nexus.core
       public static Byte[] DecodeAsBase64( this String value )
       {
          return value.IsNullOrEmpty() ? new Byte[0] : Base64Encoder.Instance.Decode( value );
-      }
-
-      public static String DecodeAsUtf16String( this Byte[] value, Boolean includeByteOrderMark = false )
-      {
-         return value == null
-            ? null
-            : (includeByteOrderMark ? Utf16Encoder.WithBOM : Utf16Encoder.WithoutBOM).Decode( value );
-      }
-
-      public static String DecodeAsUtf8String( this Byte[] value, Boolean includeByteOrderMark = false )
-      {
-         return value == null
-            ? null
-            : (includeByteOrderMark ? Utf8Encoder.WithBOM : Utf8Encoder.WithoutBOM).Decode( value );
       }
 
       /// <summary>
@@ -114,7 +120,7 @@ namespace nexus.core
       {
          return value == null
             ? null
-            : (includeByteOrderMark ? Utf16Encoder.WithBOM : Utf16Encoder.WithoutBOM).GetBytes( value );
+            : (includeByteOrderMark ? Utf16Encoding.WithBOM : Utf16Encoding.WithoutBOM).GetBytes( value );
       }
 
       public static Option<Byte[]> GetUtf16Bytes( this Option<String> value, Boolean includeByteOrderMark = false )
@@ -126,7 +132,7 @@ namespace nexus.core
       {
          return value == null
             ? null
-            : (includeByteOrderMark ? Utf8Encoder.WithBOM : Utf8Encoder.WithoutBOM).GetBytes( value );
+            : (includeByteOrderMark ? Utf8Encoding.WithBOM : Utf8Encoding.WithoutBOM).GetBytes( value );
       }
 
       public static Option<Byte[]> GetUtf8Bytes( this Option<String> value, Boolean includeByteOrderMark = false )

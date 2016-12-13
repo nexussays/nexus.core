@@ -7,22 +7,22 @@
 using System;
 using System.Text;
 
-namespace nexus.core.serialization.text
+namespace nexus.core.text
 {
    /// <summary>
-   /// Use <see cref="ITextEncoder" /> when your source data is a string and you want to convert that information
+   /// Use <see cref="ITextEncoding" /> when your source data is a string and you want to convert that information
    /// losslessly to a byte array.
-   /// <see cref="ITextEncoder" /> can
+   /// <see cref="ITextEncoding" /> can
    /// 1. Encode an arbitrary string to formatted bytes
    /// 2. Decode formatted bytes to the original string
    /// </summary>
-   public interface ITextEncoder
+   public interface ITextEncoding
    {
       Encoding Encoding { get; }
 
-      String Decode( Byte[] sourceBytes );
+      Char[] AsCharArray( Byte[] sourceBytes );
 
-      Char[] DecodeChars( Byte[] sourceBytes );
+      String AsString( Byte[] sourceBytes );
 
       /// <summary>
       /// Get the string bytes according to this encoding

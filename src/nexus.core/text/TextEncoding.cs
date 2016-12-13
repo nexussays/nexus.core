@@ -8,11 +8,11 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Text;
 
-namespace nexus.core.serialization.text
+namespace nexus.core.text
 {
-   public class TextEncoder : ITextEncoder
+   public class TextEncoding : ITextEncoding
    {
-      public TextEncoder( Encoding encoding )
+      public TextEncoding( Encoding encoding )
       {
          Contract.Requires( encoding != null );
          Encoding = encoding;
@@ -20,19 +20,19 @@ namespace nexus.core.serialization.text
 
       public Encoding Encoding { get; }
 
-      public String Decode( Byte[] input )
-      {
-         return Encoding.GetString( input, 0, input.Length );
-      }
-
-      public Char[] DecodeChars( Byte[] sourceBytes )
+      public Char[] AsCharArray( Byte[] sourceBytes )
       {
          return Encoding.GetChars( sourceBytes, 0, sourceBytes.Length );
       }
 
+      public String AsString( Byte[] input )
+      {
+         return Encoding.GetString( input, 0, input.Length );
+      }
+
       public override Boolean Equals( Object obj )
       {
-         var enc = obj as TextEncoder;
+         var enc = obj as TextEncoding;
          return enc != null && enc.Encoding == Encoding;
       }
 
@@ -46,14 +46,14 @@ namespace nexus.core.serialization.text
          return Encoding.GetHashCode();
       }
 
-      public static explicit operator Encoding( TextEncoder encoder )
+      public static explicit operator Encoding( TextEncoding encoding )
       {
-         return encoder?.Encoding;
+         return encoding?.Encoding;
       }
 
-      public static explicit operator TextEncoder( Encoding encoding )
+      public static explicit operator TextEncoding( Encoding encoding )
       {
-         return encoding == null ? null : new TextEncoder( encoding );
+         return encoding == null ? null : new TextEncoding( encoding );
       }
    }
 }
