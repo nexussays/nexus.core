@@ -11,6 +11,40 @@ namespace nexus.core.logging
 {
    public static class LogUtils
    {
+      public static void AddLogSink( this ILogControl log, Action<ILogEntry, Int32> handler )
+      {
+         Contract.Requires<ArgumentNullException>( log != null );
+         Contract.Requires<ArgumentNullException>( handler != null );
+         // ReSharper disable once PossibleNullReferenceException
+         log.AddSink( CreateLogSink( handler ) );
+      }
+
+      public static void AddLogSink( this ILogControl log, Action<ILogEntry> handler )
+      {
+         Contract.Requires<ArgumentNullException>( log != null );
+         Contract.Requires<ArgumentNullException>( handler != null );
+         // ReSharper disable once PossibleNullReferenceException
+         log.AddSink( CreateLogSink( handler ) );
+      }
+
+      public static void AddObjectConverter( this ILogControl log, Func<Object, Object> convert,
+                                             Func<Type, Boolean> canConvert )
+      {
+         Contract.Requires<ArgumentNullException>( log != null );
+         Contract.Requires<ArgumentNullException>( convert != null );
+         Contract.Requires<ArgumentNullException>( canConvert != null );
+         // ReSharper disable once PossibleNullReferenceException
+         log.AddConverter( ObjectConverter.Create( convert, canConvert ) );
+      }
+
+      public static void AddObjectConverter<TFrom, TTo>( this ILogControl log, Func<TFrom, TTo> convert )
+      {
+         Contract.Requires<ArgumentNullException>( log != null );
+         Contract.Requires<ArgumentNullException>( convert != null );
+         // ReSharper disable once PossibleNullReferenceException
+         log.AddConverter( ObjectConverter.Create( convert ).AsUntyped() );
+      }
+
       /// <summary>
       /// Factory method to create <see cref="ILogSink" /> instance
       /// </summary>

@@ -144,6 +144,7 @@
     <Compile Include="exception\UniversalException.cs" />
     <Compile Include="exception\UniversalExceptionStackFrame.cs" />
     <Compile Include="Expected.cs" />
+    <Compile Include="IGenericObjectConverter.cs" />
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
     <Compile Include="logging\ILog.cs" />
