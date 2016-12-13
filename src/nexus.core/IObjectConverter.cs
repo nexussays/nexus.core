@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Reflection;
 
 namespace nexus.core
 {
@@ -105,7 +106,7 @@ namespace nexus.core
 
          public Boolean CanConvertObjectOfType( Type source )
          {
-            return source is TFrom;
+            return source != null && typeof(TFrom).GetTypeInfo().IsAssignableFrom( source.GetTypeInfo() );
          }
 
          public Object Convert( Object source )
