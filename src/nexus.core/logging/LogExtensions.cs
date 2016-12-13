@@ -56,10 +56,30 @@ namespace nexus.core.logging
       }
 
       /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log only when compiling with the DEBUG
+      /// flag, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [Conditional( "DEBUG" )]
+      [StringFormatMethod( "message" )]
+      public static void Debug( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
+      {
+         log.Trace( new Object[] {exception}, message, messageArgs );
+      }
+
+      /// <summary>
       /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
       /// </summary>
       [StringFormatMethod( "message" )]
       public static void Error( this ILog log, IException exception, String message = null, params Object[] messageArgs )
+      {
+         log.Error( new Object[] {exception}, message, messageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [StringFormatMethod( "message" )]
+      public static void Error( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
       {
          log.Error( new Object[] {exception}, message, messageArgs );
       }
@@ -122,6 +142,15 @@ namespace nexus.core.logging
       /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
       /// </summary>
       [StringFormatMethod( "message" )]
+      public static void Info( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
+      {
+         log.Info( new Object[] {exception}, message, messageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [StringFormatMethod( "message" )]
       public static void Trace( this ILog log, IException exception, String message = null, params Object[] messageArgs )
       {
          log.Trace( new Object[] {exception}, message, messageArgs );
@@ -131,7 +160,25 @@ namespace nexus.core.logging
       /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
       /// </summary>
       [StringFormatMethod( "message" )]
+      public static void Trace( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
+      {
+         log.Trace( new Object[] {exception}, message, messageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [StringFormatMethod( "message" )]
       public static void Warn( this ILog log, IException exception, String message = null, params Object[] messageArgs )
+      {
+         log.Warn( new Object[] {exception}, message, messageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [StringFormatMethod( "message" )]
+      public static void Warn( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
       {
          log.Warn( new Object[] {exception}, message, messageArgs );
       }
