@@ -11,24 +11,8 @@ namespace nexus.core.logging
 {
    public static class LogUtils
    {
-      public static void AddLogSink( this ILogControl log, Action<ILogEntry, Int32> handler )
-      {
-         Contract.Requires<ArgumentNullException>( log != null );
-         Contract.Requires<ArgumentNullException>( handler != null );
-         // ReSharper disable once PossibleNullReferenceException
-         log.AddSink( CreateLogSink( handler ) );
-      }
-
-      public static void AddLogSink( this ILogControl log, Action<ILogEntry> handler )
-      {
-         Contract.Requires<ArgumentNullException>( log != null );
-         Contract.Requires<ArgumentNullException>( handler != null );
-         // ReSharper disable once PossibleNullReferenceException
-         log.AddSink( CreateLogSink( handler ) );
-      }
-
-      public static void AddObjectConverter( this ILogControl log, Func<Object, Object> convert,
-                                             Func<Type, Boolean> canConvert )
+      public static void AddConverter( this ILogControl log, Func<Object, Object> convert,
+                                       Func<Type, Boolean> canConvert )
       {
          Contract.Requires<ArgumentNullException>( log != null );
          Contract.Requires<ArgumentNullException>( convert != null );
@@ -37,12 +21,28 @@ namespace nexus.core.logging
          log.AddConverter( ObjectConverter.Create( convert, canConvert ) );
       }
 
-      public static void AddObjectConverter<TFrom, TTo>( this ILogControl log, Func<TFrom, TTo> convert )
+      public static void AddConverter<TFrom, TTo>( this ILogControl log, Func<TFrom, TTo> convert )
       {
          Contract.Requires<ArgumentNullException>( log != null );
          Contract.Requires<ArgumentNullException>( convert != null );
          // ReSharper disable once PossibleNullReferenceException
          log.AddConverter( ObjectConverter.Create( convert ).AsUntyped() );
+      }
+
+      public static void AddSink( this ILogControl log, Action<ILogEntry, Int32> handler )
+      {
+         Contract.Requires<ArgumentNullException>( log != null );
+         Contract.Requires<ArgumentNullException>( handler != null );
+         // ReSharper disable once PossibleNullReferenceException
+         log.AddSink( CreateLogSink( handler ) );
+      }
+
+      public static void AddSink( this ILogControl log, Action<ILogEntry> handler )
+      {
+         Contract.Requires<ArgumentNullException>( log != null );
+         Contract.Requires<ArgumentNullException>( handler != null );
+         // ReSharper disable once PossibleNullReferenceException
+         log.AddSink( CreateLogSink( handler ) );
       }
 
       /// <summary>
