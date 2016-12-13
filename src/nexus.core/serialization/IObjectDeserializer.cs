@@ -46,7 +46,8 @@ namespace nexus.core.serialization
       }
 
       /// <summary>
-      /// Create a new <see cref="IObjectDeserializer{TFrom}" /> from the provided function.
+      /// Create a new <see cref="IObjectDeserializer{TFrom}" /> from the provided function. If you simple want to convert one
+      /// object to another, see <see cref="ObjectConverter.Create{TFrom,TTo}" />
       /// </summary>
       public static IObjectDeserializer<TFrom> Create<TFrom>( this Func<TFrom, Type, Object> deserialize )
       {

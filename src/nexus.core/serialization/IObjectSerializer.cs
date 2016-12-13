@@ -43,7 +43,8 @@ namespace nexus.core.serialization
       }
 
       /// <summary>
-      /// Create a new <see cref="IObjectSerializer{TTo}" /> from the provided serialization function.
+      /// Create a new <see cref="IObjectSerializer{TTo}" /> from the provided serialization function. If you simply want to
+      /// convert one object to another, see <see cref="ObjectConverter.Create{TFrom,TTo}" />
       /// </summary>
       public static IObjectSerializer<TTo> Create<TTo>( Func<Object, TTo> serialize, Func<Type, Boolean> canSerialize )
       {

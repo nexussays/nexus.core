@@ -168,7 +168,7 @@
     <Compile Include="serialization\binary\IBinaryEncoder.cs" />
     <Compile Include="serialization\IObjectDeserializer.cs" />
     <Compile Include="serialization\IObjectSerializer.cs" />
-    <Compile Include="serialization\ITypeConverter.cs" />
+    <Compile Include="serialization\IObjectConverter.cs" />
     <Compile Include="io\IStreamDeserializer.cs" />
     <Compile Include="io\IStreamSerializer.cs" />
     <Compile Include="io\StreamUtils.cs" />

@@ -12,7 +12,7 @@ namespace nexus.core.exception
    /// <summary>
    /// Serialize an <see cref="Exception" /> to <see cref="IException" /> with a textual (ie, untyped) stacktrace
    /// </summary>
-   public sealed class NativeExceptionConverter : ITypeConverter<Exception, IException>
+   public sealed class NativeExceptionConverter : IObjectConverter<Exception, IException>
    {
       public static readonly NativeExceptionConverter Instance = new NativeExceptionConverter();
 
