@@ -6,7 +6,6 @@
 
 using System;
 using System.Diagnostics;
-using nexus.core.exception;
 using nexus.core.resharper;
 
 namespace nexus.core.logging
@@ -55,7 +54,7 @@ namespace nexus.core.logging
       /// </summary>
       [StringFormatMethod( "message" )]
       [Conditional( "DEBUG" )]
-      public static void Debug( IException exception, String message = null, params Object[] messageArgs )
+      public static void Debug( Exception exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
          LogExtensions.Trace( SystemLog.Instance, exception, message, messageArgs );
@@ -91,7 +90,7 @@ namespace nexus.core.logging
       /// Write <see cref="LogLevel.Error" /> level log data
       /// </summary>
       [StringFormatMethod( "message" )]
-      public static void Error( IException exception, String message = null, params Object[] messageArgs )
+      public static void Error( Exception exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
          LogExtensions.Error( SystemLog.Instance, exception, message, messageArgs );
@@ -127,7 +126,7 @@ namespace nexus.core.logging
       /// Write <see cref="LogLevel.Info" /> level log data
       /// </summary>
       [StringFormatMethod( "message" )]
-      public static void Info( IException exception, String message = null, params Object[] messageArgs )
+      public static void Info( Exception exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
          LogExtensions.Info( SystemLog.Instance, exception, message, messageArgs );
@@ -163,7 +162,7 @@ namespace nexus.core.logging
       /// Write <see cref="LogLevel.Trace" /> level log data
       /// </summary>
       [StringFormatMethod( "message" )]
-      public static void Trace( IException exception, String message = null, params Object[] messageArgs )
+      public static void Trace( Exception exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
          LogExtensions.Trace( SystemLog.Instance, exception, message, messageArgs );
@@ -199,7 +198,7 @@ namespace nexus.core.logging
       /// Write <see cref="LogLevel.Warn" /> level log data
       /// </summary>
       [StringFormatMethod( "message" )]
-      public static void Warn( IException exception, String message = null, params Object[] messageArgs )
+      public static void Warn( Exception exception, String message = null, params Object[] messageArgs )
       {
          // ReSharper disable once InvokeAsExtensionMethod
          LogExtensions.Warn( SystemLog.Instance, exception, message, messageArgs );

@@ -10,7 +10,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using nexus.core.resharper;
-using nexus.core.serialization;
 using nexus.core.time;
 
 namespace nexus.core.logging
