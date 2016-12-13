@@ -4,6 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -21,14 +22,31 @@ namespace nexus.core.io
          return deserializer.DeserializeAsync( stream );
       }
 
-      public static void WriteObject<T>( this Stream stream, T source, IStreamSerializer<T> serializer )
+      public static void WriteObject<T>( this Stream stream, T source, IStreamSerializer serializer )
       {
-         serializer.Serialize( stream, source );
+         if(serializer.CanSerializeObjectOfType( typeof(T) ))
+         {
+            serializer.Serialize( stream, source );
+         }
+         else
+         {
+            throw new ArgumentException(
+               "Serializer {0} cannot serialize objects of type {1}".F(
+                  serializer.GetType().FullName,
+                  source?.GetType().FullName ?? "null" ) );
+         }
       }
 
-      public static Task WriteObjectAsync<T>( this Stream stream, T source, IStreamSerializer<T> serializer )
+      public static Task WriteObjectAsync<T>( this Stream stream, T source, IStreamSerializer serializer )
       {
-         return serializer.SerializeAsync( stream, source );
+         if(serializer.CanSerializeObjectOfType( typeof(T) ))
+         {
+            return serializer.SerializeAsync( stream, source );
+         }
+         throw new ArgumentException(
+            "Serializer {0} cannot serialize objects of type {1}".F(
+               serializer.GetType().FullName,
+               source?.GetType().FullName ?? "null" ) );
       }
    }
 }

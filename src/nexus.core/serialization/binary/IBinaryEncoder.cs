@@ -19,8 +19,6 @@ namespace nexus.core.serialization.binary
    /// 2. Deserialize a formatted string to the original bytes
    /// </summary>
    public interface IBinaryEncoder
-      : ISerializer<Byte[], String>,
-        IDeserializer<String, Byte[]>
    {
       /// <summary>
       /// The number of symbols in the symbol table. I.e., the base of the number system of the encoded value.
@@ -31,5 +29,9 @@ namespace nexus.core.serialization.binary
       /// An indexed and ordered list of the characters used to represent each numeral in this base number system.
       /// </summary>
       IEnumerable<Char> SymbolTable { get; }
+
+      Byte[] Decode( String formattedValue );
+
+      String Encode( Byte[] bytes );
    }
 }

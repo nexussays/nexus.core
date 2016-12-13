@@ -18,8 +18,7 @@ namespace nexus.core.logging
    /// <summary>
    /// The default/standard implementation of <see cref="ILog" /> and <see cref="ILogControl" />. If the current
    /// <see cref="CurrentLevel" /> is lower than the called log method then the log call will be counted but no output sent to
-   /// the
-   /// sinks.
+   /// the sinks.
    /// </summary>
    public sealed class SystemLog
       : ILog,
@@ -29,7 +28,8 @@ namespace nexus.core.logging
       private readonly IDictionary<LogLevel, Int32> m_entriesWritten;
       private readonly ILogEntry[] m_entryBuffer;
       private readonly Object m_lock = new Object();
-      private readonly IDictionary<Type, IUntypedSerializer> m_serializers;
+      private readonly Boolean m_rethrowSinkExceptions;
+      private readonly IList<IObjectSerializer> m_serializers;
       private readonly ISet<ILogSink> m_sinks;
       private readonly ITimeProvider m_timeProvider;
       private Int32 m_entrySequence;
@@ -39,13 +39,19 @@ namespace nexus.core.logging
       /// </summary>
       /// <param name="time"></param>
       /// <param name="logBufferSize">
-      /// The size of the rolling buffer used to store log entries so newly attached sinks don't lose
-      /// any entries. This is only really necessary at start/launch time so unless you are expecting a lot of logging prior to
-      /// attaching your sinks the default value is probably fine.
+      /// The size of the rolling buffer used to store log entries so newly attached sinks don't lose any entries made before
+      /// they were attached. This is only really necessary at start/launch time so unless you are expecting a lot of logging
+      /// prior to attaching your sinks he default value is probably fine.
       /// </param>
-      public SystemLog( ITimeProvider time, Int32 logBufferSize )
+      /// <param name="rethrowExceptionsFromSinks">
+      /// Defaults to false, but when true any exceptions thrown by attached
+      /// <see cref="ILogSink" /> will not be caught. Really only useful for debugging.
+      /// </param>
+      public SystemLog( ITimeProvider time, Byte logBufferSize, Boolean rethrowExceptionsFromSinks = false )
       {
-         Contract.Requires( time != null );
+         Contract.Requires<ArgumentNullException>( time != null );
+
+         m_rethrowSinkExceptions = rethrowExceptionsFromSinks;
          m_entrySequence = -1;
          m_entryBuffer = new ILogEntry[logBufferSize];
          m_entriesWritten = new Dictionary<LogLevel, Int32>
@@ -62,7 +68,7 @@ namespace nexus.core.logging
             {LogLevel.Info, 0},
             {LogLevel.Trace, 0}
          };
-         m_serializers = new Dictionary<Type, IUntypedSerializer>();
+         m_serializers = new List<IObjectSerializer>();
          m_timeProvider = time;
          CurrentLevel = LogLevel.Trace;
          m_sinks = new HashSet<ILogSink>();
@@ -78,9 +84,10 @@ namespace nexus.core.logging
       public String Id { get; set; }
 
       /// <summary>
-      /// You should only access this in the main entry-point of your application code and **never** from libraries.
+      /// You should only access this in the main entry-point of your application code and **never** from libraries or normal app
+      /// code.
       /// </summary>
-      public static SystemLog Instance { get; } = new SystemLog( new DefaultTimeProvider(), 50 );
+      public static SystemLog Instance { get; } = new SystemLog( new DefaultTimeProvider(), 50, false );
 
       /// <summary>
       /// Mostly just needed for unit tests
@@ -88,16 +95,31 @@ namespace nexus.core.logging
       public Int32 LogBufferSize => m_entryBuffer.Length;
 
       /// <inheritDoc />
+      public IEnumerable<IObjectSerializer> ObjectSerializers => new List<IObjectSerializer>( m_serializers );
+
+      /// <inheritDoc />
       public IEnumerable<ILogSink> Sinks => new List<ILogSink>( m_sinks );
 
-      /// <summary>
-      /// Add a log sink which be called each time a <see cref="ILogEntry" /> is created.
-      /// </summary>
+      /// <inheritDoc />
+      public void AddSerializer( IObjectSerializer serializer )
+      {
+         if(serializer == null)
+         {
+            return;
+         }
+
+         lock(m_lock)
+         {
+            m_serializers.Add( serializer );
+         }
+      }
+
+      /// <inheritDoc />
       public void AddSink( ILogSink sink )
       {
          if(sink == null)
          {
-            throw new ArgumentNullException( nameof( sink ) );
+            return;
          }
 
          List<Tuple<ILogEntry, Int32>> backlog = null;
@@ -208,6 +230,15 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
+      public Boolean RemoveSerializer( IObjectSerializer serializer )
+      {
+         lock(m_lock)
+         {
+            return m_serializers.Remove( serializer );
+         }
+      }
+
+      /// <inheritDoc />
       public Boolean RemoveSink( ILogSink sink )
       {
          lock(m_lock)
@@ -274,36 +305,60 @@ namespace nexus.core.logging
 
       private void CreateLogEntry( LogLevel severity, Object[] objects, String message, Object[] messageArgs )
       {
-         if(severity >= CurrentLevel)
+         if(severity < CurrentLevel)
          {
+            lock(m_lock)
+            {
+               m_entriesSkipped[severity] += 1;
+            }
+         }
+         else
+         {
+            // lock to thread-safely update the sequence number so it is correct even if a new entry is written while serializing the attached objects.
+            Int32 seqNum;
+            lock(m_lock)
+            {
+               // This could still be a problem if a sink is added in between incrementing the sequence and adding the entry to the buffer, but I'm willing to live with those odds
+               m_entrySequence += 1;
+               seqNum = m_entrySequence;
+            }
+
             // get the time immediately in case serializing objects takes time
             var time = m_timeProvider.UtcNow;
 
-            // run through all objects and see if any of them have serializers, if so remove the object and add the serialized result in its place
-            Queue<Object> queue = null;
+            var data = new List<Object>();
             if(objects != null)
             {
-               queue = new Queue<Object>( objects );
+               // run through all objects and see if any of them have serializers, if so remove the object and add the serialized result in its place
+               var queue = new Queue<Object>( objects );
                while(queue.Count > 0)
                {
-                  if(m_serializers.ContainsKey( queue.Peek().GetType() ))
+                  var item = queue.Dequeue();
+                  foreach(var serializer in m_serializers)
                   {
-                     var item = queue.Dequeue();
-                     // add the serialized value to the queue in case there is further processing to perform
-                     queue.Enqueue( m_serializers[item.GetType()].Serialize( item ) );
+                     if(serializer.CanSerializeObjectOfType( item.GetType() ))
+                     {
+                        // add the serialized value to the queue in case there is further processing to perform
+                        queue.Enqueue( serializer.Serialize( item ) );
+                        item = null;
+                        break;
+                     }
+                  }
+
+                  if(item != null)
+                  {
+                     data.Add( item );
                   }
                }
             }
 
-            Int32 seqNum;
+            // lock again to store the entry
             LogEntry entry;
             lock(m_lock)
             {
                m_entriesWritten[severity] += 1;
-               m_entrySequence += 1;
-               seqNum = m_entrySequence;
-               entry = new LogEntry( Id, time, severity, message, messageArgs, queue?.ToArray() );
-               m_entryBuffer[m_entrySequence % m_entryBuffer.Length] = entry;
+               entry = new LogEntry( Id, time, severity, message, messageArgs, data );
+               m_entryBuffer[seqNum % m_entryBuffer.Length] = entry;
             }
 
             foreach(var sink in m_sinks)
@@ -312,17 +367,10 @@ namespace nexus.core.logging
                {
                   sink.Handle( entry, seqNum );
                }
-               catch(Exception ex)
+               catch(Exception ex) when(!m_rethrowSinkExceptions)
                {
                   Debug.WriteLine( "** LOG [ERROR] in sink {0} ** : {1}".F( sink?.GetType().FullName ?? "null", ex ) );
                }
-            }
-         }
-         else
-         {
-            lock(m_lock)
-            {
-               m_entriesSkipped[severity] += 1;
             }
          }
       }
@@ -332,14 +380,14 @@ namespace nexus.core.logging
          private readonly IList<Object> m_data;
 
          internal LogEntry( String id, DateTime time, LogLevel severity, String message, Object[] messageArguments,
-                            Object[] attachedObjects )
+                            IList<Object> attachedObjects )
          {
             LogId = id;
             MessageArguments = messageArguments;
             Severity = severity;
             Message = message;
             Timestamp = time;
-            m_data = attachedObjects == null ? new List<Object>() : new List<Object>( attachedObjects );
+            m_data = attachedObjects;
          }
 
          public IEnumerable<Object> Data => m_data;

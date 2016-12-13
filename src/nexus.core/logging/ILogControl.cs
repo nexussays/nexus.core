@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using nexus.core.serialization;
 
 namespace nexus.core.logging
 {
@@ -22,16 +23,22 @@ namespace nexus.core.logging
 
       String Id { get; set; }
 
+      IEnumerable<IObjectSerializer> ObjectSerializers { get; }
+
       IEnumerable<ILogSink> Sinks { get; }
+
+      /// <summary>
+      /// Add a serializer which will convert any viable objects attached to log entries
+      /// </summary>
+      void AddSerializer( IObjectSerializer serializer );
 
       /// <summary>
       /// Will dispatch logs to the provided listener after formatting them and checking that the current log level is met.
       /// </summary>
-      /// <param name="sink"></param>
       void AddSink( ILogSink sink );
 
-      Boolean RemoveSink( ILogSink sink );
+      Boolean RemoveSerializer( IObjectSerializer serializer );
 
-      Boolean RemoveSinkOfType<T>() where T : ILogSink;
+      Boolean RemoveSink( ILogSink sink );
    }
 }

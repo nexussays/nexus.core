@@ -34,7 +34,7 @@ namespace nexus.core
       /// </summary>
       public static Byte[] DecodeAsBase16( this String value, Boolean lowercase )
       {
-         return lowercase ? Base16Encoder.Lowercase.Deserialize( value ) : Base16Encoder.Uppercase.Deserialize( value );
+         return lowercase ? Base16Encoder.Lowercase.Decode( value ) : Base16Encoder.Uppercase.Decode( value );
       }
 
       /// <summary>
@@ -42,21 +42,21 @@ namespace nexus.core
       /// </summary>
       public static Byte[] DecodeAsBase64( this String value )
       {
-         return value.IsNullOrEmpty() ? new Byte[0] : Base64Encoder.Instance.Deserialize( value );
+         return value.IsNullOrEmpty() ? new Byte[0] : Base64Encoder.Instance.Decode( value );
       }
 
       public static String DecodeAsUtf16String( this Byte[] value, Boolean includeByteOrderMark = false )
       {
          return value == null
             ? null
-            : (includeByteOrderMark ? Utf16Encoder.WithBOM : Utf16Encoder.WithoutBOM).Deserialize( value );
+            : (includeByteOrderMark ? Utf16Encoder.WithBOM : Utf16Encoder.WithoutBOM).Decode( value );
       }
 
       public static String DecodeAsUtf8String( this Byte[] value, Boolean includeByteOrderMark = false )
       {
          return value == null
             ? null
-            : (includeByteOrderMark ? Utf8Encoder.WithBOM : Utf8Encoder.WithoutBOM).Deserialize( value );
+            : (includeByteOrderMark ? Utf8Encoder.WithBOM : Utf8Encoder.WithoutBOM).Decode( value );
       }
 
       /// <summary>
@@ -64,7 +64,7 @@ namespace nexus.core
       /// </summary>
       public static String EncodeToBase16String( this Byte[] value, Boolean lowercase = true )
       {
-         return lowercase ? Base16Encoder.Lowercase.Serialize( value ) : Base16Encoder.Uppercase.Serialize( value );
+         return lowercase ? Base16Encoder.Lowercase.Encode( value ) : Base16Encoder.Uppercase.Encode( value );
       }
 
       /// <summary>
@@ -72,7 +72,7 @@ namespace nexus.core
       /// </summary>
       public static String EncodeToBase16String( this Byte value, Boolean lowercase = true )
       {
-         return lowercase ? Base16Encoder.Lowercase.Serialize( value ) : Base16Encoder.Uppercase.Serialize( value );
+         return lowercase ? Base16Encoder.Lowercase.Encode( value ) : Base16Encoder.Uppercase.Encode( value );
       }
 
       /// <summary>
@@ -80,7 +80,7 @@ namespace nexus.core
       /// </summary>
       public static String EncodeToBase64String( this Byte[] value )
       {
-         return Base64Encoder.Instance.Serialize( value );
+         return Base64Encoder.Instance.Encode( value );
       }
 
       /// <summary>
@@ -114,7 +114,7 @@ namespace nexus.core
       {
          return value == null
             ? null
-            : (includeByteOrderMark ? Utf16Encoder.WithBOM : Utf16Encoder.WithoutBOM).Serialize( value );
+            : (includeByteOrderMark ? Utf16Encoder.WithBOM : Utf16Encoder.WithoutBOM).GetBytes( value );
       }
 
       public static Option<Byte[]> GetUtf16Bytes( this Option<String> value, Boolean includeByteOrderMark = false )
@@ -126,7 +126,7 @@ namespace nexus.core
       {
          return value == null
             ? null
-            : (includeByteOrderMark ? Utf8Encoder.WithBOM : Utf8Encoder.WithoutBOM).Serialize( value );
+            : (includeByteOrderMark ? Utf8Encoder.WithBOM : Utf8Encoder.WithoutBOM).GetBytes( value );
       }
 
       public static Option<Byte[]> GetUtf8Bytes( this Option<String> value, Boolean includeByteOrderMark = false )

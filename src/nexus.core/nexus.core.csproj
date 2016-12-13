@@ -140,7 +140,7 @@
     <Compile Include="EnumDescriptionAttribute.cs" />
     <Compile Include="exception\IException.cs" />
     <Compile Include="exception\IStackFrame.cs" />
-    <Compile Include="exception\NativeExceptionSerializer.cs" />
+    <Compile Include="exception\NativeExceptionConverter.cs" />
     <Compile Include="exception\UniversalException.cs" />
     <Compile Include="exception\UniversalExceptionStackFrame.cs" />
     <Compile Include="Expected.cs" />
@@ -166,10 +166,9 @@
     <Compile Include="serialization\binary\Base16Encoder.cs" />
     <Compile Include="serialization\binary\Base64Encoder.cs" />
     <Compile Include="serialization\binary\IBinaryEncoder.cs" />
-    <Compile Include="serialization\IDeserializer.cs" />
-    <Compile Include="serialization\IGenericDeserializer.cs" />
-    <Compile Include="serialization\IUntypedSerializer.cs" />
-    <Compile Include="serialization\ISerializer.cs" />
+    <Compile Include="serialization\IObjectDeserializer.cs" />
+    <Compile Include="serialization\IObjectSerializer.cs" />
+    <Compile Include="serialization\ITypeConverter.cs" />
     <Compile Include="io\IStreamDeserializer.cs" />
     <Compile Include="io\IStreamSerializer.cs" />
     <Compile Include="io\StreamUtils.cs" />

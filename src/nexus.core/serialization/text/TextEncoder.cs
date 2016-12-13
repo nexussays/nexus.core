@@ -20,14 +20,14 @@ namespace nexus.core.serialization.text
 
       public Encoding Encoding { get; }
 
-      public String Deserialize( Byte[] input )
+      public String Decode( Byte[] input )
       {
          return Encoding.GetString( input, 0, input.Length );
       }
 
-      public Char[] DeserializeChars( Byte[] input )
+      public Char[] DecodeChars( Byte[] sourceBytes )
       {
-         return Encoding.GetChars( input, 0, input.Length );
+         return Encoding.GetChars( sourceBytes, 0, sourceBytes.Length );
       }
 
       public override Boolean Equals( Object obj )
@@ -36,14 +36,14 @@ namespace nexus.core.serialization.text
          return enc != null && enc.Encoding == Encoding;
       }
 
+      public Byte[] GetBytes( String data )
+      {
+         return Encoding.GetBytes( data );
+      }
+
       public override Int32 GetHashCode()
       {
          return Encoding.GetHashCode();
-      }
-
-      public Byte[] Serialize( String data )
-      {
-         return Encoding.GetBytes( data );
       }
 
       public static explicit operator Encoding( TextEncoder encoder )

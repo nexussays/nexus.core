@@ -6,11 +6,8 @@
 
 namespace nexus.core.serialization
 {
-   /// <summary>
-   /// Deserialize from some source object to any type.
-   /// </summary>
-   public interface IGenericDeserializer<in TFrom>
+   public interface ITypeConverter<in TFrom, out TTo>
    {
-      T Deserialize<T>( TFrom source );
+      TTo Convert( TFrom source );
    }
 }

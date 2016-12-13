@@ -12,16 +12,16 @@ namespace nexus.core.exception
    /// <summary>
    /// Serialize an <see cref="Exception" /> to <see cref="IException" /> with a textual (ie, untyped) stacktrace
    /// </summary>
-   public class NativeExceptionSerializer : ISerializer<Exception, IException>
+   public sealed class NativeExceptionConverter : ITypeConverter<Exception, IException>
    {
-      public static readonly NativeExceptionSerializer Instance = new NativeExceptionSerializer();
+      public static readonly NativeExceptionConverter Instance = new NativeExceptionConverter();
 
-      public IException Serialize( Exception exception )
+      public IException Convert( Exception exception )
       {
          return new UniversalException(
             exception.Message,
             exception.GetType().FullName,
-            exception.InnerException != null ? Serialize( exception.InnerException ) : null,
+            exception.InnerException != null ? Convert( exception.InnerException ) : null,
             null,
             exception.StackTrace );
       }

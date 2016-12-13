@@ -14,6 +14,7 @@ namespace nexus.core.serialization.text
       public Utf8Encoder( Boolean useByteOrderMark, Boolean throwOnInvalidBytes )
          : base( new UTF8Encoding( useByteOrderMark, throwOnInvalidBytes ) )
       {
+
       }
 
       /// <summary>

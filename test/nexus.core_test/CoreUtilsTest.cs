@@ -14,15 +14,15 @@ namespace nexus.core_test
    internal class CoreUtilsTest
    {
       [Test]
-      public void utility_throw_method_works()
+      public void divide_by_0_method_throws_divide_by_0_exception()
       {
-         Assert.Throws<Exception>( CoreUtils.ThrowException );
+         Assert.Throws<DivideByZeroException>( () => CoreUtils.ThrowDivideByZeroException() );
       }
 
       [Test]
-      public void utilitydivide_by_0_method_works()
+      public void throw_exception_method_throws_exception()
       {
-         Assert.Throws<DivideByZeroException>( () => CoreUtils.ThrowDivideByZeroException() );
+         Assert.Throws<Exception>( CoreUtils.ThrowException );
       }
    }
 }

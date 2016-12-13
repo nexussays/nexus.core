@@ -25,7 +25,7 @@ namespace nexus.core.serialization.binary
       public IEnumerable<Char> SymbolTable
          => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".ToCharArray();
 
-      public Byte[] Deserialize( String source )
+      public Byte[] Decode( String source )
       {
          return source.IsNullOrEmpty() ? null : Convert.FromBase64String( source );
       }
@@ -36,7 +36,7 @@ namespace nexus.core.serialization.binary
       /// </summary>
       /// <param name="data">The byte array to convert</param>
       /// <returns>A base-64 encoded string</returns>
-      public String Serialize( Byte[] data )
+      public String Encode( Byte[] data )
       {
          return data == null ? null : Convert.ToBase64String( data );
       }

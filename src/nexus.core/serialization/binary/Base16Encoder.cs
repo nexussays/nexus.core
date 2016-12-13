@@ -51,7 +51,7 @@ namespace nexus.core.serialization.binary
       /// If any characters of the provided encoded string are not valid hex characters in the
       /// range [0-9A-Z].
       /// </exception>
-      public Byte[] Deserialize( String source )
+      public Byte[] Decode( String source )
       {
          if(source.IsNullOrEmpty())
          {
@@ -62,16 +62,16 @@ namespace nexus.core.serialization.binary
          switch(source.Length)
          {
             case 1:
-               return new[] {Deserialize( source[0], null )};
+               return new[] {Decode( source[0], null )};
             case 2:
-               return new[] {Deserialize( source[0], source[1] )};
+               return new[] {Decode( source[0], source[1] )};
             default:
-               return Deserialize( source.ToCharArray() );
+               return Decode( source.ToCharArray() );
          }
       }
 
       /// <exception cref="FormatException">If any characters provided cannot be found in the symbol table</exception>
-      public Byte[] Deserialize( Char[] chars )
+      public Byte[] Decode( Char[] chars )
       {
          Contract.Requires( chars != null );
          Contract.Requires( chars.Length > 1 );
@@ -93,7 +93,7 @@ namespace nexus.core.serialization.binary
                {
                   var index = (odd ? x + 1 : x) / 2;
                   Contract.Assume( index < newBytes.Length );
-                  newBytes[index] = Deserialize( chars[x], chars[x + 1] );
+                  newBytes[index] = Decode( chars[x], chars[x + 1] );
                }
             }
             catch(Exception ex)
@@ -108,7 +108,7 @@ namespace nexus.core.serialization.binary
          return newBytes;
       }
 
-      public Byte Deserialize( Char digit1, Char? digit2 = null )
+      public Byte Decode( Char digit1, Char? digit2 = null )
       {
          return digit2 == null
             ? (Byte)(0xf & m_symbols.IndexOf( digit1 ))
@@ -128,7 +128,7 @@ namespace nexus.core.serialization.binary
       }
       //*/
 
-      public String Serialize( Byte[] data )
+      public String Encode( Byte[] data )
       {
          if(data == null)
          {
@@ -145,7 +145,7 @@ namespace nexus.core.serialization.binary
          return new String( result );
       }
 
-      public String Serialize( Byte source )
+      public String Encode( Byte source )
       {
          return new String( new[] {m_symbols[(source & 0xf0) >> 4], m_symbols[source & 0x0f]} );
       }
