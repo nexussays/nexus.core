@@ -148,6 +148,7 @@
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
     <Compile Include="logging\ILog.cs" />
+    <Compile Include="logging\LogEntryToStringConverter.cs" />
     <Compile Include="logging\ILogControl.cs" />
     <Compile Include="logging\ILogEntry.cs" />
     <Compile Include="logging\ILogSink.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="logging\LogLevel.cs" />
     <Compile Include="logging\LogUtils.cs" />
     <Compile Include="logging\SystemLog.cs" />
+    <Compile Include="logging\TextWriterLogSink.cs" />
     <Compile Include="MutableDictionary.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Option.cs" />
