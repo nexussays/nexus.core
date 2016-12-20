@@ -6,7 +6,6 @@
 
 using System;
 using System.Collections.Generic;
-using nexus.core.serialization;
 
 namespace nexus.core.logging
 {

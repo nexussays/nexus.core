@@ -197,18 +197,21 @@ namespace nexus.core
                                                                       TKey key )
       {
          Contract.Requires( dict != null );
+         Contract.Requires( key != null );
          return Pair.Of( key, dict[key] );
       }
 
       public static KeyValuePair<TKey, TValue> GetPair<TKey, TValue>( this IDictionary<TKey, TValue> dict, TKey key )
       {
          Contract.Requires( dict != null );
+         Contract.Requires( key != null );
          return Pair.Of( key, dict[key] );
       }
 
       public static void Set<TKey, TVal>( this IDictionary<TKey, TVal> dict, KeyValuePair<TKey, TVal> item )
       {
          Contract.Requires( dict != null );
+         Contract.Requires( item.Key != null );
          dict[item.Key] = item.Value;
       }
 

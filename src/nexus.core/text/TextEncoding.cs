@@ -14,7 +14,7 @@ namespace nexus.core.text
    {
       public TextEncoding( Encoding encoding )
       {
-         Contract.Requires( encoding != null );
+         Contract.Requires<ArgumentNullException>( encoding != null );
          Encoding = encoding;
       }
 
@@ -44,6 +44,12 @@ namespace nexus.core.text
       public override Int32 GetHashCode()
       {
          return Encoding.GetHashCode();
+      }
+
+      [ContractInvariantMethod]
+      private void Invariant()
+      {
+         Contract.Invariant( Encoding != null );
       }
 
       public static explicit operator Encoding( TextEncoding encoding )

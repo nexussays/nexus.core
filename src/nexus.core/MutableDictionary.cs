@@ -65,11 +65,6 @@ namespace nexus.core
          return m_dict.Contains( item );
       }
 
-      public Boolean ContainsKey( TKey key )
-      {
-         return m_dict.ContainsKey( key );
-      }
-
       public void CopyTo( KeyValuePair<TKey, TValue>[] array, Int32 arrayIndex )
       {
          m_dict.CopyTo( array, arrayIndex );
@@ -98,6 +93,21 @@ namespace nexus.core
       public Boolean TryGetValue( TKey key, out TValue value )
       {
          return m_dict.TryGetValue( key, out value );
+      }
+
+      private Boolean ContainsKey( TKey key )
+      {
+         return m_dict.ContainsKey( key );
+      }
+
+      Boolean IDictionary<TKey, TValue>.ContainsKey( TKey key )
+      {
+         return ContainsKey( key );
+      }
+
+      Boolean IImmutableDictionary<TKey, TValue>.ContainsKey( TKey key )
+      {
+         return ContainsKey( key );
       }
 
       IEnumerator IEnumerable.GetEnumerator()

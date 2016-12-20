@@ -36,21 +36,23 @@ namespace nexus.core.serialization
 
       private sealed class GenericDeserializer<TFrom> : IDeserializer<TFrom>
       {
-         private readonly Func<TFrom, Type, Object> m_func;
+         private readonly Func<TFrom, Type, Object> m_deserialize;
 
-         public GenericDeserializer( Func<TFrom, Type, Object> func )
+         public GenericDeserializer( Func<TFrom, Type, Object> deserialize )
          {
-            m_func = func;
+            Contract.Requires( deserialize != null );
+            m_deserialize = deserialize;
          }
 
          public T Deserialize<T>( TFrom source )
          {
+            Contract.Ensures( Contract.Result<Object>() != null );
             return (T)Deserialize( source, typeof(T) );
          }
 
          public Object Deserialize( TFrom source, Type desiredReturnType )
          {
-            return m_func.Invoke( source, desiredReturnType );
+            return m_deserialize.Invoke( source, desiredReturnType );
          }
       }
    }

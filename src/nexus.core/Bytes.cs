@@ -5,6 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.Diagnostics.Contracts;
 
 namespace nexus.core
 {
@@ -114,6 +115,8 @@ namespace nexus.core
       /// </summary>
       public static Single ToFloat32( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
+         Contract.Requires( bytes != null );
+         Contract.Requires( startIndex >= 0 );
          return ToUInt32( bytes, startIndex, endian );
       }
 
@@ -122,26 +125,36 @@ namespace nexus.core
       /// </summary>
       public static Double ToFloat64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
+         Contract.Requires( bytes != null );
+         Contract.Requires( startIndex >= 0 );
          return ToUInt64( bytes, startIndex, endian );
       }
 
       public static Int16 ToInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
+         Contract.Requires( bytes != null );
+         Contract.Requires( startIndex >= 0 );
          return (Int16)ToUInt16( bytes, startIndex, endian );
       }
 
       public static Int32 ToInt32( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
+         Contract.Requires( bytes != null );
+         Contract.Requires( startIndex >= 0 );
          return (Int32)ToUInt32( bytes, startIndex, endian );
       }
 
       public static Int64 ToInt64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
+         Contract.Requires( bytes != null );
+         Contract.Requires( startIndex >= 0 );
          return (Int64)ToUInt64( bytes, startIndex, endian );
       }
 
       public static UInt16 ToUInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
+         Contract.Requires( bytes != null );
+         Contract.Requires( startIndex >= 0 );
          return
             (UInt16)
             (endian == ByteOrder.BigEndian
@@ -151,6 +164,8 @@ namespace nexus.core
 
       public static UInt32 ToUInt32( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
+         Contract.Requires( bytes != null );
+         Contract.Requires( startIndex >= 0 );
          return
             (UInt32)
             (endian == ByteOrder.BigEndian
@@ -162,6 +177,9 @@ namespace nexus.core
 
       public static UInt64 ToUInt64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
+         Contract.Requires( bytes != null );
+         Contract.Requires( startIndex >= 0 );
+         Contract.Requires( bytes.Length >= startIndex + 8 );
          return endian == ByteOrder.BigEndian
             ? ((UInt64)bytes[startIndex] << 56) | ((UInt64)bytes[startIndex + 1] << 48) |
               ((UInt64)bytes[startIndex + 2] << 40) | ((UInt64)bytes[startIndex + 3] << 32) |

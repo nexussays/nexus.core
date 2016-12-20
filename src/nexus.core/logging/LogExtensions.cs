@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using nexus.core.resharper;
 
 namespace nexus.core.logging
@@ -18,6 +19,7 @@ namespace nexus.core.logging
       [Conditional( "DEBUG" )]
       public static void Debug( this ILog log, params Object[] objects )
       {
+         Contract.Requires( log != null );
          log.Trace( objects );
       }
 
@@ -28,6 +30,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Debug( this ILog log, String message, params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          log.Trace( message, messageArgs );
       }
 
@@ -38,6 +41,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Debug( this ILog log, Object[] objects, String message, params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          log.Trace( objects, message, messageArgs );
       }
 
@@ -49,6 +53,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Debug( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          log.Trace( new Object[] {exception}, message, messageArgs );
       }
 
@@ -58,6 +63,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Error( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          log.Error( new Object[] {exception}, message, messageArgs );
       }
 
@@ -67,6 +73,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Info( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          log.Info( new Object[] {exception}, message, messageArgs );
       }
 
@@ -76,6 +83,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Trace( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          log.Trace( new Object[] {exception}, message, messageArgs );
       }
 
@@ -85,6 +93,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Warn( this ILog log, Exception exception, String message = null, params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          log.Warn( new Object[] {exception}, message, messageArgs );
       }
 
@@ -94,6 +103,7 @@ namespace nexus.core.logging
       /// </summary>
       public static void Write( this ILog log, LogLevel severity, params Object[] objects )
       {
+         Contract.Requires( log != null );
          switch(severity)
          {
             case LogLevel.Error:
@@ -119,6 +129,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Write( this ILog log, LogLevel severity, String message, params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          switch(severity)
          {
             case LogLevel.Error:
@@ -145,6 +156,7 @@ namespace nexus.core.logging
       public static void Write( this ILog log, LogLevel severity, Object[] objects, String message,
                                 params Object[] messageArgs )
       {
+         Contract.Requires( log != null );
          switch(severity)
          {
             case LogLevel.Error:

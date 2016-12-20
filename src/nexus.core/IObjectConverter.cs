@@ -42,20 +42,20 @@ namespace nexus.core
       /// <summary>
       /// Create a new <see cref="IObjectConverter{TFrom,TTo}" /> from the provided conversion function.
       /// </summary>
-      public static IObjectConverter<TFrom, TTo> Create<TFrom, TTo>( Func<TFrom, TTo> convert )
+      public static IObjectConverter<TFrom, TTo> Create<TFrom, TTo>( Func<TFrom, TTo> converter )
       {
-         Contract.Requires<ArgumentNullException>( convert != null );
-         return new TypedObjectConverter<TFrom, TTo>( convert );
+         Contract.Requires<ArgumentNullException>( converter != null );
+         return new TypedObjectConverter<TFrom, TTo>( converter );
       }
 
       /// <summary>
       /// Create a new <see cref="IObjectConverter" /> from the provided conversion function.
       /// </summary>
-      public static IObjectConverter Create( Func<Object, Object> convert, Func<Type, Boolean> canConvert )
+      public static IObjectConverter Create( Func<Object, Object> converter, Func<Type, Boolean> canConvert )
       {
-         Contract.Requires<ArgumentNullException>( convert != null );
+         Contract.Requires<ArgumentNullException>( converter != null );
          Contract.Requires<ArgumentNullException>( canConvert != null );
-         return new UntypedObjectConverter( convert, canConvert );
+         return new UntypedObjectConverter( converter, canConvert );
       }
 
       private sealed class TypedObjectConverter<TFrom, TTo> : IObjectConverter<TFrom, TTo>
@@ -64,6 +64,7 @@ namespace nexus.core
 
          public TypedObjectConverter( Func<TFrom, TTo> converter )
          {
+            Contract.Requires( converter != null );
             m_converter = converter;
          }
 
@@ -80,6 +81,8 @@ namespace nexus.core
 
          public UntypedObjectConverter( Func<Object, Object> converter, Func<Type, Boolean> canConvert )
          {
+            Contract.Requires( converter != null );
+            Contract.Requires( canConvert != null );
             m_converter = converter;
             m_canConvert = canConvert;
          }
@@ -101,6 +104,7 @@ namespace nexus.core
 
          public WrappedObjectConverter( IObjectConverter<TFrom, TTo> converter )
          {
+            Contract.Requires( converter != null );
             m_converter = converter;
          }
 

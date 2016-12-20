@@ -14,7 +14,6 @@ namespace nexus.core.text
       public Utf8Encoding( Boolean useByteOrderMark, Boolean throwOnInvalidBytes )
          : base( new UTF8Encoding( useByteOrderMark, throwOnInvalidBytes ) )
       {
-
       }
 
       /// <summary>
