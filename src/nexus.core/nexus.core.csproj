@@ -130,6 +130,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Bytes.cs" />
     <Compile Include="ByteUtils.cs" />
+    <Compile Include="TaskConstants.cs" />
     <Compile Include="CollectionUtils.cs" />
     <Compile Include="ComparableExtensions.cs" />
     <Compile Include="CoreUtils.cs" />
