@@ -6,21 +6,12 @@
 
 using System;
 
-namespace nexus.core_test
+#pragma warning disable 1591
+
+namespace nexus.core
 {
-   public static class AssemblyInfo
+   internal static partial class AssemblyInfo
    {
-      public const String VERSION = core.AssemblyInfo.VERSION;
-      public const String VERSION_SHORT = core.AssemblyInfo.VERSION_SHORT;
-      public const String ID = core.AssemblyInfo.ID + "_test";
-
-      public const String DESCRIPTION = "Unit tests for " + core.AssemblyInfo.ID;
-
-      public const Boolean IS_DEBUG = 
-#if DEBUG
-         true;
-#else
-         false;
-#endif
+      public const String ID = PROJECT_ID + "_test";
    }
 }

@@ -12,6 +12,16 @@ namespace nexus.core
 {
    internal static partial class AssemblyInfo
    {
-      public const String ID = PROJECT_ID;
+      public const String VERSION = "0.25.8";
+      public const String VERSION_SHORT = VERSION;
+      public const String PROJECT_ID = "nexus.core";
+      public const String DESCRIPTION = "Cross-platform library of core utility methods and data structures.";
+
+      public const Boolean IS_DEBUG = 
+#if DEBUG
+         true;
+#else
+         false;
+#endif
    }
 }

@@ -128,6 +128,7 @@
   <ItemGroup>
     <Compile Include="ActionAsync.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BaseAssemblyInfo.cs" />
     <Compile Include="Bytes.cs" />
     <Compile Include="ByteUtils.cs" />
     <Compile Include="TaskConstants.cs" />

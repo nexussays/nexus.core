@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using nexus.core_test;
+using nexus.core;
 
 [assembly: AssemblyTitle( AssemblyInfo.ID )]
 [assembly: AssemblyProduct( AssemblyInfo.ID )]
