@@ -1,0 +1,13 @@
+assembly-versioning-scheme: MajorMinorPatch
+assembly-informational-format: '{SemVer}+{Sha}'
+mode: ContinuousDelivery
+branches:
+  dev(elop)?(ment)?$:
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: Patch
+  master:
+    tag: ''
+    mode: ContinuousDelivery
+ignore:
+  sha: []

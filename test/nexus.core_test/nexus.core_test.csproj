@@ -43,10 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\nexus.core\BaseAssemblyInfo.cs">
-      <Link>BaseAssemblyInfo.cs</Link>
+    <Compile Include="..\..\src\nexus.core\Properties\BaseAssemblyInfo.cs">
+      <Link>Properties\BaseAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="BytesTest.cs" />
     <Compile Include="ByteUtilsTest.cs" />
     <Compile Include="CoreUtilsTest.cs" />

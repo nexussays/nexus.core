@@ -18,6 +18,8 @@
     <OutputPath>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)</OutputPath>
     <DocumentationFile>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)\$(AssemblyName).xml</DocumentationFile>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -127,8 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionAsync.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BaseAssemblyInfo.cs" />
+    <Compile Include="Properties\BaseAssemblyInfo.cs" />
     <Compile Include="Bytes.cs" />
     <Compile Include="ByteUtils.cs" />
     <Compile Include="TaskConstants.cs" />
@@ -194,4 +195,11 @@
     <CodeContractsInstallDir Condition="'$(CodeContractsInstallDir)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\lib\packages\DotNet.Contracts.1.10.20606.1\'))</CodeContractsInstallDir>
   </PropertyGroup>
   <Import Project="$(CodeContractsInstallDir)\MsBuild\v$(VisualStudioVersion)\Microsoft.CodeContracts.targets" Condition="'$(CodeContractsImported)' != 'true' AND '$(DontImportCodeContracts)' != 'true'" />
+  <Import Project="..\..\lib\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets" Condition="Exists('..\..\lib\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\lib\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
+  </Target>
 </Project>
