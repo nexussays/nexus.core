@@ -4,14 +4,17 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace nexus.core.serialization
 {
-   public interface ITextWriterSerializer : ISerializer<TextWriter>
+   /// <summary>
+   /// <see cref="IOutputSerializer{TTo}" /> with additional async serialization method
+   /// </summary>
+   /// <remarks>The extension methods on <see cref="SerializationUtils" /> provide a better API</remarks>
+   public interface ITextWriterSerializer : IOutputSerializer<TextWriter>
    {
-      Task SerializeAsync( TextWriter to, Object source );
+      Task SerializeAsync<TFrom>( TFrom source, TextWriter to );
    }
 }

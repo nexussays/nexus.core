@@ -129,9 +129,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionAsync.cs" />
+    <Compile Include="ObjectConverter.cs" />
     <Compile Include="Properties\BaseAssemblyInfo.cs" />
     <Compile Include="Bytes.cs" />
     <Compile Include="ByteUtils.cs" />
+    <Compile Include="serialization\Deserializer.cs" />
+    <Compile Include="serialization\IResultSerializer.cs" />
     <Compile Include="TaskConstants.cs" />
     <Compile Include="CollectionUtils.cs" />
     <Compile Include="ComparableExtensions.cs" />
@@ -147,7 +150,6 @@
     <Compile Include="exception\UniversalException.cs" />
     <Compile Include="exception\UniversalExceptionStackFrame.cs" />
     <Compile Include="Expected.cs" />
-    <Compile Include="IGenericObjectConverter.cs" />
     <Compile Include="IImmutableDictionary.cs" />
     <Compile Include="ImmutableDictionary.cs" />
     <Compile Include="logging\ILog.cs" />
@@ -169,11 +171,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="resharper\PureAttribute.cs" />
     <Compile Include="resharper\StringFormatMethodAttribute.cs" />
-    <Compile Include="serialization\binary\Base16Encoder.cs" />
-    <Compile Include="serialization\binary\Base64Encoder.cs" />
-    <Compile Include="serialization\binary\IBinaryEncoder.cs" />
+    <Compile Include="text\Base16Encoder.cs" />
+    <Compile Include="text\Base64Encoder.cs" />
+    <Compile Include="text\IBinaryEncoder.cs" />
     <Compile Include="serialization\IDeserializer.cs" />
-    <Compile Include="serialization\ISerializer.cs" />
+    <Compile Include="serialization\IOutputSerializer.cs" />
     <Compile Include="IObjectConverter.cs" />
     <Compile Include="serialization\IStreamDeserializer.cs" />
     <Compile Include="serialization\ITextReaderDeserializer.cs" />

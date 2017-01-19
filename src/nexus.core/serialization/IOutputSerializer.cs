@@ -4,12 +4,13 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-using System;
-
 namespace nexus.core.serialization
 {
-   public interface ISerializer<in TTo>
+   /// <summary>
+   /// Serialize an object to a given output (e.g. <see cref="IOutputSerializer{Stream}" />)
+   /// </summary>
+   public interface IOutputSerializer<in TTo>
    {
-      void Serialize( TTo to, Object source );
+      void Serialize<TFrom>( TFrom source, TTo output );
    }
 }

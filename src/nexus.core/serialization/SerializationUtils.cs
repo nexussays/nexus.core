@@ -11,12 +11,12 @@ namespace nexus.core.serialization
 {
    public static class SerializationUtils
    {
-      public static T ReadObject<T>( this Stream stream, IStreamDeserializer deserializer )
+      public static T ReadObject<T>( this Stream stream, IDeserializer<Stream> deserializer )
       {
          return deserializer.Deserialize<T>( stream );
       }
 
-      public static T ReadObject<T>( this TextReader source, ITextReaderDeserializer deserializer )
+      public static T ReadObject<T>( this TextReader source, IDeserializer<TextReader> deserializer )
       {
          return deserializer.Deserialize<T>( source );
       }
@@ -31,24 +31,24 @@ namespace nexus.core.serialization
          return deserializer.DeserializeAsync<T>( source );
       }
 
-      public static void WriteObject<T>( this Stream stream, T source, IStreamSerializer serializer )
+      public static void WriteObject<T>( this Stream stream, T source, IOutputSerializer<Stream> serializer )
       {
-         serializer.Serialize( stream, source );
+         serializer.Serialize( source, stream );
       }
 
-      public static void WriteObject<T>( this TextWriter destination, T source, ITextWriterSerializer serializer )
+      public static void WriteObject<T>( this TextWriter destination, T source, IOutputSerializer<TextWriter> serializer )
       {
-         serializer.Serialize( destination, source );
+         serializer.Serialize( source, destination );
       }
 
       public static Task WriteObjectAsync<T>( this Stream stream, T source, IStreamSerializer serializer )
       {
-         return serializer.SerializeAsync( stream, source );
+         return serializer.SerializeAsync( source, stream );
       }
 
       public static Task WriteObjectAsync<T>( this TextWriter destination, T source, ITextWriterSerializer serializer )
       {
-         return serializer.SerializeAsync( destination, source );
+         return serializer.SerializeAsync( source, destination );
       }
    }
 }

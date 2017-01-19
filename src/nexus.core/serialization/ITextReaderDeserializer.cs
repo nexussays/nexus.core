@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace nexus.core.serialization
 {
+   /// <summary>
+   /// <see cref="IDeserializer{TextReader}" /> with additional async methods. Deserialize from a <see cref="TextReader" /> to
+   /// a call-time-specified type.
+   /// </summary>
+   /// <remarks>The extension methods on <see cref="SerializationUtils"/> provide a better API</remarks>
    public interface ITextReaderDeserializer : IDeserializer<TextReader>
    {
       Task<T> DeserializeAsync<T>( TextReader source );
