@@ -204,4 +204,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\lib\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\packages\GitVersionTask.3.6.5\build\portable-net+sl+win+wpa+wp\GitVersionTask.targets'))" />
   </Target>
+  <PropertyGroup Condition="  '$(Configuration)' == 'Release' ">
+    <PostBuildEvent>$(SolutionDir)lib\packages\NuGet.CommandLine.3.5.0\tools\NuGet.exe pack "$(ProjectPath)" -OutputDirectory "..\..\..\..\packages" -Properties Configuration=$(ConfigurationName) -IncludeReferencedProjects  /verbosity detailed</PostBuildEvent>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
 </Project>
