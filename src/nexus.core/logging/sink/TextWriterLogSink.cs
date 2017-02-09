@@ -2,28 +2,26 @@ using System;
 using System.Diagnostics.Contracts;
 using System.IO;
 
-namespace nexus.core.logging
+namespace nexus.core.logging.sink
 {
    /// <summary>
    /// Convert each <see cref="ILogEntry" /> to a string and write it to a <see cref="TextWriter" />
+   /// </summary>
    /// <example>
-   ///       <code>
-   /// public sealed class ConsoleLogSink : TextWriterLogSink
+   ///    <code>public sealed class ConsoleLogSink : TextWriterLogSink
    /// {
    ///    public ConsoleLogSink( IObjectConverter&lt;ILogEntry, String&gt; serializer )
-   ///             : base( serializer, Console.Out, Console.Error ) { }
-   /// }
-   /// </code>
+   ///             : base( serializer, false, Console.Out, Console.Error ) { }
+   /// }</code>
    /// </example>
-   /// </summary>
    public class TextWriterLogSink
       : ILogSink,
         IDisposable
    {
+      private readonly Boolean m_disposeWriters;
       private readonly TextWriter m_errorOutput;
       private readonly IObjectConverter<ILogEntry, String> m_logToString;
       private readonly TextWriter m_output;
-      private readonly Boolean m_disposeWriters;
 
       /// <param name="converter">Serializer from log entry to string</param>
       /// <param name="disposeWriters">
@@ -37,7 +35,7 @@ namespace nexus.core.logging
       /// </param>
       /// <param name="errorOutput">
       /// If provided, log entries of severity <see cref="LogLevel.Error" /> will be written to this
-      /// text writer. If not provided or null, <see cref="output" /> will be used
+      /// text writer. If not provided or null, <paramref name="output" /> will be used
       /// </param>
       public TextWriterLogSink( IObjectConverter<ILogEntry, String> converter, Boolean disposeWriters, TextWriter output,
                                 TextWriter errorOutput = null )
@@ -59,6 +57,7 @@ namespace nexus.core.logging
          }
       }
 
+      /// <inheritdoc />
       public void Handle( ILogEntry entry, Int32 sequenceNumber )
       {
          try
