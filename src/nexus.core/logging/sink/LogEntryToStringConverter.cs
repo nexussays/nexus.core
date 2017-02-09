@@ -9,7 +9,7 @@ using System.Linq;
 using nexus.core.resharper;
 using nexus.core.time;
 
-namespace nexus.core.logging
+namespace nexus.core.logging.sink
 {
    /// <summary>
    /// Formats <see cref="ILogEntry" /> as a string: "<see cref="ILogEntry.Timestamp" /> [<see cref="ILogEntry.Severity" />]
