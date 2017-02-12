@@ -43,7 +43,7 @@ namespace nexus.core.logging.sink
             Format( "[{0}]", entry.Severity ).ToUpperInvariant(),
             entry.LogId.IsNullOrEmpty() ? "unknown" : entry.LogId + ": ",
             entry.FormatMessageAndArguments( FormatProvider ),
-            entry.Data.Select( x => "{0}={1}".F( x?.GetType().Name, x ) ) );
+            entry.Data.Select( x => "{0}={1}".F( x?.GetType().Name, x ) ).Join( " " ) );
       }
 
       /// <summary>
