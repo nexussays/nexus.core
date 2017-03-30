@@ -1,5 +1,5 @@
 assembly-versioning-scheme: MajorMinorPatch
-assembly-informational-format: '{SemVer}+{Sha}'
+assembly-informational-format: '{NuGetVersion}+{Sha}'
 mode: ContinuousDelivery
 branches:
   dev(elop)?(ment)?$:
