@@ -34,7 +34,7 @@ namespace nexus.core_test.logging
       [TestCase( LogLevel.Warn )]
       [TestCase( LogLevel.Info )]
       [TestCase( LogLevel.Trace )]
-      public void after_writing_1_log_entry_an_attached_sink_will_receive_that_entry( LogLevel level )
+      public void after_writing_1_log_entry_a_previously_attached_sink_will_receive_that_entry( LogLevel level )
       {
          const Int32 count = 1;
          var handledEntries = 0;
@@ -59,7 +59,7 @@ namespace nexus.core_test.logging
       [TestCase( LogLevel.Warn )]
       [TestCase( LogLevel.Info )]
       [TestCase( LogLevel.Trace )]
-      public void after_writing_1_log_entry_an_attached_sink_will_receive_the_proper_message( LogLevel level )
+      public void after_writing_1_log_entry_a_previously_attached_sink_will_receive_the_proper_message( LogLevel level )
       {
          const Int32 count = 1;
          String entryValue = null;
@@ -101,8 +101,8 @@ namespace nexus.core_test.logging
       [TestCase( LogLevel.Warn )]
       [TestCase( LogLevel.Info )]
       [TestCase( LogLevel.Trace )]
-      public void after_writing_log_entries_to_fill_the_buffer_an_attached_sink_will_have_received_all_entries(
-         LogLevel level )
+      public void after_writing_log_entries_to_fill_the_buffer_a_previously_attached_sink_will_have_received_all_entries
+         ( LogLevel level )
       {
          var handledEntries = 0;
          m_log.AddSink( LogUtils.CreateLogSink( ( e, s ) => { handledEntries++; } ) );
@@ -161,7 +161,7 @@ namespace nexus.core_test.logging
          var results = new String[count];
          for(var x = 0; x < count; ++x)
          {
-            var message = TestContext.CurrentContext.Random.GetString( 10 );
+            var message = TestContext.CurrentContext.Random.GetString( 20 );
             results[x] = "test {0} {1}".F( x, message );
             m_log.Write( level, "test {0} {1}", x, message );
          }
