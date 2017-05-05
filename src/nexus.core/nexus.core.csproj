@@ -44,7 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionAsync.cs" />
+    <Compile Include="IUpdatable.cs" />
     <Compile Include="ObjectConverter.cs" />
+    <Compile Include="Observable.cs" />
     <Compile Include="Properties\BaseAssemblyInfo.cs" />
     <Compile Include="Bytes.cs" />
     <Compile Include="ByteUtils.cs" />

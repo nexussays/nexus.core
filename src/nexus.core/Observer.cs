@@ -17,7 +17,8 @@ namespace nexus.core
       /// <summary>
       /// Create a new observer using the provided methods to implement <see cref="IObserver{T}" />
       /// </summary>
-      public static IObserver<T> Create<T>( Action<T> onNext, Action onComplete = null, Action<Exception> onError = null )
+      public static IObserver<T> Create<T>( Action<T> onNext, Action onComplete = null,
+                                            Action<Exception> onError = null )
       {
          return new FunctionObserver<T>( onNext, onComplete, onError );
       }
@@ -25,8 +26,8 @@ namespace nexus.core
       /// <summary>
       /// Subscribe to this <paramref name="observable" /> using the provided methods to create a new <see cref="IObserver{T}" />
       /// </summary>
-      public static IDisposable Subscribe<T>( this IObservable<T> observable, Action<T> onNext, Action onComplete = null,
-                                              Action<Exception> onError = null )
+      public static IDisposable Subscribe<T>( this IObservable<T> observable, Action<T> onNext,
+                                              Action onComplete = null, Action<Exception> onError = null )
       {
          Contract.Requires( observable != null );
          return observable.Subscribe( Create( onNext, onComplete, onError ) );
