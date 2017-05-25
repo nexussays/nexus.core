@@ -15,7 +15,7 @@ namespace nexus.core.time
    {
       /// <summary>
       /// </summary>
-      public TimeEpoch( DateTime epochStart, String epochName )
+      public TimeEpoch( DateTimeOffset epochStart, String epochName )
       {
          EpochStart = epochStart;
          EpochName = epochName;
@@ -29,7 +29,7 @@ namespace nexus.core.time
       /// <summary>
       /// The point in time when this epoch starts
       /// </summary>
-      public DateTime EpochStart { get; }
+      public DateTimeOffset EpochStart { get; }
 
       /// <summary>
       /// Epoch representing no value, starts at <see cref="DateTime.MinValue" />
