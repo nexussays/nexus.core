@@ -13,17 +13,9 @@ namespace nexus.core.time
    /// </summary>
    public interface ITimeProvider
    {
-      /*
-       * TODO: Implement, or change UtcNow to DateTimeOffset
-      /// <summary>
-      /// The current time in the local timezone
-      /// </summary>
-      DateTimeOffset Now { get; }
-      */
-
       /// <summary>
       /// The current time in UTC
       /// </summary>
-      DateTime UtcNow { get; }
+      DateTimeOffset UtcNow { get; }
    }
 }

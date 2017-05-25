@@ -323,7 +323,7 @@ namespace nexus.core.logging
             }
 
             // get the time immediately in case serializing objects takes time
-            var time = m_timeProvider.UtcNow;
+            var time = m_timeProvider.UtcNow.UtcDateTime;
 
             var data = new List<Object>();
             if(objects != null)

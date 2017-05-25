@@ -8,12 +8,10 @@ using System;
 
 namespace nexus.core.time
 {
-   /// <summary>
-   /// Use <see cref="DateTime.UtcNow" />
-   /// </summary>
+   /// <inheritdoc />
    public class DefaultTimeProvider : ITimeProvider
    {
       /// <inheritdoc />
-      public DateTime UtcNow => DateTime.UtcNow;
+      public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
    }
 }
