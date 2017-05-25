@@ -17,22 +17,42 @@ namespace nexus.core.logging.sink
    /// </summary>
    public class LogEntryToStringConverter : IObjectConverter<ILogEntry, String>
    {
+      /// <summary>
+      /// The format to use for time stamps
+      /// </summary>
       public enum TimestampFormat
       {
+         /// <summary>
+         /// Output a long numeric value representing time since epoch
+         /// </summary>
          UnixTimeInMs,
+         /// <summary>
+         /// Output ISO8601 format
+         /// </summary>
          Iso8601
       }
 
+      /// <summary>
+      /// </summary>
       public LogEntryToStringConverter( IFormatProvider formatter = null )
       {
          FormatProvider = formatter;
          Timestamp = TimestampFormat.UnixTimeInMs;
       }
 
+      /// <summary>
+      /// The format provider to use
+      /// </summary>
       public IFormatProvider FormatProvider { get; set; }
 
+      /// <summary>
+      /// The timestamp format, see <see cref="TimestampFormat" />
+      /// </summary>
       public TimestampFormat Timestamp { get; set; }
 
+      /// <summary>
+      /// Convert the log entry to a string
+      /// </summary>
       public virtual String Convert( ILogEntry entry )
       {
          return Format(

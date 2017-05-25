@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nexus.core.serialization.binary
+namespace nexus.core.text
 {
    /// <summary>
    /// Use <see cref="IBinaryEncoder" /> when your source data is a byte array and you want to convert that information
@@ -30,8 +30,14 @@ namespace nexus.core.serialization.binary
       /// </summary>
       IEnumerable<Char> SymbolTable { get; }
 
+      /// <summary>
+      /// Decode a formatted string to the original bytes
+      /// </summary>
       Byte[] Decode( String formattedValue );
 
+      /// <summary>
+      /// Encode arbitrary bytes to a formatted string
+      /// </summary>
       String Encode( Byte[] bytes );
    }
 }

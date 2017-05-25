@@ -7,24 +7,32 @@
 using System;
 using System.Collections.Generic;
 
-namespace nexus.core.serialization.binary
+namespace nexus.core.text
 {
    /// <summary>
    /// Use <see cref="Instance" />
    /// </summary>
    public sealed class Base64Encoder : IBinaryEncoder
    {
+      /// <summary>
+      /// Singleton instance of <see cref="Base64Encoder" />
+      /// </summary>
       public static readonly Base64Encoder Instance = new Base64Encoder();
 
+      /// <summary>
+      /// </summary>
       private Base64Encoder()
       {
       }
 
+      /// <inheritdoc />
       public Int32 Base { get; } = 64;
 
-      public IEnumerable<Char> SymbolTable
-         => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".ToCharArray();
+      /// <inheritdoc />
+      public IEnumerable<Char> SymbolTable => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+         .ToCharArray();
 
+      /// <inheritdoc />
       public Byte[] Decode( String source )
       {
          return source.IsNullOrEmpty() ? null : Convert.FromBase64String( source );

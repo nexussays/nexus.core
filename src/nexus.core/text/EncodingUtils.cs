@@ -5,13 +5,13 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
-using System.Diagnostics.Contracts;
-using nexus.core.serialization.binary;
-using nexus.core.text;
 
-namespace nexus.core
+namespace nexus.core.text
 {
-   public static class ByteUtils
+   /// <summary>
+   /// Extension and utility methods to convert to/from bytes and encoded string values
+   /// </summary>
+   public static class EncodingUtils
    {
       /// <summary>
       /// Presume the given bytes are Unicode UTF-16 encoded and return its string value
@@ -90,32 +90,8 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Compare two byte arrays and return true if they are the same length and have the same values at each index
+      /// Get the bytes representing this string in utf-16 encoding
       /// </summary>
-      public static Boolean EqualsByteArray( this Byte[] l, Byte[] r )
-      {
-         if(ReferenceEquals( l, r ))
-         {
-            return true;
-         }
-
-         // short circuit loop if anything is null or lengths aren't equal
-         if(ReferenceEquals( null, l ) || ReferenceEquals( null, r ) || l.Length != r.Length)
-         {
-            return false;
-         }
-
-         for(var x = 0; x < l.Length; ++x)
-         {
-            // TODO: is the bitwise operation faster?
-            if(l[x] != r[x]) //if((l[x] ^ r[x]) != 0)
-            {
-               return false;
-            }
-         }
-         return true;
-      }
-
       public static Byte[] GetUtf16Bytes( this String value, Boolean includeByteOrderMark = false )
       {
          return value == null
@@ -123,11 +99,17 @@ namespace nexus.core
             : (includeByteOrderMark ? Utf16Encoding.WithBOM : Utf16Encoding.WithoutBOM).GetBytes( value );
       }
 
+      /// <summary>
+      /// Get the bytes representing this string in utf-16 encoding
+      /// </summary>
       public static Option<Byte[]> GetUtf16Bytes( this Option<String> value, Boolean includeByteOrderMark = false )
       {
-         return value.HasValue ? GetUtf16Bytes( value.Value ) : Option<Byte[]>.NoValue;
+         return value.HasValue ? GetUtf16Bytes( value.Value, includeByteOrderMark ) : Option<Byte[]>.NoValue;
       }
 
+      /// <summary>
+      /// Get the bytes representing this string in utf-8 encoding
+      /// </summary>
       public static Byte[] GetUtf8Bytes( this String value, Boolean includeByteOrderMark = false )
       {
          return value == null
@@ -135,53 +117,12 @@ namespace nexus.core
             : (includeByteOrderMark ? Utf8Encoding.WithBOM : Utf8Encoding.WithoutBOM).GetBytes( value );
       }
 
+      /// <summary>
+      /// Get the bytes representing this string in utf-8 encoding
+      /// </summary>
       public static Option<Byte[]> GetUtf8Bytes( this Option<String> value, Boolean includeByteOrderMark = false )
       {
-         return value.HasValue ? GetUtf8Bytes( value.Value ) : Option<Byte[]>.NoValue;
-      }
-
-      /// <summary>
-      ///    <code>bytes == null || bytes.Length &lt;= 0</code>
-      /// </summary>
-      public static Boolean IsNullOrEmpty( this Byte[] bytes )
-      {
-         return bytes == null || bytes.Length <= 0;
-      }
-
-      /// <summary>
-      ///    <code>bytes == null || bytes.Length &;t;= 0 || (bytes.Length == 1 && bytes[0] == 0)</code>
-      /// </summary>
-      public static Boolean IsNullOrEmptyOrNullByte( this Byte[] bytes )
-      {
-         return bytes == null || bytes.Length <= 0 || (bytes.Length == 1 && bytes[0] == 0);
-      }
-
-      /// <summary>
-      /// Copies the byte array starting at the provided index through the last element of the array.
-      /// </summary>
-      public static Byte[] Slice( this Byte[] source, Int32 startByteIndex = 0 )
-      {
-         Contract.Requires<ArgumentNullException>( source != null );
-         // ReSharper disable once PossibleNullReferenceException
-         Contract.Requires<ArgumentException>( source.Length >= startByteIndex );
-         Contract.Requires<ArgumentException>( startByteIndex >= 0 );
-         Contract.Ensures( Contract.Result<Byte[]>() != null );
-         return Slice( source, startByteIndex, source.Length );
-      }
-
-      /// <summary>
-      /// Copies the selected range of bytes from the source array
-      /// </summary>
-      public static Byte[] Slice( this Byte[] source, Int32 startByteIndex, Int32 endByteIndex )
-      {
-         Contract.Requires<ArgumentNullException>( source != null );
-         Contract.Requires<ArgumentException>( startByteIndex >= 0 );
-         Contract.Requires<ArgumentException>( endByteIndex >= startByteIndex );
-         Contract.Ensures( Contract.Result<Byte[]>() != null );
-         Contract.Ensures( Contract.Result<Byte[]>().Length == endByteIndex - startByteIndex );
-         var result = new Byte[endByteIndex - startByteIndex];
-         Buffer.BlockCopy( source, startByteIndex, result, 0, result.Length );
-         return result;
+         return value.HasValue ? GetUtf8Bytes( value.Value, includeByteOrderMark ) : Option<Byte[]>.NoValue;
       }
    }
 }

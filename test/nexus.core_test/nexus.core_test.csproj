@@ -29,9 +29,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,8 +45,9 @@
     <Compile Include="..\..\src\nexus.core\Properties\BaseAssemblyInfo.cs">
       <Link>Properties\BaseAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BytesTest.cs" />
-    <Compile Include="ByteUtilsTest.cs" />
+    <Compile Include="Bytes.FromBytes.Test.cs" />
+    <Compile Include="Bytes.Utils.Test.cs" />
+    <Compile Include="Bytes.ToBytes.Test.cs" />
     <Compile Include="CoreUtilsTest.cs" />
     <Compile Include="logging\SystemLogTest.cs" />
     <Compile Include="OptionTest.cs" />

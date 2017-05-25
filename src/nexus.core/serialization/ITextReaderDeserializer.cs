@@ -14,11 +14,17 @@ namespace nexus.core.serialization
    /// <see cref="IDeserializer{TextReader}" /> with additional async methods. Deserialize from a <see cref="TextReader" /> to
    /// a call-time-specified type.
    /// </summary>
-   /// <remarks>The extension methods on <see cref="SerializationUtils"/> provide a better API</remarks>
+   /// <remarks>The extension methods on <see cref="SerializationUtils" /> provide a better API</remarks>
    public interface ITextReaderDeserializer : IDeserializer<TextReader>
    {
+      /// <summary>
+      /// Deserialize on object of type <typeparamref name="T" /> from <paramref name="source" />
+      /// </summary>
       Task<T> DeserializeAsync<T>( TextReader source );
 
+      /// <summary>
+      /// Deserialize on object of type <paramref name="desiredReturnType" /> from <paramref name="source" />
+      /// </summary>
       Task<Object> DeserializeAsync( TextReader source, Type desiredReturnType );
    }
 }

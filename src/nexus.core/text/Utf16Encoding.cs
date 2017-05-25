@@ -9,8 +9,13 @@ using System.Text;
 
 namespace nexus.core.text
 {
+   /// <summary>
+   /// A <see cref="ITextEncoding"/> for UTF-16
+   /// </summary>
    public sealed class Utf16Encoding : TextEncoding
    {
+      /// <summary>
+      /// </summary>
       public Utf16Encoding( Boolean useByteOrderMark, ByteOrder endianness, Boolean throwOnInvalidBytes )
          : base( new UnicodeEncoding( endianness == ByteOrder.BigEndian, useByteOrderMark, throwOnInvalidBytes ) )
       {
@@ -26,6 +31,7 @@ namespace nexus.core.text
       /// <see cref="Utf16Encoding" /> with **no** byte-order-mark, endianness set to
       /// <see cref="Bytes.HostEnvironmentByteOrder" />, and exceptions thrown on invalid bytes
       /// </summary>
-      public static ITextEncoding WithoutBOM { get; } = new Utf16Encoding( false, Bytes.HostEnvironmentByteOrder, true );
+      public static ITextEncoding WithoutBOM { get; } =
+         new Utf16Encoding( false, Bytes.HostEnvironmentByteOrder, true );
    }
 }

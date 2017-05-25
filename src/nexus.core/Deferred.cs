@@ -43,6 +43,9 @@ namespace nexus.core
       /// </summary>
       public Boolean IsResolved => m_retrieve == null;
 
+      /// <summary>
+      /// The type of value contained in this deferred
+      /// </summary>
       public Type Type => typeof(T);
 
       /// <summary>
@@ -72,6 +75,9 @@ namespace nexus.core
       }
    }
 
+   /// <summary>
+   /// Static utility methods for <see cref="Deferred{T}" />
+   /// </summary>
    public static class Deferred
    {
       /// <summary>

@@ -6,7 +6,7 @@
 
 using System;
 using nexus.core;
-using nexus.core.serialization.binary;
+using nexus.core.text;
 using NUnit.Framework;
 
 namespace nexus.core_test.serialization.binary

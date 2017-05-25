@@ -16,6 +16,7 @@
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OutputPath>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)</OutputPath>
+    <BaseIntermediateOutputPath>..\..\artifacts\obj\$(AssemblyName)\</BaseIntermediateOutputPath>
     <DocumentationFile>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)\$(AssemblyName).xml</DocumentationFile>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <NexusAppType>lib</NexusAppType>
@@ -46,12 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionAsync.cs" />
+    <Compile Include="Bytes.Constants.cs" />
+    <Compile Include="Bytes.Utils.cs" />
     <Compile Include="IUpdatable.cs" />
     <Compile Include="ObjectConverter.cs" />
     <Compile Include="Observable.cs" />
     <Compile Include="Properties\BaseAssemblyInfo.cs" />
-    <Compile Include="Bytes.cs" />
-    <Compile Include="ByteUtils.cs" />
+    <Compile Include="Bytes.Conversion.cs" />
     <Compile Include="serialization\Deserializer.cs" />
     <Compile Include="serialization\IResultSerializer.cs" />
     <Compile Include="TaskConstants.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="resharper\StringFormatMethodAttribute.cs" />
     <Compile Include="text\Base16Encoder.cs" />
     <Compile Include="text\Base64Encoder.cs" />
+    <Compile Include="text\EncodingUtils.cs" />
     <Compile Include="text\IBinaryEncoder.cs" />
     <Compile Include="serialization\IDeserializer.cs" />
     <Compile Include="serialization\IOutputSerializer.cs" />
@@ -112,11 +115,11 @@
     <Compile Include="time\TimeEpoch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="..\..\lib\packages\nexus.utils.build.0.1.15\build\nexus.utils.build.targets" Condition="Exists('..\..\lib\packages\nexus.utils.build.0.1.15\build\nexus.utils.build.targets')" />
+  <Import Project="..\..\lib\packages\nexus.utils.build.0.1.18\build\nexus.utils.build.targets" Condition="Exists('..\..\lib\packages\nexus.utils.build.0.1.18\build\nexus.utils.build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\lib\packages\nexus.utils.build.0.1.15\build\nexus.utils.build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\packages\nexus.utils.build.0.1.15\build\nexus.utils.build.targets'))" />
+    <Error Condition="!Exists('..\..\lib\packages\nexus.utils.build.0.1.18\build\nexus.utils.build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\lib\packages\nexus.utils.build.0.1.18\build\nexus.utils.build.targets'))" />
   </Target>
 </Project>

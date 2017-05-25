@@ -13,6 +13,11 @@ namespace nexus.core
    /// </summary>
    public interface IObjectConverter<in TFrom, out TTo>
    {
+      /// <summary>
+      /// Convert from a source object to a destination object
+      /// </summary>
+      /// <param name="source"></param>
+      /// <returns></returns>
       TTo Convert( TFrom source );
    }
 
@@ -22,6 +27,9 @@ namespace nexus.core
    /// </summary>
    public interface IObjectConverter : IObjectConverter<Object, Object>
    {
+      /// <summary>
+      /// <c>true</c> if this type can be converted
+      /// </summary>
       Boolean CanConvertObjectOfType( Type source );
    }
 }

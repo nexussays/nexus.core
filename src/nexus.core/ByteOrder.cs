@@ -11,7 +11,13 @@ namespace nexus.core
    /// </summary>
    public enum ByteOrder
    {
+      /// <summary>
+      /// The first byte (e.g. <c>[0]</c>) represents the least-significant byte
+      /// </summary>
       LittleEndian,
+      /// <summary>
+      /// The first byte (e.g. <c>[0]</c>) represents the most-significant byte
+      /// </summary>
       BigEndian
    }
 }

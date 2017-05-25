@@ -13,6 +13,9 @@ namespace nexus.core.serialization
    /// </summary>
    public interface IDeserializer<in TFrom>
    {
+      /// <summary>
+      /// Deserialize from some source object to a call-time-specified type
+      /// </summary>
       TTo Deserialize<TTo>( TFrom source );
 
       /// <summary>

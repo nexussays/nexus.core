@@ -8,11 +8,15 @@ using System;
 
 namespace nexus.core.time
 {
+   /// <summary>
+   /// Extension and utility methods for <see cref="DateTime"/> and similar
+   /// </summary>
    public static class DateTimeUtils
    {
       /// <summary>
       /// yyyy-MM-ddTHH:mm:ss.fffK
       /// </summary>
+      /// <param name="time"></param>
       /// <param name="includeDelimeters"><c>true</c> to include '-', ':' and '.' in output</param>
       public static String ToIso8601String( this DateTime time, Boolean includeDelimeters = false )
       {

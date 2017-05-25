@@ -15,6 +15,8 @@ namespace nexus.core.exception
    /// </summary>
    public sealed class UniversalException : IException
    {
+      /// <summary>
+      /// </summary>
       public UniversalException( String message, String fullClassName, IException innerException,
                                  IEnumerable<IStackFrame> buildStackTrace = null, String stackTrace = null )
       {
@@ -40,6 +42,9 @@ namespace nexus.core.exception
       /// <inheritdoc />
       public String StackTrace { get; }
 
+      /// <summary>
+      /// Output the exception and complete stack trace
+      /// </summary>
       public override String ToString()
       {
          return Message + ": " + ClassName +

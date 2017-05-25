@@ -14,10 +14,19 @@ namespace nexus.core.exception
    /// </summary>
    public interface IException
    {
+      /// <summary>
+      /// The name of the class that originated this exception
+      /// </summary>
       String ClassName { get; }
 
+      /// <summary>
+      /// The inner exception, or <c>null</c>
+      /// </summary>
       IException InnerError { get; }
 
+      /// <summary>
+      /// The exception message
+      /// </summary>
       String Message { get; }
 
       /// <summary>

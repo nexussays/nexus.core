@@ -18,10 +18,19 @@ namespace nexus.core.text
    /// </summary>
    public interface ITextEncoding
    {
+      /// <summary>
+      /// The underling <see cref="Encoding" /> in use
+      /// </summary>
       Encoding Encoding { get; }
 
+      /// <summary>
+      /// Decode <paramref name="sourceBytes" /> into a character array according to this encoding
+      /// </summary>
       Char[] AsCharArray( Byte[] sourceBytes );
 
+      /// <summary>
+      /// Decode <paramref name="sourceBytes" /> into a string according to this encoding
+      /// </summary>
       String AsString( Byte[] sourceBytes );
 
       /// <summary>

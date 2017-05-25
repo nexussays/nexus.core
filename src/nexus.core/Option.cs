@@ -25,6 +25,9 @@ namespace nexus.core
 
       private readonly T m_value;
 
+      /// <summary>
+      /// Construct an option that will have the provided value
+      /// </summary>
       public Option( T value )
       {
          m_value = value;
@@ -148,6 +151,15 @@ namespace nexus.core
 
       /// <summary>
       /// If <see cref="Option{T}.HasValue" /> is <c>true</c>, returns <see cref="Option{T}.Value" />, else returns
+      /// <paramref name="alternateValue" />
+      /// </summary>
+      public static Option<T> Or<T>( this Option<T> option, Option<T> alternateValue )
+      {
+         return option.HasValue ? option.Value : alternateValue;
+      }
+
+      /// <summary>
+      /// If <see cref="Option{T}.HasValue" /> is <c>true</c>, returns <see cref="Option{T}.Value" />, else returns
       /// <c>default(T)</c>
       /// </summary>
       public static T OrDefault<T>( this Option<T> option )
@@ -159,7 +171,8 @@ namespace nexus.core
       /// If <see cref="Option{T}.HasValue" /> is <c>true</c>, returns <see cref="Option{T}.Value" />, else returns
       /// <c>null</c>
       /// </summary>
-      public static T OrNull<T>( this Option<T> option ) where T : class
+      public static T OrNull<T>( this Option<T> option )
+         where T : class
       {
          return option.HasValue ? option.Value : null;
       }
@@ -168,7 +181,8 @@ namespace nexus.core
       /// If <see cref="Option{T}.HasValue" /> is <c>true</c>, returns <see cref="Option{T}.Value" />, else returns
       /// <c>T?</c>
       /// </summary>
-      public static T? OrNullable<T>( this Option<T> option ) where T : struct
+      public static T? OrNullable<T>( this Option<T> option )
+         where T : struct
       {
          return option.HasValue ? option.Value : (T?)null;
       }

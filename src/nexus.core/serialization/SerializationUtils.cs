@@ -9,43 +9,71 @@ using System.Threading.Tasks;
 
 namespace nexus.core.serialization
 {
+   /// <summary>
+   /// Extension methods for <see cref="Stream" /> and <see cref="TextWriter" />
+   /// </summary>
    public static class SerializationUtils
    {
+      /// <summary>
+      /// Read an object from <paramref name="source" /> using the given <paramref name="deserializer" />
+      /// </summary>
       public static T ReadObject<T>( this Stream stream, IDeserializer<Stream> deserializer )
       {
          return deserializer.Deserialize<T>( stream );
       }
 
+      /// <summary>
+      /// Read an object from <paramref name="source" /> using the given <paramref name="deserializer" />
+      /// </summary>
       public static T ReadObject<T>( this TextReader source, IDeserializer<TextReader> deserializer )
       {
          return deserializer.Deserialize<T>( source );
       }
 
-      public static Task<T> ReadObjectAsync<T>( this Stream stream, IStreamDeserializer deserializer )
+      /// <summary>
+      /// Read an object from <paramref name="source" /> using the given <paramref name="deserializer" />
+      /// </summary>
+      public static Task<T> ReadObjectAsync<T>( this Stream source, IStreamDeserializer deserializer )
       {
-         return deserializer.DeserializeAsync<T>( stream );
+         return deserializer.DeserializeAsync<T>( source );
       }
 
+      /// <summary>
+      /// Read an object from <paramref name="source" /> using the given <paramref name="deserializer" />
+      /// </summary>
       public static Task<T> ReadObjectAsync<T>( this TextReader source, ITextReaderDeserializer deserializer )
       {
          return deserializer.DeserializeAsync<T>( source );
       }
 
-      public static void WriteObject<T>( this Stream stream, T source, IOutputSerializer<Stream> serializer )
-      {
-         serializer.Serialize( source, stream );
-      }
-
-      public static void WriteObject<T>( this TextWriter destination, T source, IOutputSerializer<TextWriter> serializer )
+      /// <summary>
+      /// Wrte an object to <paramref name="destination" /> using the given <paramref name="serializer" />
+      /// </summary>
+      public static void WriteObject<T>( this Stream destination, T source, IOutputSerializer<Stream> serializer )
       {
          serializer.Serialize( source, destination );
       }
 
-      public static Task WriteObjectAsync<T>( this Stream stream, T source, IStreamSerializer serializer )
+      /// <summary>
+      /// Wrte an object to <paramref name="destination" /> using the given <paramref name="serializer" />
+      /// </summary>
+      public static void WriteObject<T>( this TextWriter destination, T source,
+                                         IOutputSerializer<TextWriter> serializer )
       {
-         return serializer.SerializeAsync( source, stream );
+         serializer.Serialize( source, destination );
       }
 
+      /// <summary>
+      /// Wrte an object to <paramref name="destination" /> using the given <paramref name="serializer" />
+      /// </summary>
+      public static Task WriteObjectAsync<T>( this Stream destination, T source, IStreamSerializer serializer )
+      {
+         return serializer.SerializeAsync( source, destination );
+      }
+
+      /// <summary>
+      /// Wrte an object to <paramref name="destination" /> using the given <paramref name="serializer" />
+      /// </summary>
       public static Task WriteObjectAsync<T>( this TextWriter destination, T source, ITextWriterSerializer serializer )
       {
          return serializer.SerializeAsync( source, destination );

@@ -10,21 +10,27 @@ using System.Text;
 
 namespace nexus.core.text
 {
+   /// <inheritdoc />
    public class TextEncoding : ITextEncoding
    {
+      /// <summary>
+      /// </summary>
       public TextEncoding( Encoding encoding )
       {
          Contract.Requires<ArgumentNullException>( encoding != null );
          Encoding = encoding;
       }
 
+      /// <inheritdoc />
       public Encoding Encoding { get; }
 
+      /// <inheritdoc />
       public Char[] AsCharArray( Byte[] sourceBytes )
       {
          return Encoding.GetChars( sourceBytes, 0, sourceBytes.Length );
       }
 
+      /// <inheritdoc />
       public String AsString( Byte[] input )
       {
          return Encoding.GetString( input, 0, input.Length );
@@ -36,11 +42,13 @@ namespace nexus.core.text
          return enc != null && enc.Encoding == Encoding;
       }
 
+      /// <inheritdoc />
       public Byte[] GetBytes( String data )
       {
          return Encoding.GetBytes( data );
       }
 
+      /// <inheritdoc cref="object.GetHashCode" />
       public override Int32 GetHashCode()
       {
          return Encoding.GetHashCode();
@@ -52,11 +60,17 @@ namespace nexus.core.text
          Contract.Invariant( Encoding != null );
       }
 
+      /// <summary>
+      /// Explicit type conversion for <see cref="Encoding" /> and <see cref="TextEncoding" />
+      /// </summary>
       public static explicit operator Encoding( TextEncoding encoding )
       {
          return encoding?.Encoding;
       }
 
+      /// <summary>
+      /// Explicit type conversion for <see cref="Encoding" /> and <see cref="TextEncoding" />
+      /// </summary>
       public static explicit operator TextEncoding( Encoding encoding )
       {
          return encoding == null ? null : new TextEncoding( encoding );

@@ -13,6 +13,8 @@ namespace nexus.core.exception
    /// </summary>
    public sealed class UniversalExceptionStackFrame : IStackFrame
    {
+      /// <summary>
+      /// </summary>
       public UniversalExceptionStackFrame( String fileName, Int32 lineNumber, Int32 columnNumber, String methodName,
                                            String className, String namespaceName, String assemblyName,
                                            String assemblyVersion )
@@ -30,6 +32,7 @@ namespace nexus.core.exception
       /// <inheritdoc />
       public String AssemblyName { get; }
 
+      /// <inheritdoc />
       public String AssemblyVersion { get; }
 
       /// <inheritdoc />
@@ -50,6 +53,7 @@ namespace nexus.core.exception
       /// <inheritdoc />
       public String Namespace { get; }
 
+      /// <inheritdoc cref="object.ToString" />
       public override String ToString()
       {
          return "at " + (Namespace == null ? "" : Namespace + ".") + ClassName + "." + MethodName +

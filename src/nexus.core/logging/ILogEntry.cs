@@ -9,6 +9,9 @@ using System.Collections.Generic;
 
 namespace nexus.core.logging
 {
+   /// <summary>
+   /// Represents a single entry to an <see cref="ILog" />
+   /// </summary>
    public interface ILogEntry
    {
       /// <summary>
@@ -17,6 +20,9 @@ namespace nexus.core.logging
       /// </summary>
       IEnumerable<Object> Data { get; }
 
+      /// <summary>
+      /// The ID of the log this entry was written to
+      /// </summary>
       /// TODO: determine if this should be broken up into a log ID and a contextual ID or if we just attach context in Data
       String LogId { get; }
 
@@ -35,6 +41,9 @@ namespace nexus.core.logging
       /// </summary>
       LogLevel Severity { get; }
 
+      /// <summary>
+      /// The time, in UTC, when this log entry was created
+      /// </summary>
       DateTime /*Int64*/ Timestamp { get; }
    }
 }

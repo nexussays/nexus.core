@@ -10,41 +10,56 @@ using System.Collections.Generic;
 
 namespace nexus.core
 {
-   public class ImmutableDictionary<TKey, TValue> : IImmutableDictionary<TKey, TValue>
+   /// <inheritdoc />
+   public sealed class ImmutableDictionary<TKey, TValue> : IImmutableDictionary<TKey, TValue>
    {
-      protected readonly IDictionary<TKey, TValue> m_data;
+      private readonly IDictionary<TKey, TValue> m_data;
 
+      /// <summary>
+      /// </summary>
+      /// <param name="source">
+      /// The underlying source for the immutable dictionary. Technically allowing you to make it mutable,
+      /// but don't do that.
+      /// </param>
       public ImmutableDictionary( IDictionary<TKey, TValue> source = null )
       {
          m_data = source ?? new Dictionary<TKey, TValue>();
       }
 
+      /// <inheritdoc />
       public TValue this[ TKey key ] => m_data[key];
 
+      /// <inheritdoc />
       public Int32 Count => m_data.Count;
 
+      /// <inheritdoc />
       public IEnumerable<TKey> Keys => m_data.Keys;
 
+      /// <inheritdoc />
       public IEnumerable<TValue> Values => m_data.Values;
 
+      /// <inheritdoc />
       public Boolean ContainsKey( TKey key )
       {
          return m_data.ContainsKey( key );
       }
 
+      /// <inheritdoc />
       public Option<TValue> Get( TKey key )
       {
          return m_data.TryGet( key );
       }
 
+      /// <inheritdoc />
       public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
       {
          return m_data.GetEnumerator();
       }
 
+      /// <inheritdoc />
       IEnumerator IEnumerable.GetEnumerator()
       {
-         return ((IEnumerable)m_data).GetEnumerator();
+         return GetEnumerator();
       }
    }
 }

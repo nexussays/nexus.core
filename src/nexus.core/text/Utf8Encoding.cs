@@ -9,8 +9,13 @@ using System.Text;
 
 namespace nexus.core.text
 {
+   /// <summary>
+   /// A <see cref="ITextEncoding"/> for UTF-8
+   /// </summary>
    public sealed class Utf8Encoding : TextEncoding
    {
+      /// <summary>
+      /// </summary>
       public Utf8Encoding( Boolean useByteOrderMark, Boolean throwOnInvalidBytes )
          : base( new UTF8Encoding( useByteOrderMark, throwOnInvalidBytes ) )
       {

@@ -87,10 +87,8 @@ namespace nexus.core
                case "t":
                case "yes":
                case "y":
-               case "1":
-                  return true;
-               default:
-                  return false;
+               case "1": return true;
+               default: return false;
             }
          }
          catch(ArgumentException ex)
@@ -133,6 +131,9 @@ namespace nexus.core
       }
    }
 
+   /// <summary>
+   /// Static utility methods to parse values into other types
+   /// </summary>
    public static class Parse<T>
    {
       /// <summary>
@@ -146,10 +147,13 @@ namespace nexus.core
          }
          catch(Exception ex)
          {
-            return Expected<T>.No( ex );
+            return core.Expected.No<T>( ex );
          }
       }
 
+      /// <summary>
+      /// Parse <paramref name="value" /> and return <see cref="Option{T}.NoValue" /> on failure
+      /// </summary>
       public static Option<T> Maybe( Object value )
       {
          try

@@ -13,6 +13,7 @@ namespace nexus.core.time
    /// </summary>
    public class DefaultTimeProvider : ITimeProvider
    {
+      /// <inheritdoc />
       public DateTime UtcNow => DateTime.UtcNow;
    }
 }

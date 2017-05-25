@@ -20,10 +20,19 @@ namespace nexus.core.logging
       /// </summary>
       LogLevel CurrentLevel { get; set; }
 
+      /// <summary>
+      /// The ID for this log
+      /// </summary>
       String Id { get; set; }
 
+      /// <summary>
+      /// A list of the <see cref="IObjectConverter" /> added to this log
+      /// </summary>
       IEnumerable<IObjectConverter> ObjectConverters { get; }
 
+      /// <summary>
+      /// A list of the <see cref="ILogSink" /> added to this log
+      /// </summary>
       IEnumerable<ILogSink> Sinks { get; }
 
       /// <summary>
@@ -36,8 +45,14 @@ namespace nexus.core.logging
       /// </summary>
       void AddSink( ILogSink sink );
 
+      /// <summary>
+      /// Remove the given <see cref="IObjectConverter" /> from this log, and return success
+      /// </summary>
       Boolean RemoveConverter( IObjectConverter converter );
 
+      /// <summary>
+      /// Remove the given <see cref="ILogSink" /> from this log, and return success
+      /// </summary>
       Boolean RemoveSink( ILogSink sink );
    }
 }

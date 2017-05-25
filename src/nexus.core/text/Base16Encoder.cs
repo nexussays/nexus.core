@@ -8,14 +8,20 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
-namespace nexus.core.serialization.binary
+namespace nexus.core.text
 {
    /// <summary>
    /// Use <see cref="Lowercase" /> or <see cref="Uppercase" />
    /// </summary>
    public sealed class Base16Encoder : IBinaryEncoder
    {
+      /// <summary>
+      /// Singleton instance of <see cref="Base16Encoder" />
+      /// </summary>
       public static readonly Base16Encoder Lowercase = new Base16Encoder( SymbolsLowercase );
+      /// <summary>
+      /// Singleton instance of <see cref="Base16Encoder" />
+      /// </summary>
       public static readonly Base16Encoder Uppercase = new Base16Encoder( SymbolsUppercase );
 
       private readonly IList<Char> m_symbols;
@@ -27,19 +33,27 @@ namespace nexus.core.serialization.binary
       {
          Contract.Requires<ArgumentException>(
             symbolTable != null,
-            "Symbol table provided to " + nameof( Base16Encoder ) + " cannot be null" );
+            "Symbol table provided to " + nameof(Base16Encoder) + " cannot be null" );
          Contract.Requires<ArgumentException>(
             symbolTable.Count == 16,
-            "Symbol table provided to  " + nameof( Base16Encoder ) + " must contain exactly 16 characters" );
+            "Symbol table provided to  " + nameof(Base16Encoder) + " must contain exactly 16 characters" );
          m_symbols = symbolTable;
       }
 
+      /// <inheritdoc />
       public Int32 Base { get; } = 16;
 
+      /// <summary>
+      /// Hex symbols using lower case a-f
+      /// </summary>
       public static Char[] SymbolsLowercase => "0123456789abcdef".ToCharArray();
 
+      /// <summary>
+      /// Hex symbols using uppercase A-F
+      /// </summary>
       public static Char[] SymbolsUppercase => "0123456789ABCDEF".ToCharArray();
 
+      /// <inheritdoc />
       public IEnumerable<Char> SymbolTable => new List<Char>( m_symbols );
 
       /// <summary>
@@ -61,12 +75,9 @@ namespace nexus.core.serialization.binary
          // short-circuit when evaluating short strings
          switch(source.Length)
          {
-            case 1:
-               return new[] {Decode( source[0], null )};
-            case 2:
-               return new[] {Decode( source[0], source[1] )};
-            default:
-               return Decode( source.ToCharArray() );
+            case 1: return new[] {Decode( source[0], null )};
+            case 2: return new[] {Decode( source[0], source[1] )};
+            default: return Decode( source.ToCharArray() );
          }
       }
 
@@ -108,6 +119,9 @@ namespace nexus.core.serialization.binary
          return newBytes;
       }
 
+      /// <summary>
+      /// Decode one or two hex characters to a single byte
+      /// </summary>
       public Byte Decode( Char digit1, Char? digit2 = null )
       {
          return digit2 == null
@@ -128,6 +142,7 @@ namespace nexus.core.serialization.binary
       }
       //*/
 
+      /// <inheritdoc />
       public String Encode( Byte[] data )
       {
          if(data == null)

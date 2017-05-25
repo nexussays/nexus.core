@@ -15,6 +15,9 @@ namespace nexus.core.serialization
    /// <remarks>The extension methods on <see cref="SerializationUtils" /> provide a better API</remarks>
    public interface IStreamSerializer : IOutputSerializer<Stream>
    {
+      /// <summary>
+      /// Serialize the given <paramref name="source"/> object to the output Stream
+      /// </summary>
       Task SerializeAsync<TFrom>( TFrom source, Stream to );
    }
 }

@@ -12,6 +12,7 @@ namespace nexus.core.logging
 {
    public static class LogUtils
    {
+      /// <inheritdoc cref="ILogControl.AddConverter" />
       public static void AddConverter( this ILogControl log, Func<Object, Object> convert,
                                        Func<Type, Boolean> canConvert )
       {
@@ -22,6 +23,7 @@ namespace nexus.core.logging
          log.AddConverter( ObjectConverter.Create( convert, canConvert ) );
       }
 
+      /// <inheritdoc cref="ILogControl.AddConverter" />
       public static void AddConverter<TFrom, TTo>( this ILogControl log, Func<TFrom, TTo> convert )
       {
          Contract.Requires<ArgumentNullException>( log != null );
@@ -30,6 +32,7 @@ namespace nexus.core.logging
          log.AddConverter( ObjectConverter.Create( convert ).AsUntyped() );
       }
 
+      /// <inheritdoc cref="ILogControl.AddConverter" />
       public static void AddConverter<F, T>( this ILogControl log, IObjectConverter<F, T> converter )
       {
          Contract.Requires<ArgumentNullException>( log != null );
@@ -38,6 +41,7 @@ namespace nexus.core.logging
          log.AddConverter( converter.AsUntyped() );
       }
 
+      /// <inheritdoc cref="ILogControl.AddSink" />
       public static void AddSink( this ILogControl log, Action<ILogEntry, Int32> handler )
       {
          Contract.Requires<ArgumentNullException>( log != null );
@@ -46,6 +50,7 @@ namespace nexus.core.logging
          log.AddSink( CreateLogSink( handler ) );
       }
 
+      /// <inheritdoc cref="ILogControl.AddSink" />
       public static void AddSink( this ILogControl log, Action<ILogEntry> handler )
       {
          Contract.Requires<ArgumentNullException>( log != null );
@@ -106,7 +111,8 @@ namespace nexus.core.logging
       /// of the given type will be returned; if you expect multiple objects of the same type, iterate over the entry's data
       /// yourself.
       /// </summary>
-      public static T GetData<T>( this ILogEntry entry ) where T : class
+      public static T GetData<T>( this ILogEntry entry )
+         where T : class
       {
          foreach(var obj in entry.Data)
          {

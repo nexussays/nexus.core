@@ -9,19 +9,26 @@ using System;
 namespace nexus.core.time
 {
    /// <summary>
-   /// A named <see cref="DateTime" /> representing the start of an epoch.
+   /// A named <see cref="DateTime" /> representing the start of an epoch. See <see cref="ITimeProvider" />
    /// </summary>
-   /// <see cref="ISynchronizedTimeProvider" />
    public sealed class TimeEpoch
    {
+      /// <summary>
+      /// </summary>
       public TimeEpoch( DateTime epochStart, String epochName )
       {
          EpochStart = epochStart;
          EpochName = epochName;
       }
 
+      /// <summary>
+      /// Friendly-name for this epoch
+      /// </summary>
       public String EpochName { get; }
 
+      /// <summary>
+      /// The point in time when this epoch starts
+      /// </summary>
       public DateTime EpochStart { get; }
 
       /// <summary>
@@ -32,9 +39,8 @@ namespace nexus.core.time
       /// <summary>
       /// Epoch which starts at January 1, 1900 UTC
       /// </summary>
-      public static TimeEpoch NtpEpoch { get; } = new TimeEpoch(
-         new DateTime( 1900, 1, 1, 0, 0, 0, DateTimeKind.Utc ),
-         "NTP" );
+      public static TimeEpoch NtpEpoch { get; } =
+         new TimeEpoch( new DateTime( 1900, 1, 1, 0, 0, 0, DateTimeKind.Utc ), "NTP" );
 
       /// <summary>
       /// Epoch which starts at January 1, 1970 UTC

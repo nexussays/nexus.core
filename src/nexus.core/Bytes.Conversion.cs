@@ -9,28 +9,11 @@ using System.Diagnostics.Contracts;
 
 namespace nexus.core
 {
-   public static class Bytes
+   /// <summary>
+   /// Utility methods and constants related to <see cref="byte" /> manipulation
+   /// </summary>
+   public static partial class Bytes
    {
-      /// <summary>
-      /// zero byte
-      /// </summary>
-      public const Byte Null = 0;
-      /// <summary>
-      /// 32
-      /// </summary>
-      public const Byte Space = 32;
-      /// <summary>
-      /// 10
-      /// </summary>
-      public const Byte Linefeed = 10;
-
-      /// <summary>
-      /// The byte order of the underlying host platform
-      /// </summary>
-      public static ByteOrder HostEnvironmentByteOrder => BitConverter.IsLittleEndian
-         ? ByteOrder.LittleEndian
-         : ByteOrder.BigEndian;
-
       /// <summary>
       /// Convert <see cref="short" /> to a byte array
       /// </summary>
@@ -130,17 +113,23 @@ namespace nexus.core
                (Byte)((value >> 56) & 0xff)
             };
       }
+      /*
+      /// <summary>
+      /// Convert <see cref="Single" /> to a byte array
+      /// </summary>
+      public static Byte[] ToBytes( this Single value, ByteOrder endian = ByteOrder.LittleEndian )
+      {
+         return ToBytes(((UInt32)value ));
+      }
 
-      //public static Byte[] ToBytes( this Single value, ByteOrder endian = ByteOrder.LittleEndian )
-      //{
-      //   throw new NotImplementedException();
-      //}
-
-      //public static Byte[] ToBytes( this Double value, ByteOrder endian = ByteOrder.LittleEndian )
-      //{
-      //   throw new NotImplementedException();
-      //}
-
+      /// <summary>
+      /// Convert <see cref="Double" /> to a byte array
+      /// </summary>
+      public static Byte[] ToBytes( this Double value, ByteOrder endian = ByteOrder.LittleEndian )
+      {
+         return ToBytes(  ((UInt64)value ));
+      }
+      */
       /// <summary>
       /// Convert byte array to <see cref="Single" />
       /// </summary>
@@ -164,12 +153,58 @@ namespace nexus.core
       }
 
       /// <summary>
+      /// Convert bytes array to <see cref="Guid" /> by parsing the bytes according to the endianness of
+      /// <paramref name="order" />. So if <see cref="ByteOrder.BigEndian" /> then <paramref name="bytes" /><c>[0]</c> will be
+      /// the left-most bytes of the GUID.
+      /// </summary>
+      public static unsafe Guid ToGuid( Byte[] bytes, Int32 startIndex = 0, ByteOrder order = ByteOrder.LittleEndian )
+      {
+         Contract.Requires<ArgumentNullException>( bytes != null );
+         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         // ReSharper disable once PossibleNullReferenceException
+         var length = bytes.Length;
+         if(length == 0 || length <= startIndex)
+         {
+            return Guid.Empty;
+         }
+         fixed(Byte* b = &bytes[startIndex])
+         {
+            return order == ByteOrder.BigEndian
+               ? new Guid(
+                  (*b << 24) | (*(b + 1) << 16) | (*(b + 2) << 8) | *(b + 3),
+                  (Int16)((*(b + 4) << 8) | *(b + 5)),
+                  (Int16)((*(b + 6) << 8) | *(b + 7)),
+                  *(b + 8),
+                  *(b + 9),
+                  *(b + 10),
+                  *(b + 11),
+                  *(b + 12),
+                  *(b + 13),
+                  *(b + 14),
+                  *(b + 15) )
+               : new Guid(
+                  *(b + 15) << 24 | *(b + 14) << 16 | *(b + 13) << 8 | *(b + 12),
+                  (Int16)(*(b + 11) << 8 | *(b + 10)),
+                  (Int16)(*(b + 9) << 8 | *(b + 8)),
+                  *(b + 7),
+                  *(b + 6),
+                  *(b + 5),
+                  *(b + 4),
+                  *(b + 3),
+                  *(b + 2),
+                  *(b + 1),
+                  *(b + 0) );
+         }
+      }
+
+      /// <summary>
       /// Convert byte array to <see cref="Int16" />
       /// </summary>
       public static Int16 ToInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
          Contract.Requires<ArgumentNullException>( bytes != null );
          Contract.Requires<ArgumentException>( startIndex >= 0 );
+         // ReSharper disable once PossibleNullReferenceException
          if(bytes.Length <= startIndex)
          {
             return 0;
@@ -190,6 +225,7 @@ namespace nexus.core
       {
          Contract.Requires<ArgumentNullException>( bytes != null );
          Contract.Requires<ArgumentException>( startIndex >= 0 );
+         // ReSharper disable once PossibleNullReferenceException
          var length = bytes.Length;
          if(length == 0 || length <= startIndex)
          {
@@ -237,6 +273,7 @@ namespace nexus.core
       {
          Contract.Requires<ArgumentNullException>( bytes != null );
          Contract.Requires<ArgumentException>( startIndex >= 0 );
+         // ReSharper disable once PossibleNullReferenceException
          var length = bytes.Length;
          if(length == 0 || length <= startIndex)
          {
