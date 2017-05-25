@@ -158,7 +158,7 @@ namespace nexus.core
       /// <paramref name="order" />. So if <see cref="ByteOrder.BigEndian" /> then <paramref name="bytes" /><c>[0]</c> will be
       /// the left-most bytes of the GUID.
       /// </summary>
-      public static unsafe Guid ToGuid( Byte[] bytes, Int32 startIndex = 0, ByteOrder order = ByteOrder.LittleEndian )
+      public static unsafe Guid ToGuid( this Byte[] bytes, Int32 startIndex = 0, ByteOrder order = ByteOrder.LittleEndian )
       {
          Contract.Requires<ArgumentNullException>( bytes != null );
          Contract.Requires<ArgumentException>( startIndex >= 0 );
