@@ -113,6 +113,7 @@ namespace nexus.core
                (Byte)((value >> 56) & 0xff)
             };
       }
+
       /*
       /// <summary>
       /// Convert <see cref="Single" /> to a byte array
@@ -161,6 +162,7 @@ namespace nexus.core
       {
          Contract.Requires<ArgumentNullException>( bytes != null );
          Contract.Requires<ArgumentException>( startIndex >= 0 );
+         Contract.Requires<ArgumentException>( bytes.Length == 0 || bytes.Length - startIndex >= 16 );
          // ReSharper disable once PossibleNullReferenceException
          var length = bytes.Length;
          if(length == 0 || length <= startIndex)

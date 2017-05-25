@@ -450,10 +450,31 @@ namespace nexus.core_test
                   0x34,
                   0xfb
                } ) {ExpectedResult = new Guid( "00002a51-0000-1000-8000-00805f9b34fb" )};
-            yield return new TestCaseData( ByteOrder.BigEndian, 0, new Byte[] {0x12, 0x34, 0x56, 0x78, 0x90, 0x00} )
-            {
-               ExpectedResult = new Guid( "12345678-9000-0000-0000-000000000000" )
-            };
+            yield return new TestCaseData(
+               ByteOrder.BigEndian,
+               0,
+               new Byte[]
+               {
+                  0x12,
+                  0x34,
+                  0x56,
+                  0x78,
+                  0x90,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0xff,
+                  0xff,
+                  0xff
+               } ) {ExpectedResult = new Guid( "12345678-9000-0000-0000-000000000000" )};
             yield return new TestCaseData(
                ByteOrder.LittleEndian,
                0,
@@ -479,10 +500,27 @@ namespace nexus.core_test
             yield return new TestCaseData(
                ByteOrder.LittleEndian,
                0,
-               new Byte[] {0x12, 0x34, 0x56, 0x78, 0x90, 0x00} )
-            {
-               ExpectedResult = new Guid("00000000-0000-0000-0000-009078563412")
-            };
+               new Byte[]
+               {
+                  0x12,
+                  0x34,
+                  0x56,
+                  0x78,
+                  0x90,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0x00,
+                  0xff,
+                  0xff
+               } ) {ExpectedResult = new Guid( "00000000-0000-0000-0000-009078563412" )};
          }
       }
 
