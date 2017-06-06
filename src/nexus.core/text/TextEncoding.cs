@@ -7,6 +7,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Text;
+using nexus.core.resharper;
 
 namespace nexus.core.text
 {
@@ -15,13 +16,15 @@ namespace nexus.core.text
    {
       /// <summary>
       /// </summary>
-      public TextEncoding( Encoding encoding )
+      public TextEncoding( [NotNull] Encoding encoding )
       {
+         Contract.Requires(encoding != null);
          Contract.Requires<ArgumentNullException>( encoding != null );
          Encoding = encoding;
       }
 
       /// <inheritdoc />
+      [NotNull]
       public Encoding Encoding { get; }
 
       /// <inheritdoc />
@@ -52,12 +55,6 @@ namespace nexus.core.text
       public override Int32 GetHashCode()
       {
          return Encoding.GetHashCode();
-      }
-
-      [ContractInvariantMethod]
-      private void Invariant()
-      {
-         Contract.Invariant( Encoding != null );
       }
 
       /// <summary>

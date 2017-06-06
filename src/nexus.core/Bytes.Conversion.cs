@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -134,7 +135,7 @@ namespace nexus.core
       /// <summary>
       /// Convert byte array to <see cref="Single" />
       /// </summary>
-      public static Single ToFloat32( this Byte[] bytes, Int32 startIndex = 0,
+      public static Single ToFloat32( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                       ByteOrder endian = ByteOrder.LittleEndian )
       {
          Contract.Requires<ArgumentNullException>( bytes != null );
@@ -145,7 +146,7 @@ namespace nexus.core
       /// <summary>
       /// Convert byte array to <see cref="Double" />
       /// </summary>
-      public static Double ToFloat64( this Byte[] bytes, Int32 startIndex = 0,
+      public static Double ToFloat64( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                       ByteOrder endian = ByteOrder.LittleEndian )
       {
          Contract.Requires<ArgumentNullException>( bytes != null );
@@ -158,7 +159,8 @@ namespace nexus.core
       /// <paramref name="order" />. So if <see cref="ByteOrder.BigEndian" /> then <paramref name="bytes" /><c>[0]</c> will be
       /// the left-most bytes of the GUID.
       /// </summary>
-      public static unsafe Guid ToGuid( this Byte[] bytes, Int32 startIndex = 0, ByteOrder order = ByteOrder.LittleEndian )
+      public static unsafe Guid ToGuid( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
+                                        ByteOrder order = ByteOrder.LittleEndian )
       {
          Contract.Requires<ArgumentNullException>( bytes != null );
          Contract.Requires<ArgumentException>( startIndex >= 0 );

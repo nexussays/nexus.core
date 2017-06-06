@@ -7,9 +7,13 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// Some basic utility functions
+   /// </summary>
    public static class CoreUtils
    {
       /// <summary>
@@ -24,7 +28,7 @@ namespace nexus.core
       /// <summary>
       /// True if the given <paramref name="type" /> is <see cref="Nullable{T}" />
       /// </summary>
-      public static Boolean IsNullableType( this Type type )
+      public static Boolean IsNullableType( [NotNull] this Type type )
       {
          Contract.Requires( type != null );
          return type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
@@ -41,7 +45,7 @@ namespace nexus.core
       /// <summary>
       /// True if the given <paramref name="type" /> is <see cref="Option{T}" />
       /// </summary>
-      public static Boolean IsOptionType( this Type type )
+      public static Boolean IsOptionType( [NotNull] this Type type )
       {
          Contract.Requires( type != null );
          return type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(Option<>);
@@ -58,7 +62,8 @@ namespace nexus.core
       /// <summary>
       /// Swap the two provided object references
       /// </summary>
-      public static void Swap<T>( ref T x, ref T y ) where T : class
+      public static void Swap<T>( ref T x, ref T y )
+         where T : class
       {
          y = Interlocked.Exchange( ref x, y );
          //var tmp = x;

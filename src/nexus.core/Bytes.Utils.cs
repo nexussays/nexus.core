@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -57,7 +58,8 @@ namespace nexus.core
       /// <summary>
       /// Copies the byte array starting at the provided index through the last element of the array.
       /// </summary>
-      public static Byte[] Slice( this Byte[] source, Int32 startByteIndex = 0 )
+      [NotNull]
+      public static Byte[] Slice( [NotNull] this Byte[] source, Int32 startByteIndex = 0 )
       {
          Contract.Requires<ArgumentNullException>( source != null );
          // ReSharper disable once PossibleNullReferenceException
@@ -70,7 +72,8 @@ namespace nexus.core
       /// <summary>
       /// Copies the selected range of bytes from the source array
       /// </summary>
-      public static Byte[] Slice( this Byte[] source, Int32 startByteIndex, Int32 endByteIndex )
+      [NotNull]
+      public static Byte[] Slice( [NotNull] this Byte[] source, Int32 startByteIndex, Int32 endByteIndex )
       {
          Contract.Requires<ArgumentNullException>( source != null );
          Contract.Requires<ArgumentException>( startByteIndex >= 0 );

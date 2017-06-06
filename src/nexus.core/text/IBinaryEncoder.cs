@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using nexus.core.resharper;
 
 namespace nexus.core.text
 {
@@ -28,6 +29,7 @@ namespace nexus.core.text
       /// <summary>
       /// An indexed and ordered list of the characters used to represent each numeral in this base number system.
       /// </summary>
+      [NotNull]
       IEnumerable<Char> SymbolTable { get; }
 
       /// <summary>

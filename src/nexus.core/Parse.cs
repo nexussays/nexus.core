@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Reflection;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -51,7 +52,7 @@ namespace nexus.core
       /// <exception cref="System.OverflowException">On invalid conversion</exception>
       /// <exception cref="System.ArgumentException">On invalid conversion</exception>
       /// <returns></returns>
-      public static Object OrThrow( Object value, Type to )
+      public static Object OrThrow( Object value, [NotNull] Type to )
       {
          Contract.Requires( to != null );
          try
@@ -171,7 +172,6 @@ namespace nexus.core
       /// instead. This method does not throw any exceptions.
       /// <remarks><see cref="DateTime" /> conversions are assumed to be UTC if no timezone is present.</remarks>
       /// </summary>
-      /// <typeparam name="T">The type to convert to</typeparam>
       /// <param name="value">The value to convert</param>
       /// <param name="defaultValue"></param>
       /// <returns></returns>
@@ -185,7 +185,6 @@ namespace nexus.core
       /// <code>FormatException</code> is thrown.
       /// any exceptions.
       /// </summary>
-      /// <typeparam name="T">The type to convert to</typeparam>
       /// <param name="value">The value to convert</param>
       /// <exception cref="System.FormatException">On invalid conversion</exception>
       /// <returns></returns>

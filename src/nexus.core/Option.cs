@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -59,7 +60,7 @@ namespace nexus.core
       }
 
       /// <inheritdoc />
-      [Pure]
+      [System.Diagnostics.Contracts.Pure]
       public override Boolean Equals( Object obj )
       {
          if(obj is Option<T>)
@@ -70,14 +71,14 @@ namespace nexus.core
       }
 
       /// <inheritdoc />
-      [Pure]
+      [System.Diagnostics.Contracts.Pure]
       public Boolean Equals( T other )
       {
          return HasValue && m_value.Equals( other );
       }
 
       /// <inheritdoc />
-      [Pure]
+      [System.Diagnostics.Contracts.Pure]
       public Boolean Equals( Option<T> other )
       {
          return other.HasValue == HasValue && (!HasValue || Equals( m_value, other.m_value ));
@@ -104,6 +105,9 @@ namespace nexus.core
       }
    }
 
+   /// <summary>
+   /// Create new <see cref="Option{T}"/> values
+   /// </summary>
    public static class Option
    {
       /// <summary>
@@ -143,7 +147,7 @@ namespace nexus.core
       /// If <see cref="Option{T}.HasValue" /> is <c>true</c>, returns <see cref="Option{T}.Value" />, else returns the result of
       /// executing <paramref name="alternateValue" />
       /// </summary>
-      public static T Or<T>( this Option<T> option, Func<T> alternateValue )
+      public static T Or<T>( this Option<T> option, [NotNull] Func<T> alternateValue )
       {
          Contract.Requires<ArgumentNullException>( alternateValue != null );
          return option.HasValue ? option.Value : alternateValue();

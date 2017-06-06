@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace nexus.core.logging
 {
@@ -19,6 +20,11 @@ namespace nexus.core.logging
       /// dropped.
       /// </summary>
       LogLevel CurrentLevel { get; set; }
+
+      /// <summary>
+      /// The format provider to use for the debug message and arguments. Defaults to <see cref="CultureInfo.InvariantCulture" />
+      /// </summary>
+      IFormatProvider DebugMessageFormatProvider { get; set; }
 
       /// <summary>
       /// The ID for this log

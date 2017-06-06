@@ -7,9 +7,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// Utility and extension methods for doing things with arrays and lists
+   /// </summary>
    public static class CollectionUtils
    {
       /// <param name="source">The list to shuffle in-place</param>
@@ -40,12 +44,6 @@ namespace nexus.core
          }
       }
 
-      public static void Add<TKey, TVal>( this ICollection<KeyValuePair<TKey, TVal>> dict, KeyValuePair<TKey, TVal> item )
-      {
-         Contract.Requires( dict != null );
-         dict.Add( item );
-      }
-
       /// <summary>
       /// Add all of the provided <paramref name="items" /> to the provided <paramref name="collection" />. If
       /// <paramref name="collection" /> is a <see cref="List{T}" /> then <see cref="List{T}.AddRange" /> will be called,
@@ -55,7 +53,7 @@ namespace nexus.core
       /// <typeparam name="T"></typeparam>
       /// <param name="collection"></param>
       /// <param name="items"></param>
-      public static void AddAll<T>( this ICollection<T> collection, IEnumerable<T> items )
+      public static void AddAll<T>( [NotNull] this ICollection<T> collection, IEnumerable<T> items )
       {
          Contract.Requires( collection != null );
          if(items != null)
@@ -124,19 +122,21 @@ namespace nexus.core
          return defaultValue;
       }
 
-      public static TOut GetAs<TKey, TOut>( this IDictionary<TKey, Object> dict, TKey key, TOut defaultValue )
-      {
-         return GetAs( dict, key, () => defaultValue );
-      }
-
-      public static TOut GetAs<TOut>( this IDictionary<String, Object> dict, String key, Func<TOut> defaultValue = null )
+      /// <summary>
+      /// Syntax sugar for retrieving a string value from a dictionary
+      /// </summary>
+      public static TOut GetAs<TOut>( this IDictionary<String, Object> dict, String key,
+                                      Func<TOut> defaultValue = null )
       {
          return GetAs<String, TOut>( dict, key, defaultValue );
       }
 
-      public static TOut GetAs<TOut>( this IDictionary<Object, Object> dict, Object key, Func<TOut> defaultValue = null )
+      /// <summary>
+      /// Syntax sugar for retrieving a string value from a dictionary
+      /// </summary>
+      public static TOut GetAs<TOut>( this IDictionary<String, Object> dict, String key, TOut defaultValue )
       {
-         return GetAs<Object, TOut>( dict, key, defaultValue );
+         return GetAs<String, TOut>( dict, key, () => defaultValue );
       }
 
       /// <summary>
@@ -193,29 +193,31 @@ namespace nexus.core
          }
       }
 
-      public static KeyValuePair<TKey, TValue> GetPair<TKey, TValue>( this IImmutableDictionary<TKey, TValue> dict,
-                                                                      TKey key )
+      public static KeyValuePair<TKey, TValue> GetPair
+         <TKey, TValue>( [NotNull] this IImmutableDictionary<TKey, TValue> dict, [NotNull] TKey key )
       {
          Contract.Requires( dict != null );
          Contract.Requires( key != null );
          return Pair.Of( key, dict[key] );
       }
 
-      public static KeyValuePair<TKey, TValue> GetPair<TKey, TValue>( this IDictionary<TKey, TValue> dict, TKey key )
+      public static KeyValuePair<TKey, TValue> GetPair
+         <TKey, TValue>( [NotNull] this IDictionary<TKey, TValue> dict, [NotNull] TKey key )
       {
          Contract.Requires( dict != null );
          Contract.Requires( key != null );
          return Pair.Of( key, dict[key] );
       }
 
-      public static void Set<TKey, TVal>( this IDictionary<TKey, TVal> dict, KeyValuePair<TKey, TVal> item )
+      public static void Set<TKey, TVal>( [NotNull] this IDictionary<TKey, TVal> dict,
+                                          [NotNull] KeyValuePair<TKey, TVal> item )
       {
          Contract.Requires( dict != null );
          Contract.Requires( item.Key != null );
          dict[item.Key] = item.Value;
       }
 
-      public static void SetAll<TKey, TVal>( this IDictionary<TKey, TVal> dict,
+      public static void SetAll<TKey, TVal>( [NotNull] this IDictionary<TKey, TVal> dict,
                                              IEnumerable<KeyValuePair<TKey, TVal>> items )
       {
          Contract.Requires( dict != null );
@@ -257,7 +259,7 @@ namespace nexus.core
       /// Return an <see cref="Option" /> to distinguish between a key having an assigned value of null versus not being
       /// assigned.
       /// </summary>
-      public static Option<TVal> TryGet<TKey, TVal>( this IDictionary<TKey, TVal> dict, TKey key )
+      public static Option<TVal> TryGet<TKey, TVal>( [NotNull] this IDictionary<TKey, TVal> dict, TKey key )
       {
          Contract.Requires( dict != null );
          TVal result;

@@ -6,21 +6,22 @@
 
 using System;
 
-namespace nexus.core.serialization
+namespace nexus.core
 {
    /// <summary>
-   /// Deserialize from some source object to a call-time-specified type. See <see cref="Deserializer.Create{TFrom}" />
+   /// Deserialize from some <typeparamref name="TSource" /> object to a call-time-specified type. See
+   /// <see cref="Deserializer.Create{TFrom}" />
    /// </summary>
-   public interface IDeserializer<in TFrom>
+   public interface IDeserializer<in TSource>
    {
       /// <summary>
       /// Deserialize from some source object to a call-time-specified type
       /// </summary>
-      TTo Deserialize<TTo>( TFrom source );
+      TResult Deserialize<TResult>( TSource source );
 
       /// <summary>
-      /// Non-generic version of <see cref="Deserialize{T}" />
+      /// Non-generic version of <see cref="Deserialize{TResult}" />
       /// </summary>
-      Object Deserialize( TFrom source, Type desiredReturnType );
+      Object Deserialize( TSource source, Type desiredReturnType );
    }
 }

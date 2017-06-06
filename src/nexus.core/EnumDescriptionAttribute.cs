@@ -7,6 +7,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Reflection;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -16,28 +17,36 @@ namespace nexus.core
    [AttributeUsage( AttributeTargets.Field )]
    public sealed class EnumDescriptionAttribute : Attribute
    {
+      /// <summary>
+      /// </summary>
+      /// <param name="value"></param>
       public EnumDescriptionAttribute( String value )
       {
          StringValue = value;
       }
 
+      /// <summary>
+      /// The description
+      /// </summary>
       public String StringValue { get; }
    }
 
+   /// <summary>
+   /// Extension method to get <see cref="EnumDescriptionAttribute" /> from an Enum
+   /// </summary>
    public static class EnumDescriptionAttributeExtensions
    {
       /// <summary>
       /// Retrieve the <see cref="EnumDescriptionAttribute" /> from this enum value
       /// </summary>
-      public static String GetEnumDescription( this Enum value, Boolean useNameIfNoStringValue = true )
+      public static String GetEnumDescription( [NotNull] this Enum value, Boolean useNameIfNoStringValue = true )
       {
          Contract.Requires( value != null );
 
          //get the stringvalue attributes
          var attribs =
-            value.GetType()
-                 .GetRuntimeField( value.ToString() )?.GetCustomAttributes( typeof(EnumDescriptionAttribute), false ) as
-               EnumDescriptionAttribute[];
+            value.GetType().GetRuntimeField( value.ToString() )
+                 ?.GetCustomAttributes( typeof(EnumDescriptionAttribute), false ) as EnumDescriptionAttribute[];
 
          //return the first if there was a match or the attribute if not or null if specified not to return default value
          return attribs != null && attribs.Length > 0
