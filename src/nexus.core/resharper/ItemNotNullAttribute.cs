@@ -24,20 +24,14 @@ using System;
 namespace nexus.core.resharper
 {
    /// <summary>
-   /// Indicates that a method does not make any observable state changes.
-   /// The same as <c>System.Diagnostics.Contracts.PureAttribute</c>
+   /// Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
+   /// and Lazy classes to indicate that the value of a collection item, of the Task.Result property
+   /// or of the Lazy.Value property can never be null.
    /// </summary>
-   /// <example>
-   ///    <code>
-   /// [Pure] private int Multiply(int x, int y) { return x * y; }
-   /// public void Foo() {
-   ///   const int a = 2, b = 2;
-   ///   Multiply(a, b); // Waring: Return value of pure method is not used
-   /// }
-   /// </code>
-   /// </example>
-   [AttributeUsage( AttributeTargets.Method )]
-   public sealed class PureAttribute : Attribute
+   [AttributeUsage(
+      AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Delegate |
+      AttributeTargets.Field )]
+   public sealed class ItemNotNullAttribute : Attribute
    {
    }
 }

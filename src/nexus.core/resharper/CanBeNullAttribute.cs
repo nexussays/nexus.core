@@ -24,20 +24,24 @@ using System;
 namespace nexus.core.resharper
 {
    /// <summary>
-   /// Indicates that a method does not make any observable state changes.
-   /// The same as <c>System.Diagnostics.Contracts.PureAttribute</c>
+   /// Indicates that the value of the marked element could be <c>null</c> sometimes,
+   /// so the check for <c>null</c> is necessary before its usage.
    /// </summary>
    /// <example>
    ///    <code>
-   /// [Pure] private int Multiply(int x, int y) { return x * y; }
-   /// public void Foo() {
-   ///   const int a = 2, b = 2;
-   ///   Multiply(a, b); // Waring: Return value of pure method is not used
+   /// [CanBeNull] object Test() => null;
+   /// 
+   /// void UseTest() {
+   ///   var p = Test();
+   ///   var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
    /// }
    /// </code>
    /// </example>
-   [AttributeUsage( AttributeTargets.Method )]
-   public sealed class PureAttribute : Attribute
+   [AttributeUsage(
+      AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.Delegate |
+      AttributeTargets.Field | AttributeTargets.Event | AttributeTargets.Class | AttributeTargets.Interface |
+      AttributeTargets.GenericParameter )]
+   public sealed class CanBeNullAttribute : Attribute
    {
    }
 }

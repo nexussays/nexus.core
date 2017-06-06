@@ -6,7 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using System.Globalization;
+using nexus.core.resharper;
 
 namespace nexus.core.logging
 {
@@ -41,17 +41,10 @@ namespace nexus.core.logging
          log.AddConverter( converter.AsUntyped() );
       }
 
-      /// <inheritdoc cref="ILogControl.AddSink" />
-      public static void AddSink( this ILogControl log, Action<ILogEntry, Int32> handler )
-      {
-         Contract.Requires<ArgumentNullException>( log != null );
-         Contract.Requires<ArgumentNullException>( handler != null );
-         // ReSharper disable once PossibleNullReferenceException
-         log.AddSink( CreateLogSink( handler ) );
-      }
+  
 
       /// <inheritdoc cref="ILogControl.AddSink" />
-      public static void AddSink( this ILogControl log, Action<ILogEntry> handler )
+      public static void AddSink( this ILogControl log, [NotNull] Action<ILogEntry> handler )
       {
          Contract.Requires<ArgumentNullException>( log != null );
          Contract.Requires<ArgumentNullException>( handler != null );
@@ -62,47 +55,10 @@ namespace nexus.core.logging
       /// <summary>
       /// Factory method to create <see cref="ILogSink" /> instance
       /// </summary>
-      public static ILogSink CreateLogSink( Action<ILogEntry, Int32> handler )
+      public static ILogSink CreateLogSink( [NotNull] Action<ILogEntry> handler )
       {
          Contract.Requires<ArgumentNullException>( handler != null );
          return new DynamicLogSink( handler );
-      }
-
-      /// <summary>
-      /// Factory method to create <see cref="ILogSink" /> instance
-      /// </summary>
-      public static ILogSink CreateLogSink( Action<ILogEntry> handler )
-      {
-         Contract.Requires<ArgumentNullException>( handler != null );
-         // ReSharper disable once PossibleNullReferenceException
-         return new DynamicLogSink( ( e, s ) => handler( e ) );
-      }
-
-      /// <summary>
-      /// Apply <see cref="String.Format(IFormatProvider,String,object[])" /> over <see cref="ILogEntry.Message" /> and
-      /// <see cref="ILogEntry.MessageArguments" /> while checking for null, invalid, and empty arguments. This method catches
-      /// any thrown exceptions and returns an error message.
-      /// </summary>
-      /// <param name="entry">The log entry to format</param>
-      /// <param name="formatter">The format provider to use, or <see cref="CultureInfo.InvariantCulture" /> if null</param>
-      public static String FormatMessageAndArguments( this ILogEntry entry, IFormatProvider formatter = null )
-      {
-         Contract.Requires( entry != null );
-         var message = entry.Message;
-         var args = entry.MessageArguments;
-         try
-         {
-            return message != null && args != null && args.Length > 0
-               ? String.Format( formatter ?? CultureInfo.InvariantCulture, message, args )
-               : message;
-         }
-         catch( /*Format*/Exception ex)
-         {
-            return "** LOG [ERROR] in formatter ** string={0} arg_length={1} error={2}".F(
-               message,
-               args != null ? args.Length.ToString() : "null",
-               ex.Message );
-         }
       }
 
       /// <summary>
@@ -126,16 +82,16 @@ namespace nexus.core.logging
 
       private sealed class DynamicLogSink : ILogSink
       {
-         private readonly Action<ILogEntry, Int32> m_handler;
+         private readonly Action<ILogEntry> m_handler;
 
-         public DynamicLogSink( Action<ILogEntry, Int32> handler )
+         public DynamicLogSink( Action<ILogEntry> handler )
          {
             m_handler = handler;
          }
 
-         public void Handle( ILogEntry entry, Int32 sequenceNumber )
+         public void Handle( ILogEntry entry )
          {
-            m_handler( entry, sequenceNumber );
+            m_handler( entry );
          }
       }
    }

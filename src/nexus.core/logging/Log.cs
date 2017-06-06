@@ -56,8 +56,7 @@ namespace nexus.core.logging
       [Conditional( "DEBUG" )]
       public static void Debug( Exception exception, String message = null, params Object[] messageArgs )
       {
-         // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Trace( SystemLog.Instance, exception, message, messageArgs );
+         SystemLog.Instance.Trace( exception, message, messageArgs );
       }
 
       /// <summary>
@@ -92,8 +91,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Error( Exception exception, String message = null, params Object[] messageArgs )
       {
-         // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Error( SystemLog.Instance, exception, message, messageArgs );
+         SystemLog.Instance.Error( exception, message, messageArgs );
       }
 
       /// <summary>
@@ -128,8 +126,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Info( Exception exception, String message = null, params Object[] messageArgs )
       {
-         // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Info( SystemLog.Instance, exception, message, messageArgs );
+         SystemLog.Instance.Info( exception, message, messageArgs );
       }
 
       /// <summary>
@@ -164,8 +161,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Trace( Exception exception, String message = null, params Object[] messageArgs )
       {
-         // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Trace( SystemLog.Instance, exception, message, messageArgs );
+         SystemLog.Instance.Trace( exception, message, messageArgs );
       }
 
       /// <summary>
@@ -200,8 +196,7 @@ namespace nexus.core.logging
       [StringFormatMethod( "message" )]
       public static void Warn( Exception exception, String message = null, params Object[] messageArgs )
       {
-         // ReSharper disable once InvokeAsExtensionMethod
-         LogExtensions.Warn( SystemLog.Instance, exception, message, messageArgs );
+         SystemLog.Instance.Warn( exception, message, messageArgs );
       }
    }
 }

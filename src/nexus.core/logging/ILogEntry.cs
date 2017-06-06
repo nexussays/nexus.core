@@ -5,36 +5,31 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
-using System.Collections.Generic;
 
 namespace nexus.core.logging
 {
    /// <summary>
    /// Represents a single entry to an <see cref="ILog" />
    /// </summary>
+   // TODO: add log ID. determine if this should be broken up into a log ID and a contextual ID or if we just attach context in Data
+   //String LogId { get; }
    public interface ILogEntry
    {
       /// <summary>
       /// A freeform list of objects that have been attached to this log message. It is up to attached <see cref="ILogSink" /> to
       /// make use of these attached values.
       /// </summary>
-      IEnumerable<Object> Data { get; }
-
-      /// <summary>
-      /// The ID of the log this entry was written to
-      /// </summary>
-      /// TODO: determine if this should be broken up into a log ID and a contextual ID or if we just attach context in Data
-      String LogId { get; }
+      Object[] Data { get; }
 
       /// <summary>
       /// The unformatted log message.
       /// </summary>
-      String Message { get; }
+      String DebugMessage { get; }
 
       /// <summary>
-      /// The objects provided as arguments to string format <see cref="Message" />
+      /// The number of this log entry within its parent log
       /// </summary>
-      Object[] MessageArguments { get; }
+      Int32 SequenceId { get; }
 
       /// <summary>
       /// The severity of this log entry

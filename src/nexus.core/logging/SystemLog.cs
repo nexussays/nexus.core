@@ -8,8 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
-using nexus.core.resharper;
 using nexus.core.time;
 
 namespace nexus.core.logging
@@ -23,8 +23,17 @@ namespace nexus.core.logging
       : ILog,
         ILogControl
    {
+      /// <summary>
+      /// When objects are provided to the log they will be run through all these converters
+      /// </summary>
       private readonly IList<IObjectConverter> m_converters;
+      /// <summary>
+      /// Keep track of log entries that have been dropped because the log level was higher than the entry
+      /// </summary>
       private readonly IDictionary<LogLevel, Int32> m_entriesSkipped;
+      /// <summary>
+      /// The number of entries that have been written for each <see cref="LogLevel" />
+      /// </summary>
       private readonly IDictionary<LogLevel, Int32> m_entriesWritten;
       private readonly ILogEntry[] m_entryBuffer;
       private readonly Object m_lock = new Object();
@@ -34,7 +43,7 @@ namespace nexus.core.logging
       private Int32 m_entrySequence;
 
       /// <summary>
-      /// Create a new system log with the provided configuration
+      /// Create a new system log with the provided configuration. You should not instantiate this, see: <see cref="Instance" />
       /// </summary>
       /// <param name="time"></param>
       /// <param name="logBufferSize">
@@ -79,6 +88,9 @@ namespace nexus.core.logging
       /// </summary>
       public LogLevel CurrentLevel { get; set; }
 
+      /// <inheritdoc />
+      public IFormatProvider DebugMessageFormatProvider { get; set; }
+
       /// <inheritDoc />
       public String Id { get; set; }
 
@@ -121,7 +133,9 @@ namespace nexus.core.logging
             return;
          }
 
-         List<Tuple<ILogEntry, Int32>> backlog = null;
+         // add the sink and collect any log entries that have been written prior to this sink being added so
+         // we can catch it up.
+         List<ILogEntry> backlog = null;
          lock(m_lock)
          {
             m_sinks.Add( sink );
@@ -129,7 +143,7 @@ namespace nexus.core.logging
             // copy out any buffered log entries to a backlog for the sink
             if(m_entrySequence >= 0)
             {
-               backlog = new List<Tuple<ILogEntry, Int32>>();
+               backlog = new List<ILogEntry>();
                if(m_entrySequence >= m_entryBuffer.Length)
                {
                   // if the sequence number is greater than the length of the buffer then we've wrapped around,
@@ -138,18 +152,21 @@ namespace nexus.core.logging
                   var index = m_entrySequence % m_entryBuffer.Length;
                   for(Int32 x = index + 1, count = 1; x < m_entryBuffer.Length; ++x, ++count)
                   {
-                     backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - m_entryBuffer.Length + count ) );
+                     //backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - m_entryBuffer.Length + count ) );
+                     backlog.Add( m_entryBuffer[x] );
                   }
                   for(var x = 0; x <= index; ++x)
                   {
-                     backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - index + x ) );
+                     //backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - index + x ) );
+                     backlog.Add( m_entryBuffer[x] );
                   }
                }
                else
                {
                   for(var x = 0; x <= m_entrySequence; ++x)
                   {
-                     backlog.Add( Tuple.Create( m_entryBuffer[x], x ) );
+                     //backlog.Add( Tuple.Create( m_entryBuffer[x], x ) );
+                     backlog.Add( m_entryBuffer[x] );
                   }
                }
             }
@@ -162,7 +179,7 @@ namespace nexus.core.logging
             {
                try
                {
-                  sink.Handle( entry.Item1, entry.Item2 );
+                  sink.Handle( entry );
                }
                catch(Exception ex)
                {
@@ -170,26 +187,6 @@ namespace nexus.core.logging
                }
             }
          }
-      }
-
-      /// <inheritDoc />
-      public void Error( Object[] objects )
-      {
-         CreateLogEntry( LogLevel.Error, objects, null, null );
-      }
-
-      /// <inheritDoc />
-      [StringFormatMethod( "message" )]
-      public void Error( String message, params Object[] messageArgs )
-      {
-         CreateLogEntry( LogLevel.Error, null, message, messageArgs );
-      }
-
-      /// <inheritDoc />
-      [StringFormatMethod( "message" )]
-      public void Error( Object[] objects, String message, params Object[] messageArgs )
-      {
-         CreateLogEntry( LogLevel.Error, objects, message, messageArgs );
       }
 
       /// <summary>
@@ -206,26 +203,6 @@ namespace nexus.core.logging
       public Int32 GetCountOfEntriesWritten( LogLevel severity )
       {
          return m_entriesWritten[severity];
-      }
-
-      /// <inheritDoc />
-      public void Info( Object[] objects )
-      {
-         CreateLogEntry( LogLevel.Info, objects, null, null );
-      }
-
-      /// <inheritDoc />
-      [StringFormatMethod( "message" )]
-      public void Info( String message, params Object[] messageArgs )
-      {
-         CreateLogEntry( LogLevel.Info, null, message, messageArgs );
-      }
-
-      /// <inheritDoc />
-      [StringFormatMethod( "message" )]
-      public void Info( Object[] objects, String message, params Object[] messageArgs )
-      {
-         CreateLogEntry( LogLevel.Info, objects, message, messageArgs );
       }
 
       /// <inheritDoc />
@@ -247,7 +224,8 @@ namespace nexus.core.logging
       }
 
       /// <inheritDoc />
-      public Boolean RemoveSinkOfType<T>() where T : ILogSink
+      public Boolean RemoveSinkOfType<T>()
+         where T : ILogSink
       {
          var type = typeof(T);
          lock(m_lock)
@@ -262,47 +240,25 @@ namespace nexus.core.logging
          return false;
       }
 
-      /// <inheritDoc />
-      public void Trace( Object[] objects )
+      /// <inheritdoc />
+      public void Write( LogLevel severity, String debugMessage, params Object[] debugMessageArgs )
       {
-         CreateLogEntry( LogLevel.Trace, objects, null, null );
+         CreateLogEntry( severity, null, debugMessage, debugMessageArgs );
       }
 
-      /// <inheritDoc />
-      [StringFormatMethod( "message" )]
-      public void Trace( String message, params Object[] messageArgs )
+      /// <inheritdoc />
+      public void Write( LogLevel severity, Object[] data )
       {
-         CreateLogEntry( LogLevel.Trace, null, message, messageArgs );
+         CreateLogEntry( severity, data, null, null );
       }
 
-      /// <inheritDoc />
-      [StringFormatMethod( "message" )]
-      public void Trace( Object[] objects, String message, params Object[] messageArgs )
+      /// <inheritdoc />
+      public void Write( LogLevel severity, Object[] data, String debugMessage, params Object[] debugMessageArgs )
       {
-         CreateLogEntry( LogLevel.Trace, objects, message, messageArgs );
+         CreateLogEntry( severity, data, debugMessage, debugMessageArgs );
       }
 
-      /// <inheritDoc />
-      public void Warn( Object[] objects )
-      {
-         CreateLogEntry( LogLevel.Warn, objects, null, null );
-      }
-
-      /// <inheritDoc />
-      [StringFormatMethod( "message" )]
-      public void Warn( String message, params Object[] messageArgs )
-      {
-         CreateLogEntry( LogLevel.Warn, null, message, messageArgs );
-      }
-
-      /// <inheritDoc />
-      [StringFormatMethod( "message" )]
-      public void Warn( Object[] objects, String message, params Object[] messageArgs )
-      {
-         CreateLogEntry( LogLevel.Warn, objects, message, messageArgs );
-      }
-
-      private void CreateLogEntry( LogLevel severity, Object[] objects, String message, Object[] messageArgs )
+      private void CreateLogEntry( LogLevel severity, Object[] objects, String debugMessage, Object[] debugMessageArgs )
       {
          if(severity < CurrentLevel)
          {
@@ -326,6 +282,7 @@ namespace nexus.core.logging
             var time = m_timeProvider.UtcNow.UtcDateTime;
 
             var data = new List<Object>();
+            // TODO: Create a producer/consumer queue to process and send the log entries to sinks?
             if(objects != null)
             {
                // run through all objects and see if any of them have converters, if so remove the object and add the serialized result in its place
@@ -357,7 +314,13 @@ namespace nexus.core.logging
             lock(m_lock)
             {
                m_entriesWritten[severity] += 1;
-               entry = new LogEntry( Id, time, severity, message, messageArgs, data );
+               entry = new LogEntry( /* Id,*/ seqNum,
+                  time,
+                  severity,
+                  debugMessage,
+                  debugMessageArgs,
+                  data,
+                  DebugMessageFormatProvider ?? CultureInfo.InvariantCulture );
                m_entryBuffer[seqNum % m_entryBuffer.Length] = entry;
             }
 
@@ -365,7 +328,7 @@ namespace nexus.core.logging
             {
                try
                {
-                  sink.Handle( entry, seqNum );
+                  sink.Handle( entry );
                }
                catch(Exception ex) when(!m_rethrowSinkExceptions)
                {
@@ -377,26 +340,44 @@ namespace nexus.core.logging
 
       private sealed class LogEntry : ILogEntry
       {
-         private readonly IList<Object> m_data;
+         private Deferred<String> m_debugMessage;
 
-         internal LogEntry( String id, DateTime time, LogLevel severity, String message, Object[] messageArguments,
-                            IList<Object> attachedObjects )
+         internal LogEntry( /*String id,*/ Int32 sequenceId, DateTime time, LogLevel severity, String message,
+                                           Object[] messageArguments, IList<Object> attachedObjects,
+                                           IFormatProvider formatProvider )
          {
-            LogId = id;
-            MessageArguments = messageArguments;
+            //LogId = id;
             Severity = severity;
-            Message = message;
+            SequenceId = sequenceId;
+            m_debugMessage = Deferred.Of(
+               () =>
+               {
+                  try
+                  {
+                     return message != null && messageArguments != null && messageArguments.Length > 0
+                        ? String.Format( formatProvider, message, messageArguments )
+                        : message;
+                  }
+                  catch( /*Format*/Exception ex)
+                  {
+                     return "** LOG [ERROR] in formatter ** string={0} arg_length={1} error={2}".F(
+                        message,
+                        messageArguments != null ? messageArguments.Length.ToString() : "null",
+                        ex.Message );
+                  }
+               } );
             Timestamp = time;
-            m_data = attachedObjects;
+            Data = attachedObjects.ToArray();
          }
 
-         public IEnumerable<Object> Data => m_data;
+         public Object[] Data { get; }
 
-         public String LogId { get; }
+         //public String LogId { get; }
 
-         public String Message { get; }
+         public String DebugMessage => m_debugMessage.Value;
 
-         public Object[] MessageArguments { get; }
+         /// <inheritdoc />
+         public Int32 SequenceId { get; }
 
          public LogLevel Severity { get; }
 

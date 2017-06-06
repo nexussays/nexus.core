@@ -26,7 +26,7 @@ namespace nexus.core_test.logging
          const Int32 count = 1;
          WriteStringsToLog( level, count );
          var handledEntries = 0;
-         m_log.AddSink( LogUtils.CreateLogSink( ( e, s ) => { handledEntries++; } ) );
+         m_log.AddSink( LogUtils.CreateLogSink( e => { handledEntries++; } ) );
          Assert.That( handledEntries, Is.EqualTo( count ) );
       }
 
@@ -38,7 +38,7 @@ namespace nexus.core_test.logging
       {
          const Int32 count = 1;
          var handledEntries = 0;
-         m_log.AddSink( LogUtils.CreateLogSink( ( e, s ) => { handledEntries++; } ) );
+         m_log.AddSink( LogUtils.CreateLogSink( e => { handledEntries++; } ) );
          WriteStringsToLog( level, count );
          Assert.That( handledEntries, Is.EqualTo( count ) );
       }
@@ -63,7 +63,7 @@ namespace nexus.core_test.logging
       {
          const Int32 count = 1;
          String entryValue = null;
-         m_log.AddSink( LogUtils.CreateLogSink( ( e, s ) => { entryValue = e.FormatMessageAndArguments(); } ) );
+         m_log.AddSink( LogUtils.CreateLogSink( e => { entryValue = e.DebugMessage; } ) );
          var writtenValue = WriteStringsToLog( level, count );
          Assert.That( entryValue, Is.EqualTo( writtenValue[0] ) );
       }
@@ -93,7 +93,7 @@ namespace nexus.core_test.logging
       {
          WriteStringsToLog( level, m_log.LogBufferSize );
          var handledEntries = 0;
-         m_log.AddSink( LogUtils.CreateLogSink( ( e, s ) => { handledEntries++; } ) );
+         m_log.AddSink( LogUtils.CreateLogSink( e => { handledEntries++; } ) );
          Assert.That( handledEntries, Is.EqualTo( m_log.LogBufferSize ) );
       }
 
@@ -101,11 +101,12 @@ namespace nexus.core_test.logging
       [TestCase( LogLevel.Warn )]
       [TestCase( LogLevel.Info )]
       [TestCase( LogLevel.Trace )]
-      public void after_writing_log_entries_to_fill_the_buffer_a_previously_attached_sink_will_have_received_all_entries
-         ( LogLevel level )
+      public void
+         after_writing_log_entries_to_fill_the_buffer_a_previously_attached_sink_will_have_received_all_entries(
+            LogLevel level )
       {
          var handledEntries = 0;
-         m_log.AddSink( LogUtils.CreateLogSink( ( e, s ) => { handledEntries++; } ) );
+         m_log.AddSink( LogUtils.CreateLogSink( e => { handledEntries++; } ) );
          WriteStringsToLog( level, m_log.LogBufferSize );
          Assert.That( handledEntries, Is.EqualTo( m_log.LogBufferSize ) );
       }
@@ -115,13 +116,13 @@ namespace nexus.core_test.logging
       [TestCase( LogLevel.Info )]
       [TestCase( LogLevel.Trace )]
       public void
-         after_writing_log_entries_to_overfill_the_buffer_a_newly_attached_sink_will_receive_bufferlength_most_recent_entries
-         ( LogLevel level )
+         after_writing_log_entries_to_overfill_the_buffer_a_newly_attached_sink_will_receive_bufferlength_most_recent_entries(
+            LogLevel level )
       {
          const Int32 count = 72;
          WriteStringsToLog( level, count );
          var handledEntries = 0;
-         m_log.AddSink( LogUtils.CreateLogSink( ( e, s ) => { handledEntries++; } ) );
+         m_log.AddSink( LogUtils.CreateLogSink( e => { handledEntries++; } ) );
          Assert.That( handledEntries, Is.EqualTo( m_log.LogBufferSize ) );
       }
 
@@ -134,7 +135,7 @@ namespace nexus.core_test.logging
       {
          const Int32 count = 72;
          var handledEntries = 0;
-         m_log.AddSink( LogUtils.CreateLogSink( ( e, s ) => { handledEntries++; } ) );
+         m_log.AddSink( LogUtils.CreateLogSink( e => { handledEntries++; } ) );
          WriteStringsToLog( level, count );
          Assert.That( handledEntries, Is.EqualTo( count ) );
       }
@@ -144,8 +145,8 @@ namespace nexus.core_test.logging
       [TestCase( LogLevel.Info )]
       [TestCase( LogLevel.Trace )]
       public void
-         after_writing_log_entries_to_overfill_the_buffer_a_newly_attached_sink_will_receive_bufferlength_most_recent_entries_in_seq_order
-         ( LogLevel level )
+         after_writing_log_entries_to_overfill_the_buffer_a_newly_attached_sink_will_receive_bufferlength_most_recent_entries_in_seq_order(
+            LogLevel level )
       {
          const Int32 count = 68;
          WriteStringsToLog( level, count );
@@ -175,14 +176,14 @@ namespace nexus.core_test.logging
          String expectedMessage = null;
          m_log.AddSink(
             LogUtils.CreateLogSink(
-               ( e, s ) =>
+               e =>
                {
                   if(failedMessage != null)
                   {
                      // if we've already failed just no-op
                      return;
                   }
-                  var msg = e.FormatMessageAndArguments();
+                  var msg = e.DebugMessage;
                   expectedMessage = expectedMessages[index];
                   if(msg != expectedMessages[index])
                   {
@@ -200,16 +201,16 @@ namespace nexus.core_test.logging
          var failedSeqNumber = -1;
          m_log.AddSink(
             LogUtils.CreateLogSink(
-               ( e, sequenceNumber ) =>
+               e =>
                {
                   if(failedSeqNumber != -1)
                   {
                      // if we've already failed just no-op
                      return;
                   }
-                  if(sequenceNumber != expectedSeqNumber)
+                  if(e.SequenceId != expectedSeqNumber)
                   {
-                     failedSeqNumber = sequenceNumber;
+                     failedSeqNumber = e.SequenceId;
                      return;
                   }
                   expectedSeqNumber++;

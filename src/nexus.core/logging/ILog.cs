@@ -5,6 +5,8 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using nexus.core.resharper;
 
 namespace nexus.core.logging
@@ -12,7 +14,6 @@ namespace nexus.core.logging
    /// <summary>
    /// Interface to write information to a log
    /// </summary>
-   /// TODO: Implement: ILog CreateChildLog( String id );
    public interface ILog
    {
       /// <summary>
@@ -21,76 +22,241 @@ namespace nexus.core.logging
       LogLevel CurrentLevel { get; }
 
       /// <summary>
-      /// A unique name for this log within the application, if desired
+      /// A unique name for this log within the application.
       /// </summary>
-      String Id { get; }
+      /// TODO: Determine if this is relevant
+      //String Id { get; }
+
+      /// <summary>
+      /// Write a log entry with the given data and severity
+      /// </summary>
+      [StringFormatMethod( "debugMessage" )]
+      void Write( LogLevel severity, String debugMessage, params Object[] debugMessageArgs );
+
+      /// <summary>
+      /// Write a log entry with the given data and severity
+      /// </summary>
+      void Write( LogLevel severity, Object[] data );
+
+      /// <summary>
+      /// Write a log entry with the given data and severity
+      /// </summary>
+      [StringFormatMethod( "debugMessage" )]
+      void Write( LogLevel severity, Object[] data, String debugMessage, params Object[] debugMessageArgs );
+   }
+
+   /// <summary>
+   /// Extension methods for <see cref="ILog" /> to write a given log level
+   /// </summary>
+   public static class LogWriteExtensions
+   {
+      /// <summary>
+      /// Write a <see cref="LogLevel.Trace" /> level log entry only when compiling with the DEBUG flag
+      /// </summary>
+      [Conditional( "DEBUG" )]
+      public static void Debug( [NotNull] this ILog log, params Object[] objects )
+      {
+         Contract.Requires( log != null );
+         log.Trace( objects );
+      }
+
+      /// <summary>
+      /// Write a <see cref="LogLevel.Trace" /> level log entry only when compiling with the DEBUG flag
+      /// </summary>
+      [Conditional( "DEBUG" )]
+      [StringFormatMethod( "debugMessage" )]
+      public static void Debug( [NotNull] this ILog log, String debugMessage, params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Trace( debugMessage, debugMessageArgs );
+      }
+
+      /// <summary>
+      /// Write a <see cref="LogLevel.Trace" /> level log entry only when compiling with the DEBUG flag
+      /// </summary>
+      [Conditional( "DEBUG" )]
+      [StringFormatMethod( "debugMessage" )]
+      public static void Debug( [NotNull] this ILog log, Object[] objects, String debugMessage,
+                                params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Trace( objects, debugMessage, debugMessageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log only when compiling with the DEBUG
+      /// flag, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [Conditional( "DEBUG" )]
+      [StringFormatMethod( "debugMessage" )]
+      public static void Debug( [NotNull] this ILog log, Exception exception, String debugMessage = null,
+                                params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Trace( new Object[] {exception}, debugMessage, debugMessageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [StringFormatMethod( "debugMessage" )]
+      public static void Error( [NotNull] this ILog log, Exception exception, String debugMessage = null,
+                                params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Error( new Object[] {exception}, debugMessage, debugMessageArgs );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Error" /> level log data
       /// </summary>
-      void Error( Object[] objects );
+      public static void Error( [NotNull] this ILog log, Object[] data )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Error, data );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Error" /> level log data
       /// </summary>
-      [StringFormatMethod( "message" )]
-      void Error( String message, params Object[] messageArgs );
+      [StringFormatMethod( "debugMessage" )]
+      public static void Error( [NotNull] this ILog log, String debugMessage, params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Error, debugMessage, debugMessageArgs );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Error" /> level log data
       /// </summary>
-      [StringFormatMethod( "message" )]
-      void Error( Object[] objects, String message, params Object[] messageArgs );
+      [StringFormatMethod( "debugMessage" )]
+      public static void Error( [NotNull] this ILog log, Object[] data, String debugMessage,
+                                params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Error, data, debugMessage, debugMessageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [StringFormatMethod( "debugMessage" )]
+      public static void Info( [NotNull] this ILog log, Exception exception, String debugMessage = null,
+                               params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Info( new Object[] {exception}, debugMessage, debugMessageArgs );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Info" /> level log data
       /// </summary>
-      void Info( Object[] objects );
+      public static void Info( [NotNull] this ILog log, Object[] data )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Info, data );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Info" /> level log data
       /// </summary>
-      [StringFormatMethod( "message" )]
-      void Info( String message, params Object[] messageArgs );
+      [StringFormatMethod( "debugMessage" )]
+      public static void Info( [NotNull] this ILog log, String debugMessage, params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Info, debugMessage, debugMessageArgs );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Info" /> level log data
       /// </summary>
-      [StringFormatMethod( "message" )]
-      void Info( Object[] objects, String message, params Object[] messageArgs );
+      [StringFormatMethod( "debugMessage" )]
+      public static void Info( [NotNull] this ILog log, Object[] data, String debugMessage,
+                               params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Info, data, debugMessage, debugMessageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [StringFormatMethod( "debugMessage" )]
+      public static void Trace( [NotNull] this ILog log, Exception exception, String debugMessage = null,
+                                params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Trace( new Object[] {exception}, debugMessage, debugMessageArgs );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Trace" /> level log data
       /// </summary>
-      void Trace( Object[] objects );
+      public static void Trace( [NotNull] this ILog log, Object[] data )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Trace, data );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Trace" /> level log data
       /// </summary>
-      [StringFormatMethod( "message" )]
-      void Trace( String message, params Object[] messageArgs );
+      [StringFormatMethod( "debugMessage" )]
+      public static void Trace( [NotNull] this ILog log, String debugMessage, params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Trace, debugMessage, debugMessageArgs );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Trace" /> level log data
       /// </summary>
-      [StringFormatMethod( "message" )]
-      void Trace( Object[] objects, String message, params Object[] messageArgs );
+      [StringFormatMethod( "debugMessage" )]
+      public static void Trace( [NotNull] this ILog log, Object[] data, String debugMessage,
+                                params Object[] debugMessageArgs )
+      {
+         log.Write( LogLevel.Trace, data, debugMessage, debugMessageArgs );
+      }
+
+      /// <summary>
+      /// Utility method to wrap the exception in an object array and write it to the log, (<c>new Object[] {exception}</c>)
+      /// </summary>
+      [StringFormatMethod( "debugMessage" )]
+      public static void Warn( [NotNull] this ILog log, Exception exception, String debugMessage = null,
+                               params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Warn( new Object[] {exception}, debugMessage, debugMessageArgs );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Warn" /> level log data
       /// </summary>
-      void Warn( Object[] objects );
+      public static void Warn( [NotNull] this ILog log, Object[] data )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Warn, data );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Warn" /> level log data
       /// </summary>
-      [StringFormatMethod( "message" )]
-      void Warn( String message, params Object[] messageArgs );
+      [StringFormatMethod( "debugMessage" )]
+      public static void Warn( [NotNull] this ILog log, String debugMessage, params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Warn, debugMessage, debugMessageArgs );
+      }
 
       /// <summary>
       /// Write <see cref="LogLevel.Warn" /> level log data
       /// </summary>
-      [StringFormatMethod( "message" )]
-      void Warn( Object[] objects, String message, params Object[] messageArgs );
+      [StringFormatMethod( "debugMessage" )]
+      public static void Warn( [NotNull] this ILog log, Object[] data, String debugMessage,
+                               params Object[] debugMessageArgs )
+      {
+         Contract.Requires( log != null );
+         log.Write( LogLevel.Warn, data, debugMessage, debugMessageArgs );
+      }
    }
 }
