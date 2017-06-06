@@ -6,6 +6,10 @@ branches:
     mode: ContinuousDeployment
     tag: beta
     increment: Patch
+  features?[/-]:
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: Patch
   master:
     tag: ''
     mode: ContinuousDelivery

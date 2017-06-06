@@ -5,6 +5,9 @@ using nexus.core.resharper;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// Create <see cref="IObjectConverter{TSource,TResult}" />
+   /// </summary>
    public static class ObjectConverter
    {
       /// <summary>

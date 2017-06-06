@@ -44,13 +44,6 @@ namespace nexus.core
          }
       }
 
-      public static void Add<TKey, TVal>( [NotNull] this ICollection<KeyValuePair<TKey, TVal>> dict,
-                                          KeyValuePair<TKey, TVal> item )
-      {
-         Contract.Requires( dict != null );
-         dict.Add( item );
-      }
-
       /// <summary>
       /// Add all of the provided <paramref name="items" /> to the provided <paramref name="collection" />. If
       /// <paramref name="collection" /> is a <see cref="List{T}" /> then <see cref="List{T}.AddRange" /> will be called,
@@ -129,17 +122,19 @@ namespace nexus.core
          return defaultValue;
       }
 
-      public static TOut GetAs<TKey, TOut>( this IDictionary<TKey, Object> dict, TKey key, TOut defaultValue )
-      {
-         return GetAs( dict, key, () => defaultValue );
-      }
-
+      /// <summary>
+      /// Syntax sugar for <c>GetAs&lt;String, TOutgt;</c>
+      /// </summary>
       public static TOut GetAs<TOut>( this IDictionary<String, Object> dict, String key,
                                       Func<TOut> defaultValue = null )
       {
          return GetAs<String, TOut>( dict, key, defaultValue );
       }
 
+      /// <summary>
+      /// Syntax sugar for <c>GetAs&lt;Object, TOutgt;</c>
+      /// </summary>
+      /// <returns></returns>
       public static TOut GetAs<TOut>( this IDictionary<Object, Object> dict, Object key,
                                       Func<TOut> defaultValue = null )
       {

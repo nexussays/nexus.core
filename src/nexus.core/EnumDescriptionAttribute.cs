@@ -17,14 +17,23 @@ namespace nexus.core
    [AttributeUsage( AttributeTargets.Field )]
    public sealed class EnumDescriptionAttribute : Attribute
    {
+      /// <summary>
+      /// </summary>
+      /// <param name="value"></param>
       public EnumDescriptionAttribute( String value )
       {
          StringValue = value;
       }
 
+      /// <summary>
+      /// The description
+      /// </summary>
       public String StringValue { get; }
    }
 
+   /// <summary>
+   /// Extension method to get <see cref="EnumDescriptionAttribute" /> from an Enum
+   /// </summary>
    public static class EnumDescriptionAttributeExtensions
    {
       /// <summary>
