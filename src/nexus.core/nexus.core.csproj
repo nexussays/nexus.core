@@ -50,6 +50,7 @@
     <Compile Include="Bytes.Constants.cs" />
     <Compile Include="Bytes.Utils.cs" />
     <Compile Include="IUpdatable.cs" />
+    <Compile Include="logging\sink\CustomLogSerializerBuilder.cs" />
     <Compile Include="ObjectConverter.cs" />
     <Compile Include="Observable.cs" />
     <Compile Include="Properties\BaseAssemblyInfo.cs" />
