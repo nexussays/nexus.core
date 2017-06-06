@@ -11,14 +11,12 @@ namespace nexus.core
    /// <summary>
    /// A typed converter from one object into another.
    /// </summary>
-   public interface IObjectConverter<in TFrom, out TTo>
+   public interface IObjectConverter<in TSource, out TResult>
    {
       /// <summary>
       /// Convert from a source object to a destination object
       /// </summary>
-      /// <param name="source"></param>
-      /// <returns></returns>
-      TTo Convert( TFrom source );
+      TResult Convert( TSource source );
    }
 
    /// <summary>

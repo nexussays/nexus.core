@@ -12,6 +12,9 @@ using nexus.core.resharper;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// Extension methods for string
+   /// </summary>
    public static class StringUtils
    {
       /// <summary>

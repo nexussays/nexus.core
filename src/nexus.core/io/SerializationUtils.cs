@@ -7,7 +7,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace nexus.core.serialization
+namespace nexus.core.io
 {
    /// <summary>
    /// Extension methods for <see cref="Stream" /> and <see cref="TextWriter" />
@@ -17,9 +17,9 @@ namespace nexus.core.serialization
       /// <summary>
       /// Read an object from <paramref name="source" /> using the given <paramref name="deserializer" />
       /// </summary>
-      public static T ReadObject<T>( this Stream stream, IDeserializer<Stream> deserializer )
+      public static T ReadObject<T>( this Stream source, IDeserializer<Stream> deserializer )
       {
-         return deserializer.Deserialize<T>( stream );
+         return deserializer.Deserialize<T>( source );
       }
 
       /// <summary>
@@ -49,7 +49,7 @@ namespace nexus.core.serialization
       /// <summary>
       /// Wrte an object to <paramref name="destination" /> using the given <paramref name="serializer" />
       /// </summary>
-      public static void WriteObject<T>( this Stream destination, T source, IOutputSerializer<Stream> serializer )
+      public static void WriteObject<T>( this Stream destination, T source, IStreamSerializer serializer )
       {
          serializer.Serialize( source, destination );
       }
@@ -57,8 +57,7 @@ namespace nexus.core.serialization
       /// <summary>
       /// Wrte an object to <paramref name="destination" /> using the given <paramref name="serializer" />
       /// </summary>
-      public static void WriteObject<T>( this TextWriter destination, T source,
-                                         IOutputSerializer<TextWriter> serializer )
+      public static void WriteObject<T>( this TextWriter destination, T source, ITextWriterSerializer serializer )
       {
          serializer.Serialize( source, destination );
       }

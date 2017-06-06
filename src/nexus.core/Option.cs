@@ -105,6 +105,9 @@ namespace nexus.core
       }
    }
 
+   /// <summary>
+   /// Create new <see cref="Option{T}"/> values
+   /// </summary>
    public static class Option
    {
       /// <summary>

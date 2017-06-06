@@ -11,6 +11,9 @@ using nexus.core.resharper;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// Some basic utility functions
+   /// </summary>
    public static class CoreUtils
    {
       /// <summary>

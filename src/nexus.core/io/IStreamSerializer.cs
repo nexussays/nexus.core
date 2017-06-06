@@ -7,17 +7,22 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace nexus.core.serialization
+namespace nexus.core.io
 {
    /// <summary>
-   /// <see cref="IOutputSerializer{TTo}" /> with additional async serialization method
+   /// Serialize any generic type to the given <see cref="Stream" />
    /// </summary>
    /// <remarks>The extension methods on <see cref="SerializationUtils" /> provide a better API</remarks>
-   public interface IStreamSerializer : IOutputSerializer<Stream>
+   public interface IStreamSerializer
    {
       /// <summary>
-      /// Serialize the given <paramref name="source"/> object to the output Stream
+      /// Serialize any generic type to the given <see cref="Stream" />
       /// </summary>
-      Task SerializeAsync<TFrom>( TFrom source, Stream to );
+      void Serialize<TFrom>( TFrom source, Stream output );
+
+      /// <summary>
+      /// Serialize any generic type to the given <see cref="Stream" />
+      /// </summary>
+      Task SerializeAsync<TFrom>( TFrom source, Stream output );
    }
 }

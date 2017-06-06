@@ -11,6 +11,9 @@ using nexus.core.resharper;
 
 namespace nexus.core
 {
+   /// <summary>
+   /// Utility and extension methods for doing things with arrays and lists
+   /// </summary>
    public static class CollectionUtils
    {
       /// <param name="source">The list to shuffle in-place</param>

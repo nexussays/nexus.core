@@ -31,6 +31,9 @@ namespace nexus.core.logging.sink
       /// </summary>
       public static CustomLogSerializerBuilder Create => new CustomLogSerializerBuilder();
 
+      /// <summary>
+      /// The format steps for thie builder
+      /// </summary>
       public IEnumerable<Func<ILogEntry, String>> FormatSteps => m_formatSteps;
 
       /// <summary>
@@ -52,6 +55,7 @@ namespace nexus.core.logging.sink
             } );
       }
 
+      /// <inheritdoc cref="IEnumerable{T}" />
       public IEnumerator<Func<ILogEntry, String>> GetEnumerator()
       {
          return m_formatSteps.GetEnumerator();
