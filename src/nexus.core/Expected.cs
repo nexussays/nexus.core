@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -36,7 +37,7 @@ namespace nexus.core
       /// <summary>
       /// Create an expected with an exception
       /// </summary>
-      public Expected( Exception error )
+      public Expected( [NotNull] Exception error )
       {
          Contract.Requires( error != null );
          HasValue = false;

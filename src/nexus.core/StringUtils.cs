@@ -18,10 +18,10 @@ namespace nexus.core
       /// Wraps <see cref="String.Format(String,object[])" /> for more convenient use, e.g.,
       /// <code>"Value {0}".@F(argument)</code>.
       /// </summary>
-      [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
       [StringFormatMethod( "format" )]
-      public static String F( this String format, params Object[] args )
+      [NotNull]
+      public static String F( [NotNull] this String format, [NotNull] params Object[] args )
       {
          Contract.Requires( format != null );
          Contract.Requires( args != null );
@@ -32,9 +32,8 @@ namespace nexus.core
       /// <summary>
       /// Syntax sugar for <see cref="String.IsNullOrEmpty" />
       /// </summary>
-      [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
-      public static Boolean IsNullOrEmpty( this String value )
+      public static Boolean IsNullOrEmpty( [NotNull] this String value )
       {
          return String.IsNullOrEmpty( value );
       }
@@ -42,8 +41,7 @@ namespace nexus.core
       /// <summary>
       /// Syntax sugar for <see cref="String.IsNullOrWhiteSpace" />
       /// </summary>
-      [System.Diagnostics.Contracts.Pure]
-      public static Boolean IsNullOrWhiteSpace( this String value )
+      public static Boolean IsNullOrWhiteSpace( [NotNull] this String value )
       {
          //return (value == null || (value.Trim().Length == 0));
          return String.IsNullOrWhiteSpace( value );
@@ -52,7 +50,6 @@ namespace nexus.core
       /// <summary>
       /// Syntax sugar for <see cref="String.Join(String,String[])" />
       /// </summary>
-      [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
       public static String Join( this String[] arr, String separator )
       {
@@ -62,7 +59,6 @@ namespace nexus.core
       /// <summary>
       /// Syntax sugar for <see cref="String.Join(String,System.Collections.Generic.IEnumerable{String})" />
       /// </summary>
-      [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
       public static String Join( this IEnumerable<String> arr, String separator )
       {
@@ -72,7 +68,6 @@ namespace nexus.core
       /// <summary>
       /// Removes any of the individual characters in <paramref name="stripValues" /> from <paramref name="source" />
       /// </summary>
-      [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
       public static String StripCharacters( this String source, String stripValues )
       {
@@ -82,7 +77,6 @@ namespace nexus.core
       /// <summary>
       /// Removes any of the characters in <paramref name="stripValues" /> from <paramref name="source" />
       /// </summary>
-      [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
       public static String StripCharacters( this String source, params Char[] stripValues )
       {
@@ -96,9 +90,8 @@ namespace nexus.core
       /// <param name="input"></param>
       /// <param name="startAt">The character position at which to start the search. </param>
       /// <returns></returns>
-      [System.Diagnostics.Contracts.Pure]
       [resharper.Pure]
-      public static Boolean Test( this Regex regex, String input, Int32? startAt = null )
+      public static Boolean Test( [NotNull] this Regex regex, String input, Int32? startAt = null )
       {
          if(startAt.HasValue)
          {

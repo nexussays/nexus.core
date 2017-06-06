@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Reflection;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -10,7 +11,7 @@ namespace nexus.core
       /// Return an <see cref="IObjectConverter" /> is not a generic interface and can be used in collections or other places a
       /// generic interface causes problems.
       /// </summary>
-      public static IObjectConverter AsUntyped<TFrom, TTo>( this IObjectConverter<TFrom, TTo> converter )
+      public static IObjectConverter AsUntyped<TFrom, TTo>( [NotNull] this IObjectConverter<TFrom, TTo> converter )
       {
          Contract.Requires<ArgumentNullException>( converter != null );
          return new WrappedObjectConverter<TFrom, TTo>( converter );
@@ -19,7 +20,7 @@ namespace nexus.core
       /// <summary>
       /// Create a new <see cref="IObjectConverter{TFrom,TTo}" /> from the provided conversion function.
       /// </summary>
-      public static IObjectConverter<TFrom, TTo> Create<TFrom, TTo>( Func<TFrom, TTo> converter )
+      public static IObjectConverter<TFrom, TTo> Create<TFrom, TTo>( [NotNull] Func<TFrom, TTo> converter )
       {
          Contract.Requires<ArgumentNullException>( converter != null );
          return new TypedObjectConverter<TFrom, TTo>( converter );
@@ -28,7 +29,8 @@ namespace nexus.core
       /// <summary>
       /// Create a new <see cref="IObjectConverter" /> from the provided conversion function.
       /// </summary>
-      public static IObjectConverter Create( Func<Object, Object> converter, Func<Type, Boolean> canConvert )
+      public static IObjectConverter Create( [NotNull] Func<Object, Object> converter,
+                                             [NotNull] Func<Type, Boolean> canConvert )
       {
          Contract.Requires<ArgumentNullException>( converter != null );
          Contract.Requires<ArgumentNullException>( canConvert != null );
@@ -39,7 +41,7 @@ namespace nexus.core
       {
          private readonly Func<TFrom, TTo> m_converter;
 
-         public TypedObjectConverter( Func<TFrom, TTo> converter )
+         public TypedObjectConverter( [NotNull] Func<TFrom, TTo> converter )
          {
             Contract.Requires( converter != null );
             m_converter = converter;
@@ -56,7 +58,8 @@ namespace nexus.core
          private readonly Func<Type, Boolean> m_canConvert;
          private readonly Func<Object, Object> m_converter;
 
-         public UntypedObjectConverter( Func<Object, Object> converter, Func<Type, Boolean> canConvert )
+         public UntypedObjectConverter( [NotNull] Func<Object, Object> converter,
+                                        [NotNull] Func<Type, Boolean> canConvert )
          {
             Contract.Requires( converter != null );
             Contract.Requires( canConvert != null );
@@ -79,7 +82,7 @@ namespace nexus.core
       {
          private readonly IObjectConverter<TFrom, TTo> m_converter;
 
-         public WrappedObjectConverter( IObjectConverter<TFrom, TTo> converter )
+         public WrappedObjectConverter( [NotNull] IObjectConverter<TFrom, TTo> converter )
          {
             Contract.Requires( converter != null );
             m_converter = converter;

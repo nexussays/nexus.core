@@ -49,7 +49,6 @@
     <Compile Include="ActionAsync.cs" />
     <Compile Include="Bytes.Constants.cs" />
     <Compile Include="Bytes.Utils.cs" />
-    <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="IUpdatable.cs" />
     <Compile Include="ObjectConverter.cs" />
     <Compile Include="Observable.cs" />

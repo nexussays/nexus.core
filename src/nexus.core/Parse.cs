@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Reflection;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -51,7 +52,7 @@ namespace nexus.core
       /// <exception cref="System.OverflowException">On invalid conversion</exception>
       /// <exception cref="System.ArgumentException">On invalid conversion</exception>
       /// <returns></returns>
-      public static Object OrThrow( Object value, Type to )
+      public static Object OrThrow( Object value, [NotNull] Type to )
       {
          Contract.Requires( to != null );
          try

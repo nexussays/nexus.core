@@ -25,8 +25,6 @@ namespace nexus.core.logging
       /// A unique name for this log within the application.
       /// </summary>
       /// TODO: Determine if this is relevant
-      //String Id { get; }
-
       /// <summary>
       /// Write a log entry with the given data and severity
       /// </summary>

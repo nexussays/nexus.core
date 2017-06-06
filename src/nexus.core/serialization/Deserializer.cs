@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core.serialization
 {
@@ -19,12 +20,13 @@ namespace nexus.core.serialization
       {
          private readonly Func<TFrom, Type, Object> m_deserialize;
 
-         public GenericDeserializer( Func<TFrom, Type, Object> deserialize )
+         public GenericDeserializer( [NotNull] Func<TFrom, Type, Object> deserialize )
          {
             Contract.Requires( deserialize != null );
             m_deserialize = deserialize;
          }
 
+         [NotNull]
          public T Deserialize<T>( TFrom source )
          {
             Contract.Ensures( Contract.Result<Object>() != null );

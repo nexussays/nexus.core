@@ -19,6 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
+
 using System;
 
 namespace nexus.core.resharper
@@ -85,7 +86,6 @@ namespace nexus.core.resharper
       public ContractAnnotationAttribute( [NotNull] String contract )
          : this( contract, false )
       {
-         System.Diagnostics.Contracts.Contract.Requires( contract != null );
       }
 
       public ContractAnnotationAttribute( [NotNull] String contract, Boolean forceFullStates )
@@ -95,8 +95,8 @@ namespace nexus.core.resharper
       }
 
       [NotNull]
-      public String Contract { get; private set; }
+      public String Contract { get; }
 
-      public Boolean ForceFullStates { get; private set; }
+      public Boolean ForceFullStates { get; }
    }
 }

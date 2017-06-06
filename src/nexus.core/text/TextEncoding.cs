@@ -7,6 +7,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Text;
+using nexus.core.resharper;
 
 namespace nexus.core.text
 {
@@ -15,13 +16,14 @@ namespace nexus.core.text
    {
       /// <summary>
       /// </summary>
-      public TextEncoding( Encoding encoding )
+      public TextEncoding( [NotNull] Encoding encoding )
       {
          Contract.Requires<ArgumentNullException>( encoding != null );
          Encoding = encoding;
       }
 
       /// <inheritdoc />
+      [NotNull]
       public Encoding Encoding { get; }
 
       /// <inheritdoc />

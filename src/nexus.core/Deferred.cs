@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -31,7 +32,7 @@ namespace nexus.core
       /// <summary>
       /// Create a new deferred from this provided function. The function will be called once upon the deferred being resolved
       /// </summary>
-      public Deferred( Func<T> retrieve )
+      public Deferred( [NotNull] Func<T> retrieve )
       {
          Contract.Requires<ArgumentNullException>( retrieve != null );
          m_retrieve = retrieve;

@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -26,7 +27,7 @@ namespace nexus.core
       /// <summary>
       /// Subscribe to this <paramref name="observable" /> using the provided methods to create a new <see cref="IObserver{T}" />
       /// </summary>
-      public static IDisposable Subscribe<T>( this IObservable<T> observable, Action<T> onNext,
+      public static IDisposable Subscribe<T>( [NotNull] this IObservable<T> observable, Action<T> onNext,
                                               Action onComplete = null, Action<Exception> onError = null )
       {
          Contract.Requires( observable != null );
@@ -37,7 +38,7 @@ namespace nexus.core
       /// Subscribe to this <paramref name="observable" /> creating a new <see cref="IObserver{T}" /> with only
       /// <see cref="IObserver{T}.OnCompleted" /> implemented
       /// </summary>
-      public static IDisposable SubscribeOnComplete<T>( this IObservable<T> observable, Action onComplete )
+      public static IDisposable SubscribeOnComplete<T>( [NotNull] this IObservable<T> observable, Action onComplete )
       {
          Contract.Requires( observable != null );
          return observable.Subscribe( Create<T>( null, onComplete, null ) );
@@ -47,7 +48,8 @@ namespace nexus.core
       /// Subscribe to this <paramref name="observable" /> creating a new <see cref="IObserver{T}" /> with only
       /// <see cref="IObserver{T}.OnError" /> implemented
       /// </summary>
-      public static IDisposable SubscribeOnError<T>( this IObservable<T> observable, Action<Exception> onError )
+      public static IDisposable SubscribeOnError
+         <T>( [NotNull] this IObservable<T> observable, Action<Exception> onError )
       {
          Contract.Requires( observable != null );
          return observable.Subscribe( Create<T>( null, null, onError ) );
@@ -57,7 +59,7 @@ namespace nexus.core
       /// Subscribe to this <paramref name="observable" /> creating a new <see cref="IObserver{T}" /> with only
       /// <see cref="IObserver{T}.OnNext" /> implemented
       /// </summary>
-      public static IDisposable SubscribeOnNext<T>( this IObservable<T> observable, Action<T> onNext )
+      public static IDisposable SubscribeOnNext<T>( [NotNull] this IObservable<T> observable, Action<T> onNext )
       {
          Contract.Requires( observable != null );
          return observable.Subscribe( Create( onNext, null, null ) );

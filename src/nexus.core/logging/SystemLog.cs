@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
+using nexus.core.resharper;
 using nexus.core.time;
 
 namespace nexus.core.logging
@@ -55,7 +56,7 @@ namespace nexus.core.logging
       /// Defaults to false, but when true any exceptions thrown by attached
       /// <see cref="ILogSink" /> will not be caught. Really only useful for debugging.
       /// </param>
-      public SystemLog( ITimeProvider time, Byte logBufferSize, Boolean rethrowExceptionsFromSinks = false )
+      public SystemLog( [NotNull] ITimeProvider time, Byte logBufferSize, Boolean rethrowExceptionsFromSinks = false )
       {
          Contract.Requires<ArgumentNullException>( time != null );
 

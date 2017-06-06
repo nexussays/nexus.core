@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core.text
 {
@@ -29,7 +30,7 @@ namespace nexus.core.text
       /// <summary>
       /// Create a new base16 encoder with a custom symbol table
       /// </summary>
-      public Base16Encoder( IList<Char> symbolTable )
+      public Base16Encoder( [NotNull] IList<Char> symbolTable )
       {
          Contract.Requires<ArgumentException>(
             symbolTable != null,
@@ -46,11 +47,13 @@ namespace nexus.core.text
       /// <summary>
       /// Hex symbols using lower case a-f
       /// </summary>
+      [NotNull]
       public static Char[] SymbolsLowercase => "0123456789abcdef".ToCharArray();
 
       /// <summary>
       /// Hex symbols using uppercase A-F
       /// </summary>
+      [NotNull]
       public static Char[] SymbolsUppercase => "0123456789ABCDEF".ToCharArray();
 
       /// <inheritdoc />
@@ -82,7 +85,8 @@ namespace nexus.core.text
       }
 
       /// <exception cref="FormatException">If any characters provided cannot be found in the symbol table</exception>
-      public Byte[] Decode( Char[] chars )
+      [NotNull]
+      public Byte[] Decode( [NotNull] Char[] chars )
       {
          Contract.Requires( chars != null );
          Contract.Requires( chars.Length > 1 );

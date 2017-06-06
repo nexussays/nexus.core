@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -17,7 +18,7 @@ namespace nexus.core
       /// <summary>
       /// Returns true if the value is in the given range (inclusive)
       /// </summary>
-      public static Boolean Between<T>( this IComparable<T> value, T lower, T upper )
+      public static Boolean Between<T>( [NotNull] this IComparable<T> value, T lower, T upper )
       {
          Contract.Requires( value != null );
          return value.CompareTo( lower ) >= 0 && value.CompareTo( upper ) <= 0;
@@ -26,7 +27,7 @@ namespace nexus.core
       /// <summary>
       /// Returns true if the value is in the given range (exclusive)
       /// </summary>
-      public static Boolean Within<T>( this IComparable<T> value, T lower, T upper )
+      public static Boolean Within<T>( [NotNull] this IComparable<T> value, T lower, T upper )
       {
          Contract.Requires( value != null );
          return value.CompareTo( lower ) > 0 && value.CompareTo( upper ) < 0;
