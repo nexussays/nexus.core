@@ -123,7 +123,7 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Syntax sugar for <c>GetAs&lt;String, TOutgt;</c>
+      /// Syntax sugar for retrieving a string value from a dictionary
       /// </summary>
       public static TOut GetAs<TOut>( this IDictionary<String, Object> dict, String key,
                                       Func<TOut> defaultValue = null )
@@ -132,13 +132,11 @@ namespace nexus.core
       }
 
       /// <summary>
-      /// Syntax sugar for <c>GetAs&lt;Object, TOutgt;</c>
+      /// Syntax sugar for retrieving a string value from a dictionary
       /// </summary>
-      /// <returns></returns>
-      public static TOut GetAs<TOut>( this IDictionary<Object, Object> dict, Object key,
-                                      Func<TOut> defaultValue = null )
+      public static TOut GetAs<TOut>( this IDictionary<String, Object> dict, String key, TOut defaultValue )
       {
-         return GetAs<Object, TOut>( dict, key, defaultValue );
+         return GetAs<String, TOut>( dict, key, () => defaultValue );
       }
 
       /// <summary>

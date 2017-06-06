@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="text\Base16EncoderTest.cs" />
     <Compile Include="UnitTests.cs" />
+    <Compile Include="utils\DictionaryUtilsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\nexus.core\nexus.core.csproj">
