@@ -4,7 +4,7 @@ mode: ContinuousDelivery
 branches:
   dev(elop)?(ment)?$:
     mode: ContinuousDeployment
-    tag: alpha
+    tag: beta
     increment: Patch
   master:
     tag: ''
