@@ -36,7 +36,7 @@ namespace nexus.core
       /// Syntax sugar for <see cref="String.IsNullOrEmpty" />
       /// </summary>
       [resharper.Pure]
-      public static Boolean IsNullOrEmpty( [NotNull] this String value )
+      public static Boolean IsNullOrEmpty( this String value )
       {
          return String.IsNullOrEmpty( value );
       }
@@ -44,7 +44,7 @@ namespace nexus.core
       /// <summary>
       /// Syntax sugar for <see cref="String.IsNullOrWhiteSpace" />
       /// </summary>
-      public static Boolean IsNullOrWhiteSpace( [NotNull] this String value )
+      public static Boolean IsNullOrWhiteSpace( this String value )
       {
          //return (value == null || (value.Trim().Length == 0));
          return String.IsNullOrWhiteSpace( value );
@@ -54,7 +54,7 @@ namespace nexus.core
       /// Syntax sugar for <see cref="String.Join(String,String[])" />
       /// </summary>
       [resharper.Pure]
-      public static String Join( this String[] arr, String separator )
+      public static String Join( [NotNull] this String[] arr, String separator )
       {
          return String.Join( separator, arr );
       }
@@ -63,7 +63,7 @@ namespace nexus.core
       /// Syntax sugar for <see cref="String.Join(String,System.Collections.Generic.IEnumerable{String})" />
       /// </summary>
       [resharper.Pure]
-      public static String Join( this IEnumerable<String> arr, String separator )
+      public static String Join( [NotNull] this IEnumerable<String> arr, String separator )
       {
          return String.Join( separator, arr );
       }
