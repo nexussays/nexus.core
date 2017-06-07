@@ -52,6 +52,7 @@
     <Compile Include="IGenericObjectConverter.cs" />
     <Compile Include="IUpdatable.cs" />
     <Compile Include="logging\sink\CustomLogSerializerBuilder.cs" />
+    <Compile Include="logging\sink\MergedLogSink.cs" />
     <Compile Include="ObjectConverter.cs" />
     <Compile Include="Observable.cs" />
     <Compile Include="Properties\BaseAssemblyInfo.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="resharper\NotNullAttribute.cs" />
     <Compile Include="Deserializer.cs" />
     <Compile Include="TaskConstants.cs" />
-    <Compile Include="CollectionUtils.cs" />
+    <Compile Include="CollectionExtensions.cs" />
     <Compile Include="ComparableExtensions.cs" />
     <Compile Include="CoreUtils.cs" />
     <Compile Include="Deferred.cs" />
@@ -88,7 +89,6 @@
     <Compile Include="logging\LogLevel.cs" />
     <Compile Include="logging\LogUtils.cs" />
     <Compile Include="logging\SystemLog.cs" />
-    <Compile Include="logging\sink\TextWriterLogSink.cs" />
     <Compile Include="MutableDictionary.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Option.cs" />

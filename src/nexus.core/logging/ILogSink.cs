@@ -4,6 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+using nexus.core.resharper;
+
 namespace nexus.core.logging
 {
    /// <summary>
@@ -16,7 +18,7 @@ namespace nexus.core.logging
       /// This sink will handle the given <see cref="ILogEntry" /> however it sees fit
       /// </summary>
       /// <param name="entry">The current log entry</param>
-      /// TODO: Add UpdateContext(Foo foo); method so we can apply the static context to the sink and the sink can deal with how it handles that
-      void Handle( ILogEntry entry );
+      /// TODO: Add UpdateContext(Foo foo); method so we can apply the static context to the sink and the sink can deal with how it handles that?
+      void Handle( [NotNull] ILogEntry entry );
    }
 }

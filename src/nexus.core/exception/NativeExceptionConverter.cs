@@ -13,8 +13,12 @@ namespace nexus.core.exception
    /// </summary>
    public sealed class NativeExceptionConverter : IObjectConverter<Exception, IException>
    {
+      /// <summary>
+      /// Singleton instance of <see cref="NativeExceptionConverter" />
+      /// </summary>
       public static readonly NativeExceptionConverter Instance = new NativeExceptionConverter();
 
+      /// <inheritdoc />
       public IException Convert( Exception exception )
       {
          return new UniversalException(

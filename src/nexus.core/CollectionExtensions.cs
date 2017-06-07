@@ -6,19 +6,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using nexus.core.resharper;
 
 namespace nexus.core
 {
    /// <summary>
-   /// Utility and extension methods for doing things with arrays and lists
+   /// Extension methods for doing things with arrays, lists, and dictionaries
    /// </summary>
-   public static class CollectionUtils
+   [EditorBrowsable( EditorBrowsableState.Never )]
+   public static class CollectionExtensions
    {
       /// <param name="source">The list to shuffle in-place</param>
       /// <param name="rand">Receives the max value and returns a random number less than that value</param>
-      private static void Shuffle<T>( this IList<T> source, Func<Int32, Int32> rand )
+      private static void Shuffle<T>( [NotNull] this IList<T> source, Func<Int32, Int32> rand )
       {
          var i = source.Count;
          while(i > 1)
@@ -32,7 +34,7 @@ namespace nexus.core
 
       /// <param name="source">The array to shuffle in-place</param>
       /// <param name="rand">Receives the max value and returns a random number less than that value</param>
-      private static void Shuffle<T>( this T[] source, Func<Int32, Int32> rand )
+      private static void Shuffle<T>( [NotNull] this T[] source, Func<Int32, Int32> rand )
       {
          var i = source.Length;
          while(i > 1)
@@ -50,25 +52,23 @@ namespace nexus.core
       /// otherwise <paramref name="items" /> will be iterated over with a <c>foreach</c> and each item added individually to
       /// <paramref name="collection" />
       /// </summary>
-      /// <typeparam name="T"></typeparam>
-      /// <param name="collection"></param>
-      /// <param name="items"></param>
       public static void AddAll<T>( [NotNull] this ICollection<T> collection, IEnumerable<T> items )
       {
          Contract.Requires( collection != null );
-         if(items != null)
+         if(items == null)
          {
-            var list = collection as List<T>;
-            if(list != null)
+            return;
+         }
+
+         if(collection is List<T> list)
+         {
+            list.AddRange( items );
+         }
+         else
+         {
+            foreach(var value in items)
             {
-               list.AddRange( items );
-            }
-            else
-            {
-               foreach(var value in items)
-               {
-                  collection.Add( value );
-               }
+               collection.Add( value );
             }
          }
       }
@@ -79,13 +79,12 @@ namespace nexus.core
       /// </summary>
       public static Option<TVal> Extract<TKey, TVal>( this IDictionary<TKey, TVal> dict, TKey key )
       {
-         TVal result;
-         if(dict != null && dict.TryGetValue( key, out result ))
+         if(dict == null || !dict.TryGetValue( key, out TVal result ))
          {
-            dict.Remove( key );
-            return Option.Of( result );
+            return Option<TVal>.NoValue;
          }
-         return Option<TVal>.NoValue;
+         dict.Remove( key );
+         return Option.Of( result );
       }
 
       /// <summary>
@@ -98,12 +97,9 @@ namespace nexus.core
       /// </returns>
       public static TVal Get<TKey, TVal>( this IDictionary<TKey, TVal> dict, TKey key, Func<TVal> defaultValue = null )
       {
-         TVal result;
-         if(dict != null && dict.TryGetValue( key, out result ))
-         {
-            return result;
-         }
-         return defaultValue != null ? defaultValue() : default(TVal);
+         return dict != null && dict.TryGetValue( key, out TVal result )
+            ? result
+            : (defaultValue != null ? defaultValue() : default(TVal));
       }
 
       /// <summary>
@@ -114,12 +110,7 @@ namespace nexus.core
       /// </returns>
       public static TVal Get<TKey, TVal>( this IDictionary<TKey, TVal> dict, TKey key, TVal defaultValue )
       {
-         TVal result;
-         if(dict != null && dict.TryGetValue( key, out result ))
-         {
-            return result;
-         }
-         return defaultValue;
+         return dict != null && dict.TryGetValue( key, out TVal result ) ? result : defaultValue;
       }
 
       /// <summary>
@@ -193,66 +184,71 @@ namespace nexus.core
          }
       }
 
-      public static KeyValuePair<TKey, TValue> GetPair
-         <TKey, TValue>( [NotNull] this IImmutableDictionary<TKey, TValue> dict, [NotNull] TKey key )
-      {
-         Contract.Requires( dict != null );
-         Contract.Requires( key != null );
-         return Pair.Of( key, dict[key] );
-      }
-
+      /// <summary>
+      /// Retrieve a key value pair from the dictionary
+      /// </summary>
       public static KeyValuePair<TKey, TValue> GetPair
          <TKey, TValue>( [NotNull] this IDictionary<TKey, TValue> dict, [NotNull] TKey key )
       {
          Contract.Requires( dict != null );
-         Contract.Requires( key != null );
          return Pair.Of( key, dict[key] );
       }
 
-      public static void Set<TKey, TVal>( [NotNull] this IDictionary<TKey, TVal> dict,
-                                          [NotNull] KeyValuePair<TKey, TVal> item )
+      /// <summary>
+      /// Set the values of <paramref name="dict" /> using a key value pair <paramref name="item" />
+      /// </summary>
+      public static void Set<TKey, TVal>( [NotNull] this IDictionary<TKey, TVal> dict, KeyValuePair<TKey, TVal> item )
       {
          Contract.Requires( dict != null );
-         Contract.Requires( item.Key != null );
          dict[item.Key] = item.Value;
       }
-
+      /// <summary>
+      /// Set the values of <paramref name="dict" /> for each key value pair in <paramref name="items" />
+      /// </summary>
       public static void SetAll<TKey, TVal>( [NotNull] this IDictionary<TKey, TVal> dict,
                                              IEnumerable<KeyValuePair<TKey, TVal>> items )
       {
          Contract.Requires( dict != null );
-         if(items != null)
+         if(items == null)
          {
-            foreach(var item in items)
-            {
-               dict.Set( item );
-            }
+            return;
+         }
+         foreach(var item in items)
+         {
+            dict.Set( item );
          }
       }
 
+      /// <summary>
+      /// Randomize the elements of the array using the provided <paramref name="rand" />
+      /// </summary>
       public static void Shuffle<T>( this T[] source, Random rand )
       {
          Shuffle( source, rand.Next );
       }
 
+      /// <summary>
+      /// Randomize the elements of the array using the provided randomization function <paramref name="rand" />
+      /// </summary>
       public static void Shuffle<T>( this T[] source, Func<Double> rand )
       {
          Shuffle( source, i => (Int32)Math.Floor( rand() * i ) );
       }
 
+      /// <summary>
+      /// Randomize the elements of the list using the provided <paramref name="rand" />
+      /// </summary>
       public static void Shuffle<T>( this IList<T> source, Random rand )
       {
          Shuffle( source, rand.Next );
       }
 
+      /// <summary>
+      /// Randomize the elements of the list using the provided randomization function <paramref name="rand" />
+      /// </summary>
       public static void Shuffle<T>( this IList<T> source, Func<Double> rand )
       {
          Shuffle( source, i => (Int32)Math.Floor( rand() * i ) );
-      }
-
-      public static ImmutableDictionary<Tk, Tv> ToImmutable<Tk, Tv>( this IDictionary<Tk, Tv> source )
-      {
-         return new ImmutableDictionary<Tk, Tv>( source );
       }
 
       /// <summary>
@@ -262,8 +258,7 @@ namespace nexus.core
       public static Option<TVal> TryGet<TKey, TVal>( [NotNull] this IDictionary<TKey, TVal> dict, TKey key )
       {
          Contract.Requires( dict != null );
-         TVal result;
-         return dict.TryGetValue( key, out result ) ? Option.Of( result ) : Option<TVal>.NoValue;
+         return dict.TryGetValue( key, out TVal result ) ? Option.Of( result ) : Option<TVal>.NoValue;
       }
    }
 }

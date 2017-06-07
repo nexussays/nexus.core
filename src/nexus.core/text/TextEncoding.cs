@@ -18,7 +18,7 @@ namespace nexus.core.text
       /// </summary>
       public TextEncoding( [NotNull] Encoding encoding )
       {
-         Contract.Requires(encoding != null);
+         Contract.Requires( encoding != null );
          Contract.Requires<ArgumentNullException>( encoding != null );
          Encoding = encoding;
       }
@@ -39,6 +39,7 @@ namespace nexus.core.text
          return Encoding.GetString( input, 0, input.Length );
       }
 
+      /// <inheritdoc />
       public override Boolean Equals( Object obj )
       {
          var enc = obj as TextEncoding;

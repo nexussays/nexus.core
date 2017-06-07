@@ -58,11 +58,6 @@ namespace nexus.core
          return new UntypedObjectConverter( converter, canConvert );
       }
 
-      public static IObjectConverter Fail()
-      {
-         return Create( null, null );
-      }
-
       /// <inheritdoc />
       private sealed class GenericToTypedObjectConverterWrapper<TSource, TResult> : IObjectConverter<TSource, TResult>
       {

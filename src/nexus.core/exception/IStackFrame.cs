@@ -5,6 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace nexus.core.exception
@@ -58,6 +59,7 @@ namespace nexus.core.exception
    /// <summary>
    /// Extension methods for <see cref="IStackFrame" />
    /// </summary>
+   [EditorBrowsable( EditorBrowsableState.Never )]
    public static class StackFrameExtensions
    {
       /// <summary>

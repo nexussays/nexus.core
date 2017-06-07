@@ -156,14 +156,15 @@ namespace nexus.core.text
 
          var result = new Char[data.Length * 2];
          var charIndex = 0;
-         for(var x = 0; x < data.Length; x++)
+         foreach(var d in data)
          {
-            result[charIndex++] = m_symbols[(data[x] & 0xf0) >> 4];
-            result[charIndex++] = m_symbols[data[x] & 0x0f];
+            result[charIndex++] = m_symbols[(d & 0xf0) >> 4];
+            result[charIndex++] = m_symbols[d & 0x0f];
          }
          return new String( result );
       }
 
+      /// <inheritdoc cref="Encode(byte[])" />
       public String Encode( Byte source )
       {
          return new String( new[] {m_symbols[(source & 0xf0) >> 4], m_symbols[source & 0x0f]} );

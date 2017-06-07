@@ -7,6 +7,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.Contracts;
+using nexus.core.resharper;
 
 namespace nexus.core
 {
@@ -60,6 +63,31 @@ namespace nexus.core
       IEnumerator IEnumerable.GetEnumerator()
       {
          return GetEnumerator();
+      }
+   }
+
+   /// <summary>
+   /// Extension methods for <see cref="IImmutableDictionary{TKey,TValue}" />
+   /// </summary>
+   [EditorBrowsable( EditorBrowsableState.Never )]
+   public static class ImmutableDictionaryExtensions
+   {
+      /// <summary>
+      /// Retrieve a key value pair from the dictionary
+      /// </summary>
+      public static KeyValuePair<TKey, TValue> GetPair
+         <TKey, TValue>( [NotNull] this IImmutableDictionary<TKey, TValue> dict, [NotNull] TKey key )
+      {
+         Contract.Requires( dict != null );
+         return Pair.Of( key, dict[key] );
+      }
+
+      /// <summary>
+      /// Makethe given dictionary immutable
+      /// </summary>
+      public static ImmutableDictionary<Tk, Tv> ToImmutable<Tk, Tv>( this IDictionary<Tk, Tv> source )
+      {
+         return new ImmutableDictionary<Tk, Tv>( source );
       }
    }
 }

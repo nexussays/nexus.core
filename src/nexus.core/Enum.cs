@@ -24,7 +24,6 @@ namespace nexus.core
       /// specified format.
       /// </summary>
       /// <param name="value"></param>
-      /// <param name="format"></param>
       /// <returns></returns>
       /// <summary>
       /// Retrieves the name of the constant in the specified enumeration that has the specified value.
@@ -60,6 +59,7 @@ namespace nexus.core
          return Enum.GetUnderlyingType( typeof(T) );
       }
 
+      /// <inheritdoc cref="Enum.GetValues" />
       public static IEnumerable<T> GetValues()
       {
          return (T[])Enum.GetValues( typeof(T) );
@@ -127,6 +127,7 @@ namespace nexus.core
          }
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( Object value )
       {
          var s = value as String;
@@ -137,41 +138,49 @@ namespace nexus.core
          return (T)Enum.ToObject( typeof(T), value );
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( Byte value )
       {
          return (T)Enum.ToObject( typeof(T), value );
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( SByte value )
       {
          return (T)Enum.ToObject( typeof(T), value );
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( Int32 value )
       {
          return (T)Enum.ToObject( typeof(T), value );
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( UInt32 value )
       {
          return (T)Enum.ToObject( typeof(T), value );
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( Int64 value )
       {
          return (T)Enum.ToObject( typeof(T), value );
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( UInt64 value )
       {
          return (T)Enum.ToObject( typeof(T), value );
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( Int16 value )
       {
          return (T)Enum.ToObject( typeof(T), value );
       }
 
+      /// <inheritdoc cref="Enum.ToObject" />
       public static T Parse( UInt16 value )
       {
          return (T)Enum.ToObject( typeof(T), value );

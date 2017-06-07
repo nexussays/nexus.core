@@ -151,14 +151,22 @@ namespace nexus.core.logging
                   // so start at one past the latest entry (i.e., the oldest entry) and read to the end and then
                   // wrap back around to index 0 and read up until the current seqNum
                   var index = m_entrySequence % m_entryBuffer.Length;
+                  /*
                   for(Int32 x = index + 1, count = 1; x < m_entryBuffer.Length; ++x, ++count)
                   {
-                     //backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - m_entryBuffer.Length + count ) );
+                     backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - m_entryBuffer.Length + count ) );
+                  }
+                  for(var x = 0; x <= index; ++x)
+                  {
+                     backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - index + x ) );
+                  }
+                  */
+                  for(var x = index + 1; x < m_entryBuffer.Length; ++x)
+                  {
                      backlog.Add( m_entryBuffer[x] );
                   }
                   for(var x = 0; x <= index; ++x)
                   {
-                     //backlog.Add( Tuple.Create( m_entryBuffer[x], m_entrySequence - index + x ) );
                      backlog.Add( m_entryBuffer[x] );
                   }
                }

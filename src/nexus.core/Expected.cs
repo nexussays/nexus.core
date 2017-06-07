@@ -76,6 +76,7 @@ namespace nexus.core
       }
 
       [ContractInvariantMethod]
+      // ReSharper disable once UnusedMember.Local
       private void Invariant()
       {
          // we have either a value or an error
@@ -112,24 +113,25 @@ namespace nexus.core
       /// </summary>
       public static Expected<T> Of<T>( Option<T> option, Deferred<Exception> exception )
       {
-         if(option.HasValue)
-         {
-            return Of( option.Value );
-         }
-         return No<T>( exception.Value );
+         return option.HasValue ? Of( option.Value ) : No<T>( exception.Value );
       }
 
       /// <summary>
       /// Create a new expected value from the given option, or <paramref name="exception" /> if <paramref name="option" /> has
       /// no value
       /// </summary>
-      public static Expected<T> Of<T>( Option<T> option, Exception ex )
+      public static Expected<T> Of<T>( Option<T> option, Lazy<Exception> exception )
       {
-         if(option.HasValue)
-         {
-            return Of( option.Value );
-         }
-         return No<T>( ex );
+         return option.HasValue ? Of( option.Value ) : No<T>( exception.Value );
+      }
+
+      /// <summary>
+      /// Create a new expected value from the given option, or <paramref name="exception" /> if <paramref name="option" /> has
+      /// no value
+      /// </summary>
+      public static Expected<T> Of<T>( Option<T> option, Exception exception )
+      {
+         return option.HasValue ? Of( option.Value ) : No<T>( exception );
       }
    }
 }

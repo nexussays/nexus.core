@@ -5,6 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using nexus.core.resharper;
 
@@ -13,6 +14,7 @@ namespace nexus.core
    /// <summary>
    /// Utility methods for objects implementing <see cref="IComparable{T}" />
    /// </summary>
+   [EditorBrowsable( EditorBrowsableState.Never )]
    public static class ComparableExtensions
    {
       /// <summary>

@@ -5,6 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using nexus.core.resharper;
@@ -46,6 +47,7 @@ namespace nexus.core.logging
    /// <summary>
    /// Extension methods for <see cref="ILog" /> to write a given log level
    /// </summary>
+   [EditorBrowsable( EditorBrowsableState.Never )]
    public static class LogWriteExtensions
    {
       /// <summary>

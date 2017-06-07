@@ -5,6 +5,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Reflection;
 using nexus.core.resharper;
@@ -34,6 +35,7 @@ namespace nexus.core
    /// <summary>
    /// Extension method to get <see cref="EnumDescriptionAttribute" /> from an Enum
    /// </summary>
+   [EditorBrowsable( EditorBrowsableState.Never )]
    public static class EnumDescriptionAttributeExtensions
    {
       /// <summary>
