@@ -8,6 +8,8 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using nexus.core.resharper;
 using nexus.core.time;
 
@@ -86,7 +88,8 @@ namespace nexus.core.logging
       /// <see cref="ILogEntry.DebugMessage" /> <see cref="ILogEntry.Data" />"
       /// </summary>
       public static String FormatAsString( [NotNull] this ILogEntry entry,
-                                           TimestampFormatType timestampFormat = TimestampFormatType.UnixTimeInMs )
+                                           TimestampFormatType timestampFormat = TimestampFormatType.UnixTimeInMs,
+                                           Boolean displayAnonymousTypeName = false )
       {
          return String.Format(
             "{0} {1,-7} {2} {3}",
@@ -95,7 +98,22 @@ namespace nexus.core.logging
                : entry.Timestamp.ToUnixTimestampInMilliseconds().ToString(),
             $"[{entry.Severity}]".ToUpperInvariant(),
             entry.DebugMessage,
-            entry.Data.Select( x => "{0}={1}".F( x?.GetType().Name, x ) ).Join( " " ) );
+            displayAnonymousTypeName
+               ? entry.Data.Select( x => "{0}={1}".F( x?.GetType().Name, x ) ).Join( " " )
+               : entry.Data.Select(
+                  x =>
+                  {
+                     var type = x?.GetType();
+                     var name = type?.Name;
+                     var info = type?.GetTypeInfo();
+                     if(info != null && info.GetCustomAttributes<CompilerGeneratedAttribute>().Any() &&
+                        info.IsGenericType && type.Name.Contains( "AnonymousType" ) &&
+                        (type.Name.StartsWith( "<>" ) || type.Name.StartsWith( "VB$" )))
+                     {
+                        return x + "";
+                     }
+                     return "{0}={1}".F( name, x );
+                  } ).Join( " " ) );
       }
 
       /// <summary>
