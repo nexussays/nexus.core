@@ -84,6 +84,22 @@ namespace nexus.core
          // but we never have both
          Contract.Invariant( !(HasValue && Error != null) );
       }
+
+      /// <summary>
+      /// Create a <see cref="Expected{T}" /> from an exception
+      /// </summary>
+      public static implicit operator Expected<T>( Exception exception )
+      {
+         return new Expected<T>( exception );
+      }
+
+      /// <summary>
+      /// Create a <see cref="Expected{T}" /> from a <paramref name="expectedValue" />
+      /// </summary>
+      public static implicit operator Expected<T>( T expectedValue )
+      {
+         return new Expected<T>( expectedValue );
+      }
    }
 
    /// <summary>
