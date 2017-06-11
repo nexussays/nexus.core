@@ -17,7 +17,13 @@ namespace nexus.core.logging
       private readonly IEqualityComparer<ILogEntry> m_comparer;
 
       /// <inheritdoc cref="MutableLogEntry" />
-      public MutableLogEntry( IEqualityComparer<ILogEntry> comparer = null )
+      public MutableLogEntry()
+         : this( null )
+      {
+      }
+
+      /// <inheritdoc cref="MutableLogEntry" />
+      public MutableLogEntry( IEqualityComparer<ILogEntry> comparer )
       {
          m_comparer = comparer ?? LogEntryComparers.SequenceId;
       }
