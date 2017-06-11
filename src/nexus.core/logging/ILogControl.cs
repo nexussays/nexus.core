@@ -27,11 +27,6 @@ namespace nexus.core.logging
       IFormatProvider DebugMessageFormatProvider { get; set; }
 
       /// <summary>
-      /// The ID for this log
-      /// </summary>
-      String Id { get; set; }
-
-      /// <summary>
       /// A list of the <see cref="IObjectConverter" /> added to this log
       /// </summary>
       IEnumerable<IObjectConverter> ObjectConverters { get; }
@@ -42,14 +37,19 @@ namespace nexus.core.logging
       IEnumerable<ILogSink> Sinks { get; }
 
       /// <summary>
-      /// Add a converter which will convert any viable objects attached to log entries
+      /// Add a converter which will convert any viable objects attached to log entries. Returns <see cref="IDisposable" /> which
+      /// removes <paramref name="converter" /> upon calling <see cref="IDisposable.Dispose" /> -- note that this just removes
+      /// the converter from this <see cref="ILogControl" /> it does not dispose of the converter itself.
       /// </summary>
-      void AddConverter( IObjectConverter converter );
+      IDisposable AddConverter( IObjectConverter converter );
 
       /// <summary>
       /// Will dispatch logs to the provided listener after formatting them and checking that the current log level is met.
+      /// Returns <see cref="IDisposable" /> which removes <paramref name="sink" /> upon calling
+      /// <see cref="IDisposable.Dispose" /> -- note that this just removes the sink from this <see cref="ILogControl" /> it does
+      /// not dispose of the sink itself.
       /// </summary>
-      void AddSink( ILogSink sink );
+      IDisposable AddSink( ILogSink sink );
 
       /// <summary>
       /// Remove the given <see cref="IObjectConverter" /> from this log, and return success

@@ -91,8 +91,7 @@ namespace nexus.core.logging
                                            TimestampFormatType timestampFormat = TimestampFormatType.UnixTimeInMs,
                                            Boolean displayAnonymousTypeName = false )
       {
-         return String.Format(
-            "{0} {1,-7} {2} {3}",
+         return "{0} {1,-7} {2} {3}".F(
             timestampFormat == TimestampFormatType.Iso8601
                ? entry.Timestamp.ToIso8601String()
                : entry.Timestamp.ToUnixTimestampInMilliseconds().ToString(),

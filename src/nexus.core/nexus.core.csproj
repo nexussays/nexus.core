@@ -51,6 +51,9 @@
     <Compile Include="Bytes.Utils.cs" />
     <Compile Include="IGenericObjectConverter.cs" />
     <Compile Include="IUpdatable.cs" />
+    <Compile Include="logging\LogEntryComparers.cs" />
+    <Compile Include="logging\DeferredMessageLogEntry.cs" />
+    <Compile Include="logging\MutableLogEntry.cs" />
     <Compile Include="logging\sink\CustomLogSerializerBuilder.cs" />
     <Compile Include="logging\sink\MergedLogSink.cs" />
     <Compile Include="ObjectConverter.cs" />

@@ -92,9 +92,6 @@ namespace nexus.core.logging
       /// <inheritdoc />
       public IFormatProvider DebugMessageFormatProvider { get; set; }
 
-      /// <inheritDoc />
-      public String Id { get; set; }
-
       /// <summary>
       /// You should only access this in the main entry-point of your application code and **never** from libraries or normal app
       /// code.
@@ -106,32 +103,33 @@ namespace nexus.core.logging
       /// </summary>
       public Int32 LogBufferSize => m_entryBuffer.Length;
 
-      /// <inheritDoc />
+      /// <inheritDoc cref="ILogControl.ObjectConverters" />
       public IEnumerable<IObjectConverter> ObjectConverters => new List<IObjectConverter>( m_converters );
 
-      /// <inheritDoc />
+      /// <inheritDoc cref="ILogControl.Sinks" />
       public IEnumerable<ILogSink> Sinks => new List<ILogSink>( m_sinks );
 
-      /// <inheritDoc />
-      public void AddConverter( IObjectConverter converter )
+      /// <inheritDoc cref="ILogControl.AddConverter" />
+      public IDisposable AddConverter( IObjectConverter converter )
       {
          if(converter == null)
          {
-            return;
+            return DisposeAction.None;
          }
 
          lock(m_lock)
          {
             m_converters.Add( converter );
          }
+         return new DisposeAction( () => RemoveConverter( converter ) );
       }
 
-      /// <inheritDoc />
-      public void AddSink( ILogSink sink )
+      /// <inheritDoc cref="ILogControl.AddSink" />
+      public IDisposable AddSink( ILogSink sink )
       {
          if(sink == null)
          {
-            return;
+            return DisposeAction.None;
          }
 
          // add the sink and collect any log entries that have been written prior to this sink being added so
@@ -196,25 +194,39 @@ namespace nexus.core.logging
                }
             }
          }
+         return new DisposeAction( () => RemoveSink( sink ) );
       }
 
       /// <summary>
-      /// Returns the number of entries of the given severity that have been discarded due to <see cref="CurrentLevel" />.
+      /// Returns the number of entries of the given <see cref="LogLevel" />s that have been discarded due to
+      /// <see cref="CurrentLevel" />.
       /// </summary>
-      public Int32 GetCountOfEntriesSkipped( LogLevel severity )
+      public Int32 GetNumberEntriesSkipped( params LogLevel[] severity )
       {
-         return m_entriesSkipped[severity];
+         if(severity == null || severity.Length == 0)
+         {
+            return 0;
+         }
+         return severity.Length == 1
+            ? m_entriesSkipped[severity[0]]
+            : new HashSet<LogLevel>( severity ).Aggregate( 0, ( count, level ) => count + m_entriesSkipped[level] );
       }
 
       /// <summary>
-      /// Returns the number of entries of the given severity that have been written to the log thus far.
+      /// Returns the number of entries of the given <see cref="LogLevel" />s that have been written to the log thus far.
       /// </summary>
-      public Int32 GetCountOfEntriesWritten( LogLevel severity )
+      public Int32 GetNumberEntriesWritten( params LogLevel[] severity )
       {
-         return m_entriesWritten[severity];
+         if(severity == null || severity.Length == 0)
+         {
+            return 0;
+         }
+         return severity.Length == 1
+            ? m_entriesWritten[severity[0]]
+            : new HashSet<LogLevel>( severity ).Aggregate( 0, ( count, level ) => count + m_entriesWritten[level] );
       }
 
-      /// <inheritDoc />
+      /// <inheritDoc cref="ILogControl.RemoveConverter" />
       public Boolean RemoveConverter( IObjectConverter converter )
       {
          lock(m_lock)
@@ -223,7 +235,7 @@ namespace nexus.core.logging
          }
       }
 
-      /// <inheritDoc />
+      /// <inheritDoc cref="ILogControl.RemoveSink" />
       public Boolean RemoveSink( ILogSink sink )
       {
          lock(m_lock)
@@ -232,7 +244,7 @@ namespace nexus.core.logging
          }
       }
 
-      /// <inheritDoc />
+      /// <inheritDoc cref="ILogControl.RemoveSink" />
       public Boolean RemoveSinkOfType<T>()
          where T : ILogSink
       {
@@ -267,7 +279,7 @@ namespace nexus.core.logging
          CreateLogEntry( severity, data, debugMessage, debugMessageArgs );
       }
 
-      private void CreateLogEntry( LogLevel severity, Object[] objects, String debugMessage, Object[] debugMessageArgs )
+      private void CreateLogEntry( LogLevel severity, Object[] objects, String message, Object[] messageArguments )
       {
          if(severity < CurrentLevel)
          {
@@ -318,18 +330,35 @@ namespace nexus.core.logging
                }
             }
 
-            // lock again to store the entry
-            LogEntry entry;
+            // lock again to create and store the entry
+            DeferredMessageLogEntry entry;
             lock(m_lock)
             {
                m_entriesWritten[severity] += 1;
-               entry = new LogEntry( /* Id,*/ seqNum,
+               entry = new DeferredMessageLogEntry(
+                  seqNum,
                   time,
                   severity,
-                  debugMessage,
-                  debugMessageArgs,
                   data,
-                  DebugMessageFormatProvider ?? CultureInfo.InvariantCulture );
+                  () =>
+                  {
+                     try
+                     {
+                        return message != null && messageArguments != null && messageArguments.Length > 0
+                           ? String.Format(
+                              DebugMessageFormatProvider ?? CultureInfo.InvariantCulture,
+                              message,
+                              messageArguments )
+                           : message;
+                     }
+                     catch( /*Format*/Exception ex)
+                     {
+                        return "** LOG [ERROR] in formatter ** string={0} arg_length={1} error={2}".F(
+                           message,
+                           messageArguments != null ? messageArguments.Length.ToString() : "null",
+                           ex.Message );
+                     }
+                  } );
                m_entryBuffer[seqNum % m_entryBuffer.Length] = entry;
             }
 
@@ -345,52 +374,6 @@ namespace nexus.core.logging
                }
             }
          }
-      }
-
-      private sealed class LogEntry : ILogEntry
-      {
-         private Deferred<String> m_debugMessage;
-
-         internal LogEntry( /*String id,*/ Int32 sequenceId, DateTime time, LogLevel severity, String message,
-                                           Object[] messageArguments, IList<Object> attachedObjects,
-                                           IFormatProvider formatProvider )
-         {
-            //LogId = id;
-            Severity = severity;
-            SequenceId = sequenceId;
-            m_debugMessage = Deferred.Of(
-               () =>
-               {
-                  try
-                  {
-                     return message != null && messageArguments != null && messageArguments.Length > 0
-                        ? String.Format( formatProvider, message, messageArguments )
-                        : message;
-                  }
-                  catch( /*Format*/Exception ex)
-                  {
-                     return "** LOG [ERROR] in formatter ** string={0} arg_length={1} error={2}".F(
-                        message,
-                        messageArguments != null ? messageArguments.Length.ToString() : "null",
-                        ex.Message );
-                  }
-               } );
-            Timestamp = time;
-            Data = attachedObjects.ToArray();
-         }
-
-         public Object[] Data { get; }
-
-         //public String LogId { get; }
-
-         public String DebugMessage => m_debugMessage.Value;
-
-         /// <inheritdoc />
-         public Int32 SequenceId { get; }
-
-         public LogLevel Severity { get; }
-
-         public DateTime Timestamp { get; }
       }
    }
 }

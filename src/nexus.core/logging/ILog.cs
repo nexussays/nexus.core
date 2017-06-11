@@ -19,23 +19,20 @@ namespace nexus.core.logging
    {
       /// <summary>
       /// Only entries of this level or higher will be written to the log, others will be silently dropped.
+      /// <remarks>To modify this value, see the <see cref="ILogControl" /> corresponding to this <see cref="ILog" /></remarks>
       /// </summary>
       LogLevel CurrentLevel { get; }
 
       /// <summary>
-      /// A unique name for this log within the application.
-      /// </summary>
-      /// TODO: Determine if this is relevant
-      /// <summary>
       /// Write a log entry with the given data and severity
       /// </summary>
       [StringFormatMethod( "debugMessage" )]
-      void Write( LogLevel severity, String debugMessage, params Object[] debugMessageArgs );
+      void Write( LogLevel severity, [NotNull] String debugMessage, params Object[] debugMessageArgs );
 
       /// <summary>
       /// Write a log entry with the given data and severity
       /// </summary>
-      void Write( LogLevel severity, Object[] data );
+      void Write( LogLevel severity, [NotNull] Object[] data );
 
       /// <summary>
       /// Write a log entry with the given data and severity
