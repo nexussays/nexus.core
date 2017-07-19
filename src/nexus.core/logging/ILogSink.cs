@@ -17,8 +17,7 @@ namespace nexus.core.logging
       /// <summary>
       /// This sink will handle the given <see cref="ILogEntry" /> however it sees fit
       /// </summary>
-      /// <param name="entry">The current log entry</param>
-      /// TODO: Add UpdateContext(Foo foo); method so we can apply the static context to the sink and the sink can deal with how it handles that?
-      void Handle( [NotNull] ILogEntry entry );
+      /// <param name="entries">The current log entry</param>
+      void Handle( [NotNull] [ItemNotNull] params ILogEntry[] entries );
    }
 }

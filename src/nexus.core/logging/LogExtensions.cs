@@ -5,11 +5,11 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using nexus.core.logging.sink;
 using nexus.core.resharper;
 using nexus.core.time;
 
@@ -18,7 +18,7 @@ namespace nexus.core.logging
    /// <summary>
    /// Utility methods for <see cref="ILog" />, <see cref="ILogControl" />, and <see cref="ILogEntry" />
    /// </summary>
-   public static class LogUtils
+   public static class LogExtensions
    {
       /// <summary>
       /// The format to use for time stamps
@@ -71,16 +71,8 @@ namespace nexus.core.logging
          Contract.Requires<ArgumentNullException>( log != null );
          Contract.Requires<ArgumentNullException>( handler != null );
          // ReSharper disable once PossibleNullReferenceException
-         log.AddSink( CreateLogSink( handler ) );
-      }
-
-      /// <summary>
-      /// Factory method to create <see cref="ILogSink" /> instance
-      /// </summary>
-      public static ILogSink CreateLogSink( [NotNull] Action<ILogEntry> handler )
-      {
          Contract.Requires<ArgumentNullException>( handler != null );
-         return new DynamicLogSink( handler );
+         log.AddSink( new ActionLogSink( handler ) );
       }
 
       /// <summary>
@@ -132,22 +124,6 @@ namespace nexus.core.logging
             }
          }
          return null;
-      }
-
-      [EditorBrowsable( EditorBrowsableState.Never )]
-      private sealed class DynamicLogSink : ILogSink
-      {
-         private readonly Action<ILogEntry> m_handler;
-
-         public DynamicLogSink( Action<ILogEntry> handler )
-         {
-            m_handler = handler;
-         }
-
-         public void Handle( ILogEntry entry )
-         {
-            m_handler( entry );
-         }
       }
    }
 }

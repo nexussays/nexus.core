@@ -13,22 +13,31 @@ namespace nexus.core.logging.sink
    /// </summary>
    public class MergedLogSink : ILogSink
    {
-      private readonly ILogSink m_first;
-      private readonly ILogSink m_second;
+      private readonly ILogSink[] m_sinks;
 
       /// <summary>
       /// </summary>
-      public MergedLogSink( [NotNull] ILogSink first, [NotNull] ILogSink second )
+      public MergedLogSink( [NotNull] ILogSink first, [NotNull] ILogSink second, params ILogSink[] others )
       {
-         m_first = first;
-         m_second = second;
+         m_sinks = new ILogSink[2 + (others?.Length ?? 0)];
+         m_sinks[0] = first;
+         m_sinks[1] = second;
+         if(others != null)
+         {
+            for(var x = 0; x < others.Length; x++)
+            {
+               m_sinks[x + 2] = others[x];
+            }
+         }
       }
 
       /// <inheritdoc />
-      public void Handle( ILogEntry entry )
+      public void Handle( params ILogEntry[] entries )
       {
-         m_first.Handle( entry );
-         m_second.Handle( entry );
+         foreach(var sink in m_sinks)
+         {
+            sink.Handle( entries );
+         }
       }
    }
 }

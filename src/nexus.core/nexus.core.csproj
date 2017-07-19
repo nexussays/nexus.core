@@ -51,6 +51,7 @@
     <Compile Include="Bytes.Utils.cs" />
     <Compile Include="IGenericObjectConverter.cs" />
     <Compile Include="IUpdatable.cs" />
+    <Compile Include="logging\sink\ActionLogSink.cs" />
     <Compile Include="logging\LogEntryComparers.cs" />
     <Compile Include="logging\DeferredMessageLogEntry.cs" />
     <Compile Include="logging\MutableLogEntry.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="logging\ILogSink.cs" />
     <Compile Include="logging\Log.cs" />
     <Compile Include="logging\LogLevel.cs" />
-    <Compile Include="logging\LogUtils.cs" />
+    <Compile Include="logging\LogExtensions.cs" />
     <Compile Include="logging\SystemLog.cs" />
     <Compile Include="MutableDictionary.cs" />
     <Compile Include="Observer.cs" />

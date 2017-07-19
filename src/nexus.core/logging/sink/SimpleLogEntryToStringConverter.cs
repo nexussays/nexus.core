@@ -17,15 +17,15 @@ namespace nexus.core.logging.sink
       /// <summary>
       /// </summary>
       public SimpleLogEntryToStringConverter(
-         LogUtils.TimestampFormatType timestampFormat = LogUtils.TimestampFormatType.UnixTimeInMs )
+         LogExtensions.TimestampFormatType timestampFormat = LogExtensions.TimestampFormatType.UnixTimeInMs )
       {
          TimestampFormat = timestampFormat;
       }
 
       /// <summary>
-      /// The timestamp format, see <see cref="LogUtils.TimestampFormatType" />
+      /// The timestamp format, see <see cref="LogExtensions.TimestampFormatType" />
       /// </summary>
-      public LogUtils.TimestampFormatType TimestampFormat { get; }
+      public LogExtensions.TimestampFormatType TimestampFormat { get; }
 
       /// <summary>
       /// Convert the log entry to a string

@@ -13,7 +13,7 @@ namespace nexus.core.logging
    /// </summary>
    // TODO: add log ID. determine if this should be broken up into a log ID and a contextual ID or if we just attach context in Data
    //String LogId { get; }
-   public interface ILogEntry
+   public interface ILogEntry : IEquatable<ILogEntry>
    {
       /// <summary>
       /// A freeform list of objects that have been attached to this log message. It is up to attached <see cref="ILogSink" /> to

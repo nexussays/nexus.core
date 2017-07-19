@@ -1,3 +1,9 @@
+// Copyright Malachi Griffie
+// 
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,9 +17,7 @@ namespace nexus.core.logging
    /// <see cref="Deferred{String}" />
    /// </summary>
    [EditorBrowsable( EditorBrowsableState.Advanced )]
-   public sealed class DeferredMessageLogEntry
-      : ILogEntry,
-        IEquatable<ILogEntry>
+   public sealed class DeferredMessageLogEntry : ILogEntry
    {
       [NotNull]
       private readonly IEqualityComparer<ILogEntry> m_comparer;
@@ -67,7 +71,7 @@ namespace nexus.core.logging
       /// <inheritdoc />
       public override String ToString()
       {
-         return this.FormatAsString( LogUtils.TimestampFormatType.Iso8601, true );
+         return this.FormatAsString( LogExtensions.TimestampFormatType.Iso8601, true );
       }
    }
 }
