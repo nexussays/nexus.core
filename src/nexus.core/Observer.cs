@@ -21,7 +21,7 @@ namespace nexus.core
       public static IObserver<T> Create<T>( Action<T> onNext, Action onComplete = null,
                                             Action<Exception> onError = null )
       {
-         return new FunctionObserver<T>( onNext, onComplete, onError );
+         return new ActionObserver<T>( onNext, onComplete, onError );
       }
 
       /// <summary>
@@ -63,35 +63,6 @@ namespace nexus.core
       {
          Contract.Requires( observable != null );
          return observable.Subscribe( Create( onNext, null, null ) );
-      }
-
-      private sealed class FunctionObserver<T> : IObserver<T>
-      {
-         private readonly Action m_onComplete;
-         private readonly Action<Exception> m_onError;
-         private readonly Action<T> m_onNext;
-
-         public FunctionObserver( Action<T> onNext, Action onComplete = null, Action<Exception> onError = null )
-         {
-            m_onNext = onNext;
-            m_onComplete = onComplete;
-            m_onError = onError;
-         }
-
-         public void OnCompleted()
-         {
-            m_onComplete?.Invoke();
-         }
-
-         public void OnError( Exception error )
-         {
-            m_onError?.Invoke( error );
-         }
-
-         public void OnNext( T value )
-         {
-            m_onNext?.Invoke( value );
-         }
       }
    }
 }

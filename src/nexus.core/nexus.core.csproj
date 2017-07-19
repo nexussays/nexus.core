@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionAsync.cs" />
+    <Compile Include="ActionObserver.cs" />
     <Compile Include="Bytes.Constants.cs" />
     <Compile Include="Bytes.Utils.cs" />
     <Compile Include="IGenericObjectConverter.cs" />
