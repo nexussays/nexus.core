@@ -1,5 +1,3 @@
-.env
-
 .vs/
 .sass-cache/
 .tscache/
@@ -10,15 +8,28 @@ bin/
 csx/
 rcf/
 Backup/
+/artifacts/
+/build/
 
+build/tools/*
+!build/tools/packages.config
+!build/tools/nuget.config
+!build/tools/Modules/
+build/tools/Modules/*
+!build/tools/Modules/packages.config
+
+.env
 .baseDir.ts
 .userprefs
 gulp-tsc-tmp*
 Resource.Designer.cs
+project.lock.json
+
+**/scriptcs_packages/
+src/*-uwp/*.targets
 
 *.tmp.txt
 *.userprefs
-*.db
 *.log
 *.sublime-project
 *.sublime-workspace
@@ -27,4 +38,4 @@ Resource.Designer.cs
 *.user
 *.nupkg
 *.bak
-project.lock.json
+

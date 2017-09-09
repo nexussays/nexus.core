@@ -10,6 +10,10 @@ branches:
     mode: ContinuousDeployment
     tag: alpha
     increment: Patch
+  infra?[/-]:
+    mode: ContinuousDeployment
+    tag: alpha
+    increment: Patch
   master:
     tag: ''
     mode: ContinuousDelivery
