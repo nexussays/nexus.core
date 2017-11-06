@@ -28,9 +28,7 @@ namespace nexus.core_test.logging
          const Int32 count = 1;
          WriteStringsToLog( level, count );
          var handledEntries = 0;
-         Action<ILogEntry> handler = e => { handledEntries++; };
-         Contract.Requires<ArgumentNullException>( handler != null );
-         m_log.AddSink( new ActionLogSink( handler ) );
+         m_log.AddSink( new ActionLogSink( (Action<ILogEntry>)(e => { handledEntries++; }) ) );
          Assert.That( handledEntries, Is.EqualTo( count ) );
       }
 
@@ -42,9 +40,7 @@ namespace nexus.core_test.logging
       {
          const Int32 count = 1;
          var handledEntries = 0;
-         Action<ILogEntry> handler = e => { handledEntries++; };
-         Contract.Requires<ArgumentNullException>( handler != null );
-         m_log.AddSink( new ActionLogSink( handler ) );
+         m_log.AddSink( new ActionLogSink( (Action<ILogEntry>)(e => { handledEntries++; }) ) );
          WriteStringsToLog( level, count );
          Assert.That( handledEntries, Is.EqualTo( count ) );
       }
@@ -69,9 +65,7 @@ namespace nexus.core_test.logging
       {
          const Int32 count = 1;
          String entryValue = null;
-         Action<ILogEntry> handler = e => { entryValue = e.DebugMessage; };
-         Contract.Requires<ArgumentNullException>( handler != null );
-         m_log.AddSink( new ActionLogSink( handler ) );
+         m_log.AddSink( new ActionLogSink( e => { entryValue = e.DebugMessage; } ) );
          var writtenValue = WriteStringsToLog( level, count );
          Assert.That( entryValue, Is.EqualTo( writtenValue[0] ) );
       }
@@ -101,9 +95,7 @@ namespace nexus.core_test.logging
       {
          WriteStringsToLog( level, m_log.LogBufferSize );
          var handledEntries = 0;
-         Action<ILogEntry> handler = e => { handledEntries++; };
-         Contract.Requires<ArgumentNullException>( handler != null );
-         m_log.AddSink( new ActionLogSink( handler ) );
+         m_log.AddSink( new ActionLogSink( (Action<ILogEntry>)(e => { handledEntries++; }) ) );
          Assert.That( handledEntries, Is.EqualTo( m_log.LogBufferSize ) );
       }
 
@@ -116,9 +108,7 @@ namespace nexus.core_test.logging
             LogLevel level )
       {
          var handledEntries = 0;
-         Action<ILogEntry> handler = e => { handledEntries++; };
-         Contract.Requires<ArgumentNullException>( handler != null );
-         m_log.AddSink( new ActionLogSink( handler ) );
+         m_log.AddSink( new ActionLogSink( (Action<ILogEntry>)(e => { handledEntries++; }) ) );
          WriteStringsToLog( level, m_log.LogBufferSize );
          Assert.That( handledEntries, Is.EqualTo( m_log.LogBufferSize ) );
       }
@@ -134,9 +124,7 @@ namespace nexus.core_test.logging
          const Int32 count = 72;
          WriteStringsToLog( level, count );
          var handledEntries = 0;
-         Action<ILogEntry> handler = e => { handledEntries++; };
-         Contract.Requires<ArgumentNullException>( handler != null );
-         m_log.AddSink( new ActionLogSink( handler ) );
+         m_log.AddSink( new ActionLogSink( (Action<ILogEntry>)(e => { handledEntries++; }) ) );
          Assert.That( handledEntries, Is.EqualTo( m_log.LogBufferSize ) );
       }
 
@@ -149,9 +137,7 @@ namespace nexus.core_test.logging
       {
          const Int32 count = 72;
          var handledEntries = 0;
-         Action<ILogEntry> handler = e => { handledEntries++; };
-         Contract.Requires<ArgumentNullException>( handler != null );
-         m_log.AddSink( new ActionLogSink( handler ) );
+         m_log.AddSink( new ActionLogSink( (Action<ILogEntry>)(e => { handledEntries++; }) ) );
          WriteStringsToLog( level, count );
          Assert.That( handledEntries, Is.EqualTo( count ) );
       }
@@ -190,25 +176,24 @@ namespace nexus.core_test.logging
          var index = 0;
          String failedMessage = null;
          String expectedMessage = null;
-         Action<ILogEntry> handler = e =>
-         {
-            if(failedMessage != null)
-            {
-               // if we've already failed just no-op
-               return;
-            }
-            var msg = e.DebugMessage;
-            expectedMessage = expectedMessages[index];
-            if(msg != expectedMessages[index])
-            {
-               failedMessage = msg;
-               return;
-            }
-            index++;
-         };
-         Contract.Requires<ArgumentNullException>( handler != null );
          m_log.AddSink(
-            new ActionLogSink( handler ) );
+            new ActionLogSink(
+               e =>
+               {
+                  if(failedMessage != null)
+                  {
+                     // if we've already failed just no-op
+                     return;
+                  }
+                  var msg1 = e.DebugMessage;
+                  expectedMessage = expectedMessages[index];
+                  if(msg1 != expectedMessages[index])
+                  {
+                     failedMessage = msg1;
+                     return;
+                  }
+                  index++;
+               } ) );
          return Tuple.Create( expectedMessage, failedMessage );
       }
 
@@ -216,23 +201,22 @@ namespace nexus.core_test.logging
       {
          var expectedSeqNumber = initialSequenceNumber;
          var failedSeqNumber = -1;
-         Action<ILogEntry> handler = e =>
-         {
-            if(failedSeqNumber != -1)
-            {
-               // if we've already failed just no-op
-               return;
-            }
-            if(e.SequenceId != expectedSeqNumber)
-            {
-               failedSeqNumber = e.SequenceId;
-               return;
-            }
-            expectedSeqNumber++;
-         };
-         Contract.Requires<ArgumentNullException>( handler != null );
          m_log.AddSink(
-            new ActionLogSink( handler ) );
+            new ActionLogSink(
+               e =>
+               {
+                  if(failedSeqNumber != -1)
+                  {
+                     // if we've already failed just no-op
+                     return;
+                  }
+                  if(e.SequenceId != expectedSeqNumber)
+                  {
+                     failedSeqNumber = e.SequenceId;
+                     return;
+                  }
+                  expectedSeqNumber++;
+               } ) );
          return Tuple.Create( expectedSeqNumber, failedSeqNumber );
       }
 

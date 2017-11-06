@@ -32,13 +32,19 @@ namespace nexus.core.text
       /// </summary>
       public Base16Encoder( [NotNull] IList<Char> symbolTable )
       {
-         Contract.Requires<ArgumentException>(
-            symbolTable != null,
-            "Symbol table provided to " + nameof(Base16Encoder) + " cannot be null" );
-         Contract.Requires<ArgumentException>(
-            symbolTable.Count == 16,
-            "Symbol table provided to  " + nameof(Base16Encoder) + " must contain exactly 16 characters" );
-         m_symbols = symbolTable;
+         if(symbolTable == null)
+         {
+            throw new ArgumentNullException(
+               nameof(symbolTable),
+               "Symbol table provided to " + nameof(Base16Encoder) + " cannot be null" );
+         }
+         if(symbolTable.Count != 16)
+         {
+            throw new ArgumentException(
+               "Symbol table provided to  " + nameof(Base16Encoder) + " must contain exactly 16 characters",
+               nameof(symbolTable) );
+         }
+         m_symbols = symbolTable ?? throw new ArgumentNullException( nameof(symbolTable) );
       }
 
       /// <inheritdoc />

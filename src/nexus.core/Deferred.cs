@@ -35,8 +35,7 @@ namespace nexus.core
       /// </summary>
       public Deferred( [NotNull] Func<T> retrieve )
       {
-         Contract.Requires<ArgumentNullException>( retrieve != null );
-         m_retrieve = retrieve;
+         m_retrieve = retrieve ?? throw new ArgumentNullException( nameof(retrieve) );
          m_value = default(T);
       }
 

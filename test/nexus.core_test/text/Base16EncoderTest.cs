@@ -31,13 +31,19 @@ namespace nexus.core_test.text
          Assert.That( m_encoder.Decode( m_encoder.Encode( data ) ), Is.EqualTo( data ) );
       }
 
-      [TestCase( null )]
       [TestCase( new[] {'0'} )]
       [TestCase( new[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g'} )]
       public void instantiating_base16encoder_with_invalid_symboltable_throws_argumentexception( Char[] symbols )
       {
          // ReSharper disable once ObjectCreationAsStatement
          Assert.Throws<ArgumentException>( () => new Base16Encoder( symbols ) );
+      }
+
+      public void instantiating_base16encoder_with_null_symboltable_throws_argumentnullexception()
+      {
+         // ReSharper disable once ObjectCreationAsStatement
+         // ReSharper disable once AssignNullToNotNullAttribute
+         Assert.Throws<ArgumentNullException>( () => new Base16Encoder( null ) );
       }
    }
 }

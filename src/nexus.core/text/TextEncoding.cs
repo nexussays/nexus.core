@@ -5,7 +5,6 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
-using System.Diagnostics.Contracts;
 using System.Text;
 using nexus.core.resharper;
 
@@ -18,9 +17,7 @@ namespace nexus.core.text
       /// </summary>
       public TextEncoding( [NotNull] Encoding encoding )
       {
-         Contract.Requires( encoding != null );
-         Contract.Requires<ArgumentNullException>( encoding != null );
-         Encoding = encoding;
+         Encoding = encoding ?? throw new ArgumentNullException( nameof(encoding) );
       }
 
       /// <inheritdoc />

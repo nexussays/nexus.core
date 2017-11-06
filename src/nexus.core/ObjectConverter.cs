@@ -25,36 +25,50 @@ namespace nexus.core
       /// <summary>
       /// Return an <see cref="IObjectConverter" /> is not a generic interface and can be used in collections or other places a
       /// generic interface causes problems.
+      /// <remarks>
+      /// This is just a factory method to instantiate
+      /// <see cref="TypedToUntypedObjectConverterWrapper{TSource,TResult}" />
+      /// </remarks>
       /// </summary>
       public static IObjectConverter AsUntyped
          <TSource, TResult>( [NotNull] this IObjectConverter<TSource, TResult> converter )
       {
-         Contract.Requires( converter != null );
-         Contract.Requires<ArgumentNullException>( converter != null );
+         if(converter == null)
+         {
+            throw new ArgumentNullException( nameof(converter) );
+         }
          return new TypedToUntypedObjectConverterWrapper<TSource, TResult>( converter );
       }
 
       /// <summary>
       /// Create a new <see cref="IObjectConverter{TSource,TResult}" /> from the provided conversion function.
+      /// <remarks>This is just a factory method to instantiate <see cref="TypedObjectConverter{TSource,TResult}" /></remarks>
       /// </summary>
       public static IObjectConverter<TSource, TResult> Create
          <TSource, TResult>( [NotNull] Func<TSource, TResult> converter )
       {
-         Contract.Requires( converter != null );
-         Contract.Requires<ArgumentNullException>( converter != null );
+         if(converter == null)
+         {
+            throw new ArgumentNullException( nameof(converter) );
+         }
          return new TypedObjectConverter<TSource, TResult>( converter );
       }
 
       /// <summary>
       /// Create a new <see cref="IObjectConverter" /> from the provided conversion function.
+      /// <remarks>This is just a factory method to instantiate <see cref="UntypedObjectConverter" /></remarks>
       /// </summary>
       public static IObjectConverter Create( [NotNull] Func<Object, Object> converter,
                                              [NotNull] Func<Type, Boolean> canConvert )
       {
-         Contract.Requires( converter != null );
-         Contract.Requires( canConvert != null );
-         Contract.Requires<ArgumentNullException>( converter != null );
-         Contract.Requires<ArgumentNullException>( canConvert != null );
+         if(converter == null)
+         {
+            throw new ArgumentNullException( nameof(converter) );
+         }
+         if(canConvert == null)
+         {
+            throw new ArgumentNullException( nameof(canConvert) );
+         }
          return new UntypedObjectConverter( converter, canConvert );
       }
 
@@ -74,80 +88,94 @@ namespace nexus.core
             return m_generic.Convert( source );
          }
       }
+   }
 
-      private sealed class TypedObjectConverter<TSource, TResult> : IObjectConverter<TSource, TResult>
+   /// <summary>
+   /// Convert an <see cref="T:nexus.core.IObjectConverter`2" /> to an <see cref="T:nexus.core.IObjectConverter" />
+   /// </summary>
+   /// <inheritdoc />
+   public sealed class TypedToUntypedObjectConverterWrapper<TSource, TResult> : IObjectConverter
+   {
+      private readonly IObjectConverter<TSource, TResult> m_converter;
+
+      /// <inheritdoc />
+      public TypedToUntypedObjectConverterWrapper( [NotNull] IObjectConverter<TSource, TResult> converter )
       {
-         private readonly Func<TSource, TResult> m_converter;
-
-         public TypedObjectConverter( [NotNull] Func<TSource, TResult> converter )
-         {
-            Contract.Requires( converter != null );
-            m_converter = converter;
-         }
-
-         public TResult Convert( TSource source )
-         {
-            return m_converter( source );
-         }
+         Contract.Requires( converter != null );
+         m_converter = converter;
       }
 
       /// <inheritdoc />
-      private sealed class TypedToUntypedObjectConverterWrapper<TSource, TResult> : IObjectConverter
+      public Boolean CanConvertObjectOfType( Type source )
       {
-         private readonly IObjectConverter<TSource, TResult> m_converter;
-
-         public TypedToUntypedObjectConverterWrapper( [NotNull] IObjectConverter<TSource, TResult> converter )
-         {
-            Contract.Requires( converter != null );
-            m_converter = converter;
-         }
-
-         /// <inheritdoc />
-         public Boolean CanConvertObjectOfType( Type source )
-         {
-            return source != null && typeof(TSource).GetTypeInfo().IsAssignableFrom( source.GetTypeInfo() );
-         }
-
-         /// <inheritdoc />
-         public Object Convert( Object source )
-         {
-            if(CanConvertObjectOfType( source?.GetType() ))
-            {
-               return m_converter.Convert( (TSource)source );
-            }
-            throw new ArgumentException(
-               "{0} cannot convert objects of type {1}".F(
-                  m_converter.GetType().FullName,
-                  source?.GetType().FullName ?? "null" ) );
-         }
+         return source != null && typeof(TSource).GetTypeInfo().IsAssignableFrom( source.GetTypeInfo() );
       }
 
       /// <inheritdoc />
-      private sealed class UntypedObjectConverter : IObjectConverter
+      public Object Convert( Object source )
       {
-         private readonly Func<Type, Boolean> m_canConvert;
-         private readonly Func<Object, Object> m_converter;
-
-         public UntypedObjectConverter( [NotNull] Func<Object, Object> converter,
-                                        [NotNull] Func<Type, Boolean> canConvert )
+         if(CanConvertObjectOfType( source?.GetType() ))
          {
-            Contract.Requires( converter != null );
-            Contract.Requires( canConvert != null );
-            m_converter = converter;
-            m_canConvert = canConvert;
+            return m_converter.Convert( (TSource)source );
          }
+         throw new ArgumentException(
+            "{0} cannot convert objects of type {1}".F(
+               m_converter.GetType().FullName,
+               source?.GetType().FullName ?? "null" ) );
+      }
+   }
 
-         /// <inheritdoc />
-         public Boolean CanConvertObjectOfType( Type source )
-         {
-            return m_canConvert( source );
-         }
+   /// <summary>
+   /// Create an <see cref="IObjectConverter" /> from a source <see cref="Func{Object,Object}" />
+   /// </summary>
+   /// <inheritdoc />
+   public sealed class UntypedObjectConverter : IObjectConverter
+   {
+      private readonly Func<Type, Boolean> m_canConvert;
+      private readonly Func<Object, Object> m_converter;
 
-         /// <inheritdoc />
-         public Object Convert( Object source )
-         {
-            return m_converter( source );
-         }
+      /// <inheritdoc />
+      public UntypedObjectConverter( [NotNull] Func<Object, Object> converter,
+                                     [NotNull] Func<Type, Boolean> canConvert )
+      {
+         Contract.Requires( converter != null );
+         Contract.Requires( canConvert != null );
+         m_converter = converter;
+         m_canConvert = canConvert;
+      }
+
+      /// <inheritdoc />
+      public Boolean CanConvertObjectOfType( Type source )
+      {
+         return m_canConvert( source );
+      }
+
+      /// <inheritdoc />
+      public Object Convert( Object source )
+      {
+         return m_converter( source );
+      }
+   }
+
+   /// <summary>
+   /// Create an <see cref="IObjectConverter{TSource,TResult}" /> from a source <see cref="Func{TSource,TResult}" />
+   /// </summary>
+   /// <inheritdoc />
+   public sealed class TypedObjectConverter<TSource, TResult> : IObjectConverter<TSource, TResult>
+   {
+      private readonly Func<TSource, TResult> m_converter;
+
+      /// <inheritdoc />
+      public TypedObjectConverter( [NotNull] Func<TSource, TResult> converter )
+      {
+         Contract.Requires( converter != null );
+         m_converter = converter;
+      }
+
+      /// <inheritdoc />
+      public TResult Convert( TSource source )
+      {
+         return m_converter( source );
       }
    }
 }

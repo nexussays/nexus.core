@@ -10,6 +10,10 @@ namespace nexus.core
 {
    /// <summary>
    /// A typed converter from one object into another.
+   /// <remarks>
+   /// This generally shouldn't be used for serialization or converstion to <c>Byte[]</c>, rather only to convert one
+   /// typed object to another.
+   /// </remarks>
    /// </summary>
    public interface IObjectConverter<in TSource, out TResult>
    {

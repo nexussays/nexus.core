@@ -5,7 +5,6 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 using System;
-using System.Diagnostics.Contracts;
 using nexus.core.resharper;
 
 namespace nexus.core.logging.sink
@@ -31,8 +30,6 @@ namespace nexus.core.logging.sink
                }
             } )
       {
-         Contract.Requires( handler != null );
-         Contract.Requires<ArgumentNullException>( handler != null );
       }
 
       /// <summary>
@@ -41,9 +38,7 @@ namespace nexus.core.logging.sink
       /// <param name="handler">Handler to receive a sequential list of log entries</param>
       public ActionLogSink( [NotNull] Action<ILogEntry[]> handler )
       {
-         Contract.Requires( handler != null );
-         Contract.Requires<ArgumentNullException>( handler != null );
-         m_handler = handler;
+         m_handler = handler ?? throw new ArgumentNullException( nameof(handler) );
       }
 
       /// <inheritdoc />

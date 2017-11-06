@@ -15,14 +15,10 @@
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)</OutputPath>
-    <BaseIntermediateOutputPath>..\..\artifacts\obj\$(AssemblyName)\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)\$(AssemblyName).xml</DocumentationFile>
+    <DocumentationFile>..\..\artifacts\bin\$(Configuration)\$(AssemblyName)\$(Platform)\$(AssemblyName).xml</DocumentationFile>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
-    <NexusAppType>lib</NexusAppType>
     <NexusAppPlatform>pcl</NexusAppPlatform>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <DontImportCodeContracts>true</DontImportCodeContracts>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,7 +38,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="nexus.core.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -60,7 +55,7 @@
     <Compile Include="logging\sink\MergedLogSink.cs" />
     <Compile Include="ObjectConverter.cs" />
     <Compile Include="Observable.cs" />
-    <Compile Include="Properties\BaseAssemblyInfo.cs" />
+    <Compile Include="package\BuildType.cs" />
     <Compile Include="Bytes.Conversion.cs" />
     <Compile Include="resharper\CanBeNullAttribute.cs" />
     <Compile Include="resharper\ContractAnnotationAttribute.cs" />
@@ -99,7 +94,6 @@
     <Compile Include="Option.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Parse.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="resharper\PureAttribute.cs" />
     <Compile Include="resharper\StringFormatMethodAttribute.cs" />
     <Compile Include="text\Base16Encoder.cs" />

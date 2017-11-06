@@ -61,10 +61,20 @@ namespace nexus.core
       [NotNull]
       public static Byte[] Slice( [NotNull] this Byte[] source, Int32 startByteIndex = 0 )
       {
-         Contract.Requires<ArgumentNullException>( source != null );
-         // ReSharper disable once PossibleNullReferenceException
-         Contract.Requires<ArgumentException>( source.Length >= startByteIndex );
-         Contract.Requires<ArgumentException>( startByteIndex >= 0 );
+         if(source == null)
+         {
+            throw new ArgumentNullException( nameof(source) );
+         }
+         if(!(source.Length >= startByteIndex))
+         {
+            throw new ArgumentException(
+               $"{nameof(source)}.Length must be >= {nameof(startByteIndex)}",
+               nameof(source) );
+         }
+         if(!(startByteIndex >= 0))
+         {
+            throw new ArgumentException( $"{nameof(startByteIndex)} must be >= 0", nameof(startByteIndex) );
+         }
          Contract.Ensures( Contract.Result<Byte[]>() != null );
          return Slice( source, startByteIndex, source.Length );
       }
@@ -75,9 +85,20 @@ namespace nexus.core
       [NotNull]
       public static Byte[] Slice( [NotNull] this Byte[] source, Int32 startByteIndex, Int32 endByteIndex )
       {
-         Contract.Requires<ArgumentNullException>( source != null );
-         Contract.Requires<ArgumentException>( startByteIndex >= 0 );
-         Contract.Requires<ArgumentException>( endByteIndex >= startByteIndex );
+         if(source == null)
+         {
+            throw new ArgumentNullException( nameof(source) );
+         }
+         if(!(endByteIndex >= startByteIndex))
+         {
+            throw new ArgumentException(
+               $"{nameof(endByteIndex)} must be >= {nameof(startByteIndex)}",
+               nameof(endByteIndex) );
+         }
+         if(!(startByteIndex >= 0))
+         {
+            throw new ArgumentException( $"{nameof(startByteIndex)} must be >= 0", nameof(startByteIndex) );
+         }
          Contract.Ensures( Contract.Result<Byte[]>() != null );
          Contract.Ensures( Contract.Result<Byte[]>().Length == endByteIndex - startByteIndex );
          var result = new Byte[endByteIndex - startByteIndex];

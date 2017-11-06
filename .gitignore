@@ -2,14 +2,14 @@
 .sass-cache/
 .tscache/
 node_modules/
-lib/packages/
-obj/
-bin/
 csx/
 rcf/
 Backup/
+lib/packages/
+obj/
+bin/
+
 /artifacts/
-/build/
 
 build/tools/*
 !build/tools/packages.config
@@ -39,3 +39,7 @@ src/*-uwp/*.targets
 *.nupkg
 *.bak
 
+
+/build/
+
+/Directory.Build.props

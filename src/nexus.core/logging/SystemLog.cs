@@ -58,8 +58,6 @@ namespace nexus.core.logging
       /// </param>
       public SystemLog( [NotNull] ITimeProvider time, Byte logBufferSize, Boolean rethrowExceptionsFromSinks = false )
       {
-         Contract.Requires<ArgumentNullException>( time != null );
-
          m_rethrowSinkExceptions = rethrowExceptionsFromSinks;
          m_entrySequence = -1;
          m_entryBuffer = new ILogEntry[logBufferSize];
@@ -78,7 +76,7 @@ namespace nexus.core.logging
             {LogLevel.Trace, 0}
          };
          m_converters = new List<IObjectConverter>();
-         m_timeProvider = time;
+         m_timeProvider = time ?? throw new ArgumentNullException( nameof(time) );
          CurrentLevel = LogLevel.Trace;
          m_sinks = new HashSet<ILogSink>();
       }

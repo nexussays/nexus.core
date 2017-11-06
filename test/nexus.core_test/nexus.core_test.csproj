@@ -11,7 +11,6 @@
     <AssemblyName>nexus.core_test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <OutputPath>..\..\artifacts\bin\$(AssemblyName)\$(Configuration)\$(Platform)</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,17 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\nexus.core\Properties\BaseAssemblyInfo.cs">
-      <Link>Properties\BaseAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Bytes.FromBytes.Test.cs" />
     <Compile Include="Bytes.Utils.Test.cs" />
     <Compile Include="Bytes.ToBytes.Test.cs" />
     <Compile Include="CoreUtilsTest.cs" />
     <Compile Include="logging\SystemLogTest.cs" />
     <Compile Include="OptionTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="text\Base16EncoderTest.cs" />
+    <Compile Include="time\DateTimeConverstionTest.cs" />
     <Compile Include="UnitTests.cs" />
     <Compile Include="DictionaryUtilsTest.cs" />
   </ItemGroup>

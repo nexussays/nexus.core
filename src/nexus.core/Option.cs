@@ -149,7 +149,10 @@ namespace nexus.core
       /// </summary>
       public static T Or<T>( this Option<T> option, [NotNull] Func<T> alternateValue )
       {
-         Contract.Requires<ArgumentNullException>( alternateValue != null );
+         if(alternateValue == null)
+         {
+            throw new ArgumentNullException( nameof(alternateValue) );
+         }
          return option.HasValue ? option.Value : alternateValue();
       }
 

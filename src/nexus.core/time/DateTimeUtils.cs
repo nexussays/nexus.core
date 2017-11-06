@@ -14,7 +14,8 @@ namespace nexus.core.time
    public static class DateTimeUtils
    {
       /// <summary>
-      /// yyyy-MM-ddTHH:mm:ss.fffK
+      /// <code>yyyyMMddTHHmmssfffK</code> if <paramref name="includeDelimeters" /> is <c>false</c>, or
+      /// <code>yyyy-MM-ddTHH:mm:ss.fffK</code> if <paramref name="includeDelimeters" /> is <c>true</c>
       /// </summary>
       /// <param name="time"></param>
       /// <param name="includeDelimeters"><c>true</c> to include '-', ':' and '.' in output</param>

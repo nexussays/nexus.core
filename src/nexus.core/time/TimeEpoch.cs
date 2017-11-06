@@ -9,7 +9,7 @@ using System;
 namespace nexus.core.time
 {
    /// <summary>
-   /// A named <see cref="DateTime" /> representing the start of an epoch. See <see cref="ITimeProvider" />
+   /// A named <see cref="DateTimeOffset" /> representing the start of an epoch. See <see cref="ITimeProvider" />
    /// </summary>
    public sealed class TimeEpoch
    {
@@ -34,18 +34,20 @@ namespace nexus.core.time
       /// <summary>
       /// Epoch representing no value, starts at <see cref="DateTime.MinValue" />
       /// </summary>
-      public static TimeEpoch None { get; } = new TimeEpoch( DateTime.MinValue, "n/a" );
+      public static TimeEpoch None { get; } = new TimeEpoch( DateTimeOffset.MinValue, "n/a" );
 
       /// <summary>
       /// Epoch which starts at January 1, 1900 UTC
       /// </summary>
-      public static TimeEpoch NtpEpoch { get; } =
-         new TimeEpoch( new DateTime( 1900, 1, 1, 0, 0, 0, DateTimeKind.Utc ), "NTP" );
+      public static TimeEpoch NtpEpoch { get; } = new TimeEpoch(
+         new DateTimeOffset( 1900, 1, 1, 0, 0, 0, 0, TimeSpan.Zero ),
+         "NTP" );
 
       /// <summary>
       /// Epoch which starts at January 1, 1970 UTC
       /// </summary>
-      public static TimeEpoch UnixEpoch { get; } =
-         new TimeEpoch( new DateTime( 1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc ), "Unix" );
+      public static TimeEpoch UnixEpoch { get; } = new TimeEpoch(
+         new DateTimeOffset( 1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero ),
+         "Unix" );
    }
 }

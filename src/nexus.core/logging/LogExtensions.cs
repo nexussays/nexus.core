@@ -39,19 +39,32 @@ namespace nexus.core.logging
       public static void AddConverter( [NotNull] this ILogControl log, [NotNull] Func<Object, Object> convert,
                                        [NotNull] Func<Type, Boolean> canConvert )
       {
-         Contract.Requires<ArgumentNullException>( log != null );
-         Contract.Requires<ArgumentNullException>( convert != null );
-         Contract.Requires<ArgumentNullException>( canConvert != null );
-         // ReSharper disable once PossibleNullReferenceException
+         if(log == null)
+         {
+            throw new ArgumentNullException( nameof(log) );
+         }
+         if(convert == null)
+         {
+            throw new ArgumentNullException( nameof(convert) );
+         }
+         if(canConvert == null)
+         {
+            throw new ArgumentNullException( nameof(canConvert) );
+         }
          log.AddConverter( ObjectConverter.Create( convert, canConvert ) );
       }
 
       /// <inheritdoc cref="ILogControl.AddConverter" />
       public static void AddConverter<TFrom, TTo>( [NotNull] this ILogControl log, [NotNull] Func<TFrom, TTo> convert )
       {
-         Contract.Requires<ArgumentNullException>( log != null );
-         Contract.Requires<ArgumentNullException>( convert != null );
-         // ReSharper disable once PossibleNullReferenceException
+         if(log == null)
+         {
+            throw new ArgumentNullException( nameof(log) );
+         }
+         if(convert == null)
+         {
+            throw new ArgumentNullException( nameof(convert) );
+         }
          log.AddConverter( ObjectConverter.Create( convert ).AsUntyped() );
       }
 
@@ -59,19 +72,28 @@ namespace nexus.core.logging
       public static void AddConverter<F, T>( [NotNull] this ILogControl log,
                                              [NotNull] IObjectConverter<F, T> converter )
       {
-         Contract.Requires<ArgumentNullException>( log != null );
-         Contract.Requires<ArgumentNullException>( converter != null );
-         // ReSharper disable once PossibleNullReferenceException
+         if(log == null)
+         {
+            throw new ArgumentNullException( nameof(log) );
+         }
+         if(converter == null)
+         {
+            throw new ArgumentNullException( nameof(converter) );
+         }
          log.AddConverter( converter.AsUntyped() );
       }
 
       /// <inheritdoc cref="ILogControl.AddSink" />
       public static void AddSink( [NotNull] this ILogControl log, [NotNull] Action<ILogEntry> handler )
       {
-         Contract.Requires<ArgumentNullException>( log != null );
-         Contract.Requires<ArgumentNullException>( handler != null );
-         // ReSharper disable once PossibleNullReferenceException
-         Contract.Requires<ArgumentNullException>( handler != null );
+         if(log == null)
+         {
+            throw new ArgumentNullException( nameof(log) );
+         }
+         if(handler == null)
+         {
+            throw new ArgumentNullException( nameof(handler) );
+         }
          log.AddSink( new ActionLogSink( handler ) );
       }
 

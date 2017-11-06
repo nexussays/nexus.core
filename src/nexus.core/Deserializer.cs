@@ -32,7 +32,10 @@ namespace nexus.core
       /// </summary>
       public static IDeserializer<TSource> Create<TSource>( [NotNull] this Func<TSource, Type, Object> deserialize )
       {
-         Contract.Requires<ArgumentNullException>( deserialize != null );
+         if(deserialize == null)
+         {
+            throw new ArgumentNullException( nameof(deserialize) );
+         }
          return new GenericDeserializer<TSource>( deserialize );
       }
 

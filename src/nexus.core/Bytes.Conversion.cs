@@ -138,8 +138,12 @@ namespace nexus.core
       public static Single ToFloat32( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                       ByteOrder endian = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
          return ToUInt32( bytes, startIndex, endian );
       }
 
@@ -149,8 +153,12 @@ namespace nexus.core
       public static Double ToFloat64( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                       ByteOrder endian = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
          return ToUInt64( bytes, startIndex, endian );
       }
 
@@ -162,9 +170,13 @@ namespace nexus.core
       public static unsafe Guid ToGuid( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                         ByteOrder order = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
-         Contract.Requires<ArgumentException>( bytes.Length == 0 || bytes.Length - startIndex >= 16 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
+         //Contract.Requires<ArgumentException>( bytes.Length == 0 || bytes.Length - startIndex >= 16 );
          // ReSharper disable once PossibleNullReferenceException
          var length = bytes.Length;
          if(length == 0 || length <= startIndex)
@@ -204,10 +216,14 @@ namespace nexus.core
       /// <summary>
       /// Convert byte array to <see cref="Int16" />
       /// </summary>
-      public static Int16 ToInt16( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
+      public static Int16 ToInt16( [NotNull] this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
          // ReSharper disable once PossibleNullReferenceException
          if(bytes.Length <= startIndex)
          {
@@ -224,11 +240,15 @@ namespace nexus.core
       /// Convert byte array to <see cref="Int32" />. This method does not throw if <paramref name="bytes" /> is not long enough
       /// to fill <see cref="Int32" />, instead the missing bytes are presumed to be 0.
       /// </summary>
-      public static unsafe Int32 ToInt32( this Byte[] bytes, Int32 startIndex = 0,
+      public static unsafe Int32 ToInt32( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                           ByteOrder endian = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
          // ReSharper disable once PossibleNullReferenceException
          var length = bytes.Length;
          if(length == 0 || length <= startIndex)
@@ -273,10 +293,14 @@ namespace nexus.core
       /// <summary>
       /// Convert byte array to <see cref="Int64" />
       /// </summary>
-      public static Int64 ToInt64( this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
+      public static Int64 ToInt64( [NotNull] this Byte[] bytes, Int32 startIndex = 0, ByteOrder endian = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
          // ReSharper disable once PossibleNullReferenceException
          var length = bytes.Length;
          if(length == 0 || length <= startIndex)
@@ -291,33 +315,45 @@ namespace nexus.core
       /// <summary>
       /// Convert byte array to <see cref="UInt16" />
       /// </summary>
-      public static UInt16 ToUInt16( this Byte[] bytes, Int32 startIndex = 0,
+      public static UInt16 ToUInt16( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                      ByteOrder endian = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
          return (UInt16)ToInt16( bytes, startIndex, endian );
       }
 
       /// <summary>
       /// Convert byte array to <see cref="UInt32" />
       /// </summary>
-      public static UInt32 ToUInt32( this Byte[] bytes, Int32 startIndex = 0,
+      public static UInt32 ToUInt32( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                      ByteOrder endian = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
          return (UInt32)ToInt32( bytes, startIndex, endian );
       }
 
       /// <summary>
       /// Convert byte array to <see cref="UInt64" />
       /// </summary>
-      public static UInt64 ToUInt64( this Byte[] bytes, Int32 startIndex = 0,
+      public static UInt64 ToUInt64( [NotNull] this Byte[] bytes, Int32 startIndex = 0,
                                      ByteOrder endian = ByteOrder.LittleEndian )
       {
-         Contract.Requires<ArgumentNullException>( bytes != null );
-         Contract.Requires<ArgumentException>( startIndex >= 0 );
+         if(bytes == null)
+         {
+            throw new ArgumentNullException( nameof(bytes) );
+         }
+         //Contract.Requires<ArgumentNullException>( bytes != null );
+         //Contract.Requires<ArgumentException>( startIndex >= 0 );
          return (UInt64)ToInt64( bytes, startIndex, endian );
       }
    }

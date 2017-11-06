@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nexus.core", "src\nexus.core\nexus.core.csproj", "{0BFB8710-A65C-453D-BD97-72F72D922156}"
 EndProject
@@ -10,9 +10,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{430145B8-D7F4-42E2-A8FC-2D97D6AD5956}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		build.cake = build.cake
+		cake.config = cake.config
 		GitVersion.yml = GitVersion.yml
 		nuget.config = nuget.config
 		Readme.md = Readme.md
+		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E0B46616-ECB0-4F07-9BFD-35C390FBBBA2}"
@@ -70,5 +73,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0BFB8710-A65C-453D-BD97-72F72D922156} = {E0B46616-ECB0-4F07-9BFD-35C390FBBBA2}
 		{4767107F-4CD1-4A89-A073-E523D89C7BF4} = {81B42634-CDCF-4B65-A207-7EAD2ABDD3C6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BDA48356-07F2-40C9-A3DB-446F0CAAD0A6}
 	EndGlobalSection
 EndGlobal
