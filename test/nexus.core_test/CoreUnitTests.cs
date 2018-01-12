@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace nexus.core_test
 {
    [SetUpFixture]
-   internal class UnitTests
+   internal class CoreUnitTests
    {
       [OneTimeSetUp]
       public void Setup()

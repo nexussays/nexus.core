@@ -78,8 +78,6 @@
     <Compile Include="exception\UniversalException.cs" />
     <Compile Include="exception\UniversalExceptionStackFrame.cs" />
     <Compile Include="Expected.cs" />
-    <Compile Include="IImmutableDictionary.cs" />
-    <Compile Include="ImmutableDictionary.cs" />
     <Compile Include="logging\ILog.cs" />
     <Compile Include="logging\sink\SimpleLogEntryToStringConverter.cs" />
     <Compile Include="logging\ILogControl.cs" />
@@ -89,7 +87,6 @@
     <Compile Include="logging\LogLevel.cs" />
     <Compile Include="logging\LogExtensions.cs" />
     <Compile Include="logging\SystemLog.cs" />
-    <Compile Include="MutableDictionary.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Option.cs" />
     <Compile Include="Pair.cs" />

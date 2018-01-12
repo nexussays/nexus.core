@@ -49,7 +49,7 @@
     <Compile Include="OptionTest.cs" />
     <Compile Include="text\Base16EncoderTest.cs" />
     <Compile Include="time\DateTimeConverstionTest.cs" />
-    <Compile Include="UnitTests.cs" />
+    <Compile Include="CoreUnitTests.cs" />
     <Compile Include="DictionaryUtilsTest.cs" />
   </ItemGroup>
   <ItemGroup>

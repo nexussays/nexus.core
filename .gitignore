@@ -39,7 +39,3 @@ src/*-uwp/*.targets
 *.nupkg
 *.bak
 
-
-/build/
-
-/Directory.Build.props
